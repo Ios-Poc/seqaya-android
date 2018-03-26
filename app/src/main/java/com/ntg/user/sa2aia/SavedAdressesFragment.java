@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class SavedAdressesFragment extends Fragment {
     SavedAdsAdapter adsAdapter;
     LinearLayoutManager layoutManager;
     List<String> adresses;
+    Button cancel;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -77,6 +79,13 @@ public class SavedAdressesFragment extends Fragment {
        adsAdapter =new SavedAdsAdapter(adresses);
        listOfAdresses.setLayoutManager(layoutManager);
        listOfAdresses.setAdapter(adsAdapter);
+       cancel=view.findViewById(R.id.cancel_button);
+       cancel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+           }
+       });
 
         return view;
     }
