@@ -14,7 +14,8 @@ public class Order implements Serializable {
     private String location;
     private @PaymentMethod
     String paymentMethod;
-    private String dateTime;
+    private String time;
+
 
     public List<OrderItem> getOrderItemList() {
         return orderItemList;
@@ -48,11 +49,11 @@ public class Order implements Serializable {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setTime(String time) {
+        this.time = time;
     }
 }
