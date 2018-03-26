@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.catalog;
 
 
 import android.os.Bundle;
@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ntg.user.sa2aia.R;
 
 
-public class ProductsFragment extends Fragment {
+public class CatalogFragment extends Fragment {
 
 
 
-    public static ProductsFragment newInstance() {
-        ProductsFragment fragment = new ProductsFragment();
+    public static CatalogFragment newInstance() {
+        CatalogFragment fragment = new CatalogFragment();
         return fragment;
     }
 
@@ -26,7 +27,7 @@ public class ProductsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_products, container, false);
+        View view = inflater.inflate(R.layout.fragment_catalog, container, false);
         return view;
     }
 }

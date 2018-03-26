@@ -1,4 +1,6 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.network;
+
+import com.ntg.user.sa2aia.model.Product;
 
 import java.util.List;
 

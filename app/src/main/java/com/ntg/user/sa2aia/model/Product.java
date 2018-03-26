@@ -1,10 +1,12 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.model;
+
+import java.io.Serializable;
 
 /**
  * Created by islam on 3/26/2018.
  */
 
-public class Product {
+public class Product implements Serializable {
 
     private int id;
     private String name;
