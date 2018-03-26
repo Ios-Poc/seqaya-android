@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.products;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiClient {
-    public static final String BASE_URL = "http://mesawer.getsandbox.com";
+    public static final String BASE_URL = "https://mesawer.getsandbox.com";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(){

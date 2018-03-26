@@ -1,4 +1,6 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.products;
+
+import com.ntg.user.sa2aia.products.Product;
 
 import java.util.List;
 

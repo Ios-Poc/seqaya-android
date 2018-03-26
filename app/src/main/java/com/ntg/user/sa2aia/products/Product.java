@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.products;
 
 /**
  * Created by islam on 3/26/2018.
@@ -9,7 +9,7 @@ public class Product {
     private int id;
     private String name;
     private String manufacturer;
-    private int bottleSize;
+    private float bottleSize;
     private int no_bpp;
     private int price;
 
@@ -37,11 +37,11 @@ public class Product {
         this.manufacturer = manufacturer;
     }
 
-    public int getBottleSize() {
+    public Float getBottleSize() {
         return bottleSize;
     }
 
-    public void setBottleSize(int bottleSize) {
+    public void setBottleSize(float bottleSize) {
         this.bottleSize = bottleSize;
     }
 

@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.products;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ntg.user.sa2aia.R;
 
 import java.util.List;
 
@@ -41,6 +43,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             }
         });
+    }
+    public void setProductList(List<Product> productList){
+        this.productList.clear();
+        this.productList = productList;
     }
 
     @Override
