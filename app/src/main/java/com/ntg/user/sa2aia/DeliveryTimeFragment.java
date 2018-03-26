@@ -20,7 +20,7 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class dateAndTimeFragment extends Fragment implements View.OnClickListener {
+public class DeliveryTimeFragment extends Fragment implements View.OnClickListener {
     View view;
     private Button btn_dialog_1, btn_dialog_2, btn_dialog_confirm;
     Calendar calendar;
@@ -61,6 +61,7 @@ public class dateAndTimeFragment extends Fragment implements View.OnClickListene
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
                         btn_dialog_1.setText(date);
+
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
