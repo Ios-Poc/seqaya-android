@@ -1,5 +1,6 @@
 package com.ntg.user.sa2aia;
 
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.ntg.user.sa2aia.products.ProductsFragment;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,6 +29,11 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Locale locale = new Locale("ar");
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        Toast.makeText(this, config.getLayoutDirection()+"", Toast.LENGTH_SHORT).show();
         toolbar.inflateMenu(R.menu.main_menu);
         toolbar.setOnMenuItemClickListener(this);
 

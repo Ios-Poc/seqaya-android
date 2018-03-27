@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CardStyle"
     android:orientation="vertical">
@@ -102,7 +104,7 @@
                 android:layout_weight="10"/>
             <Button
                 android:layout_marginBottom="8dp"
-                android:text="Add t0 Cart"
+                android:text="@string/add_to_cart"
                 android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"

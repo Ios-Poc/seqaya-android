@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Order implements Serializable {
 
-    private List<OrderItem> orderItemList;
+    private List<CartItem> orderItemList;
     private String date;
     private String location;
     private @PaymentMethod
@@ -17,11 +17,11 @@ public class Order implements Serializable {
     private String time;
 
 
-    public List<OrderItem> getOrderItemList() {
+    public List<CartItem> getOrderItemList() {
         return orderItemList;
     }
 
-    public void setOrderItemList(List<OrderItem> orderItemList) {
+    public void setOrderItemList(List<CartItem> orderItemList) {
         this.orderItemList = orderItemList;
     }
 
