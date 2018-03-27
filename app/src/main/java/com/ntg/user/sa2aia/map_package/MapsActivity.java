@@ -1,7 +1,6 @@
-package com.ntg.user.sa2aia.map_package;
+package com.ntgclarity.sdfa.presentation.submit_report;
 
 import android.Manifest;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,12 +9,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -27,17 +24,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ntg.user.sa2aia.R;
+import com.ntgclarity.sdfa.R;
+import com.ntgclarity.sdfa.util.GPSTracker;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import static android.app.Activity.RESULT_OK;
-
-
-public class MapFragment extends Fragment implements OnMapReadyCallback {
-
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private final int REQUEST_PERMISSION_LOCATION = 101;
     ImageView backImage;
@@ -55,41 +49,70 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     Bundle bundle = new Bundle();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
 
+        backImage = (ImageView) findViewById(R.id.back_id);
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        gps = new GPSTracker(this);
 
+        if (!isNetworkConnected()) {
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+            builder.setTitle("هناك خطأ");
+            builder.setMessage("تأكد من الاتصال الأنترنت");
+            builder.setPositiveButton("تم", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    MapsActivity.this.finish();
+                }
+            });
+            builder.show();
+        }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_map, container, false);
-
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//        gps = new GPSTracker(getActivity());
-
-
-        return view;
-    }
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return cm.getActiveNetworkInfo() != null;
     }
-
+//
+//    private void buildAlertMessageNoGps() {
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+//                .setCancelable(false)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+//                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+//                        Toast.makeText(MapsActivity.this, "????", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//        final AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
 
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
 
     }
@@ -99,8 +122,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         //   mGoogleMap.setMyLocationEnabled(true);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MapsActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_PERMISSION_LOCATION);
         } else {
@@ -136,7 +159,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Geocoder geocoder;
                 addresses = null;
 
-                geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
 
 
                 try {
@@ -147,6 +170,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 if (addresses.size() > 0) {
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
+                    bundle.putString("address", address);
+                    Intent mIntent = new Intent();
+                    mIntent.putExtras(bundle);
+                    setResult(RESULT_OK, mIntent);
+                    onBackPressed();
                 }
             }
         });
@@ -159,7 +187,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 //                      latLng.latitude = gps.getLatitude();
                 lattiude = marker.getPosition().latitude;
                 longtude = marker.getPosition().longitude;
-                geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
 
                 try {
                     addresses = geocoder.getFromLocation(lattiude, longtude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
@@ -172,7 +200,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 if (addresses.size() > 0) {
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-
+                    bundle.putString("address", address);
+                    Intent mIntent = new Intent();
+                    mIntent.putExtras(bundle);
+                    setResult(RESULT_OK, mIntent);
+                    onBackPressed();
                 }
 
                 return false;
@@ -195,13 +227,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         switch (requestCode) {
             case REQUEST_PERMISSION_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                    finish();
+                    startActivity(getIntent());
                 } else {
-                    Toast.makeText(getActivity(), "!!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapsActivity.this, "!!!!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
         }
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
