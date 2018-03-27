@@ -65,9 +65,6 @@ public class ProductsFragment extends Fragment {
                     products_rv.setLayoutManager(linearLayoutManager);
                     products_rv.setAdapter(productAdapter);
                     productAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "res", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getActivity(), "Bala7", Toast.LENGTH_SHORT).show();
                 }
 
             }

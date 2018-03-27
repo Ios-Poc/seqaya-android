@@ -37,7 +37,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_row , parent , false);
-        view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        view.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
         ViewUtil.addShadowToView(context , view);
         return new ProductViewHolder(view);
     }

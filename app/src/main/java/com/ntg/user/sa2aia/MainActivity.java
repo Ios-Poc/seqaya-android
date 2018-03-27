@@ -1,13 +1,10 @@
 package com.ntg.user.sa2aia;
 
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -29,8 +26,10 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Locale locale = new Locale("ar");
-        Configuration config = getBaseContext().getResources().getConfiguration();
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         Toast.makeText(this, config.getLayoutDirection()+"", Toast.LENGTH_SHORT).show();
@@ -60,11 +59,9 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
-
             case R.id.cart:
                 return true;
         }
         return true;
     }
-
 }
