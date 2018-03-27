@@ -14,11 +14,11 @@ import java.util.List;
  */
 
 public class SavedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    public SavedAdsAdapter(List<String> adresses) {
-        this.adresses = adresses;
+    public SavedAdsAdapter(List<String> locations) {
+        this.locations = locations;
     }
 
-    List<String> adresses;
+    List<String> locations;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater
@@ -30,7 +30,7 @@ public class SavedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         AdsViewHolder adsViewHolder= (AdsViewHolder) holder;
-        ((AdsViewHolder) holder).adressTxt.setText(adresses.get(position));
+        ((AdsViewHolder) holder).adressTxt.setText(locations.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +43,7 @@ public class SavedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return adresses.size();
+        return locations.size();
     }
 
     public class AdsViewHolder extends RecyclerView.ViewHolder {

@@ -1,5 +1,4 @@
 package com.ntg.user.sa2aia;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,7 +29,7 @@ public class SavedAdressesFragment extends Fragment {
     private RecyclerView listOfAdresses;
     SavedAdsAdapter adsAdapter;
     LinearLayoutManager layoutManager;
-    List<String> adresses;
+    List<String> locations;
     Button cancel;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,7 +75,7 @@ public class SavedAdressesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_saved_adresses, container, false);
        listOfAdresses=view.findViewById(R.id.adress_list);
        layoutManager=new LinearLayoutManager(this.getContext());
-       adsAdapter =new SavedAdsAdapter(adresses);
+       adsAdapter =new SavedAdsAdapter(locations);
        listOfAdresses.setLayoutManager(layoutManager);
        listOfAdresses.setAdapter(adsAdapter);
        cancel=view.findViewById(R.id.cancel_button);
@@ -113,7 +112,6 @@ public class SavedAdressesFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

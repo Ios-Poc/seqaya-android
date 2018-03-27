@@ -6,6 +6,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/adress_txt"
+        android:text="ُ7 ,Elharam street,Giza,Egypt"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
         android:layout_gravity="center"/>
 
 </LinearLayout>
