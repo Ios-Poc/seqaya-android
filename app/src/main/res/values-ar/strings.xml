@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سقاية</string>
+    <string name="email">الالكتروني</string>
+    <string name="phone_number">الجوال</string>
+    <string name="search">ابحث</string>
+    <string name="saved_location">اختر من العناوين المسجلة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="save_places">العناوين المسجلة</string>
+    <string name="date">التاريخ</string>
+    <string name="time">الوقت</string>
+    <string name="payment_method">طريقة الدفع</string>
+    <string name="credit_card">بطاقة الإئتمان</string>
+    <string name="sadad">سداد</string>
+    <string name="transaction_approved">العملية</string>
+    <string name="order_items">اصناف الطلب</string>
+    <string name="payment_details">تفاصيل الدفع</string>
+    <string name="delivery_location">التوصيل</string>
+    <string name="delivery_time">التوصيل</string>
+    <string name="done">تم</string>
+    <string name="next">التالي</string>
+    <string name="delivery">التوصيل</string>
+    <string name="confirm">تأكيد</string>
+    <string name="cost">التكلفة</string>
+    <string name="total">الإجمالي</string>
+    <string name="quantity">الكمية</string>
+    <string name="bottle_per_package">زجاجة / عبوة</string>
+    <string name="litre">لتر</string>
+    <string name="rs">ريال سعودي</string>
+    <string name="checkout">الدفع</string>
+    <string name="add_to_cart">إضافة إلى العربة</string>
+    <string name="password">كلمة المرور</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="register">سجل الان</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="bank_transfer">التحويل البنكي</string>
+</resources>

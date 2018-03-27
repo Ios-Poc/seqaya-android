@@ -8,6 +8,11 @@
             <set />
           </value>
         </entry>
+        <entry key="/fragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../Water_POC/app/build.gradle">
           <value>
             <set />
@@ -63,7 +68,52 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/catalog/CatalogFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/catalog/ProductAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/model/Product.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/network/ApiClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/network/ProductService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/products/ApiClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/products/CountDrawable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/products/Product.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/products/ProductAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ntg/user/sa2aia/products/ProductService.java">
           <value>
             <set />
           </value>
@@ -83,6 +133,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_add_shopping_cart.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_remove_circle.xml">
           <value>
             <set />
@@ -93,12 +148,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/menu_cart.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/round_corner_textview.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/badge.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_catalog.xml">
           <value>
             <set />
           </value>
@@ -123,12 +193,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/build.gradle">
           <value>
             <set />
           </value>

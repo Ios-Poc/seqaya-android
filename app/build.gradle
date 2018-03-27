@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.ntg.user.sa2aia"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -20,6 +20,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.mikepenz:actionitembadge:3.3.2@aar'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support:support-v4:26.1.0'

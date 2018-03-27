@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,7 @@ public class ProductsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_products, container, false);
+        View view = inflater.inflate(R.layout.fragment_catalog, container, false);
         ButterKnife.bind(this , view);
 
         productList = new ArrayList<>();
@@ -58,13 +57,12 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()){
-                    productAdapter = new ProductAdapter(productList);
+                    productAdapter = new ProductAdapter(productList, getActivity());
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
                     products_rv.setAdapter(productAdapter);
                     productAdapter.notifyDataSetChanged();
-                    Log.e("proSize" , productList.size() + "");
                     Toast.makeText(getActivity(), "res", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(getActivity(), "Bala7", Toast.LENGTH_SHORT).show();

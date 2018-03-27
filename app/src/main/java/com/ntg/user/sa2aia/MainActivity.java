@@ -1,9 +1,15 @@
 package com.ntg.user.sa2aia;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ntg.user.sa2aia.products.ProductsFragment;
@@ -29,11 +35,28 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem item = menu.findItem(R.id.cart);
+        item.setActionView(R.layout.badge);
+        RelativeLayout layout = item.getActionView().findViewById(R.id.badge_Relative_view);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return true;
+    }
+
+    @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.search:
+
+            case R.id.cart:
                 return true;
         }
         return true;
     }
+
 }

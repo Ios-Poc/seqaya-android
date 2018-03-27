@@ -3,20 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ntg.user.sa2aia.products.ProductsFragment"
-    android:orientation="vertical">
-
+    tools:context="com.ntg.user.sa2aia.catalog.CatalogFragment">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_products"/>
+        android:id="@+id/rv_products"
+        android:layout_marginBottom="48dp"/>
     <Button
-        android:id="@+id/check_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:id="@+id/check_out"
         android:layout_gravity="bottom"
-        android:text="@string/check_out"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"/>
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:text="@string/checkout"/>
 </FrameLayout>

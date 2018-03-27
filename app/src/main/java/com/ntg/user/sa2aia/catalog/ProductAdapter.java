@@ -1,6 +1,5 @@
-package com.ntg.user.sa2aia.products;
+package com.ntg.user.sa2aia.catalog;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ntg.user.sa2aia.R;
-import com.ntg.user.sa2aia.ViewUtil;
+import com.ntg.user.sa2aia.model.Product;
 
 import java.util.List;
 
@@ -19,17 +18,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-   private List<Product> productList;
-   private Context context;
-    public ProductAdapter(List<Product> productList, Context context) {
+    List<Product> productList;
+
+    public ProductAdapter(List<Product> productList) {
         this.productList = productList;
-        this.context = context;
     }
 
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_row , parent , false);
-        ViewUtil.addShadowToView(context , view);
         return new ProductViewHolder(view);
     }
 
@@ -47,10 +44,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             }
         });
-    }
-    public void setProductList(List<Product> productList){
-        this.productList.clear();
-        this.productList = productList;
     }
 
     @Override
@@ -77,8 +70,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         TextView numberOfItem;
         @BindView(R.id.increase)
         ImageButton increase;
-        @BindView(R.id.add_to_cart)
-        Button addToCart;
+//        @BindView(R.id.add_to_cart)
+//        Button addToCart;
 
 
         ProductViewHolder(View itemView) {
