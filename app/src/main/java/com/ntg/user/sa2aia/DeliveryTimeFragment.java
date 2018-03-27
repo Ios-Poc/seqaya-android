@@ -1,16 +1,22 @@
 package com.ntg.user.sa2aia;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.DateFormat;
@@ -22,7 +28,10 @@ import java.util.Calendar;
  */
 public class DeliveryTimeFragment extends Fragment implements View.OnClickListener {
     View view;
-    private Button btn_dialog_1, btn_dialog_2, btn_dialog_confirm;
+    LinearLayout Button;
+    private Button  btn_dialog_confirm;
+    private ImageView btn_dialog_1, btn_dialog_2;
+    TextView text_date,text_time;
     Calendar calendar;
 
 
@@ -31,10 +40,13 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_date_and_time, container, false);
+        Button=view.findViewById(R.id.Button);
         btn_dialog_1 = view.findViewById(R.id.btn_dialog_1);
         btn_dialog_2 = view.findViewById(R.id.btn_dialog_2);
+        text_date=view.findViewById(R.id.text_date);
+        text_time=view.findViewById(R.id.text_time);
         btn_dialog_confirm = view.findViewById(R.id.btn_dialog_confirm);
-
+        ViewUtil.addShadowToView(getContext(),Button);
         return view;
     }
 
@@ -49,10 +61,12 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_dialog_1:
+                DatePickerDialog dpd=new DatePickerDialog(getContext(), AlertDialog.THEME_TRADITIONAL);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -60,7 +74,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                         calendar.set(Calendar.MONTH, monthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
-                        btn_dialog_1.setText(date);
+                        text_date.setText(date);
 
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -74,7 +88,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                         calendar.set(Calendar.HOUR_OF_DAY, i);
                         calendar.set(Calendar.MINUTE, i1);
                         String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
-                        btn_dialog_2.setText(time);
+                        text_time.setText(time);
                     }
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                 timePickerDialog.show();
