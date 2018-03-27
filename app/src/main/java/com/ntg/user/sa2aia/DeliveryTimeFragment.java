@@ -1,7 +1,6 @@
 package com.ntg.user.sa2aia;
 
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
@@ -18,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.ntg.user.sa2aia.model.Order;
+import com.ntg.user.sa2aia.network.PaymentFragment;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -29,24 +32,26 @@ import java.util.Calendar;
 public class DeliveryTimeFragment extends Fragment implements View.OnClickListener {
     View view;
     LinearLayout Button;
-    private Button  btn_dialog_confirm;
+    private Button btn_dialog_confirm;
     private ImageView btn_dialog_1, btn_dialog_2;
-    TextView text_date,text_time;
+    TextView text_date, text_time;
     Calendar calendar;
-
+    Order order;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_date_and_time, container, false);
-        Button=view.findViewById(R.id.Button);
+        Button = view.findViewById(R.id.Button);
         btn_dialog_1 = view.findViewById(R.id.btn_dialog_1);
         btn_dialog_2 = view.findViewById(R.id.btn_dialog_2);
-        text_date=view.findViewById(R.id.text_date);
-        text_time=view.findViewById(R.id.text_time);
+        text_date = view.findViewById(R.id.text_date);
+        text_time = view.findViewById(R.id.text_time);
         btn_dialog_confirm = view.findViewById(R.id.btn_dialog_confirm);
-        ViewUtil.addShadowToView(getContext(),Button);
+
+        ViewUtil.addShadowToView(getContext(), Button);
+
         return view;
     }
 
@@ -54,7 +59,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        calendar=Calendar.getInstance();
+        calendar = Calendar.getInstance();
         btn_dialog_1.setOnClickListener(this);
         btn_dialog_2.setOnClickListener(this);
         btn_dialog_confirm.setOnClickListener(this);
@@ -64,10 +69,9 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_dialog_1:
-                DatePickerDialog dpd=new DatePickerDialog(getContext(), AlertDialog.THEME_TRADITIONAL);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         calendar.set(Calendar.YEAR, year);
@@ -82,16 +86,30 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.btn_dialog_2:
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        calendar.set(Calendar.HOUR_OF_DAY, i);
-                        calendar.set(Calendar.MINUTE, i1);
-                        String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
-                        text_time.setText(time);
-                    }
-                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                calendar.set(Calendar.HOUR_OF_DAY, i);
+                                calendar.set(Calendar.MINUTE, i1);
+                                String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
+                                text_time.setText(time);
+                            }
+                        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                 timePickerDialog.show();
+                break;
+
+            case R.id.btn_dialog_confirm:
+                order = new Order();
+                PaymentFragment paymentFragment=new PaymentFragment();
+                order.setDate(text_date.getText().toString());
+                order.setTime(text_time.getText().toString());
+                Toast.makeText(getActivity(), " " + order.getDate() + " " + order.getTime(), Toast.LENGTH_SHORT).show();
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("order",order);
+                paymentFragment.setArguments(bundle);
+                getActivity().getSupportFragmentManager().
+                        beginTransaction().replace(R.id.container, paymentFragment).commit();
                 break;
         }
 
