@@ -12,6 +12,17 @@
         android:layout_height="match_parent"
         android:background="@color/backgroundTransparent">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_worlwide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="12dp" />
+
         <EditText
             android:id="@+id/reg_name_edit_text"
             android:layout_width="0dp"
@@ -103,10 +114,10 @@
 
         <Button
             android:id="@+id/registration_button"
-            android:layout_width="88dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/round_corner"
             android:text="@string/register"

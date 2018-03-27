@@ -36,4 +36,5 @@
     <string name="app_name">سقاية</string>
     <string name="re_password">أعد كتابة كلمة المرور</string>
     <string name="sign_up_with">يمكنك الدخول بواسطة</string>
+    <string name="create_account">إنشاء حساب</string>
 </resources>
