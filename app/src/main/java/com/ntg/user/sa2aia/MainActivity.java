@@ -24,8 +24,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, ShoppingCartItemCount {
     public static String ORDER = "order";
     public static final int requestCode = 1;
-    private FrameLayout badge;
-    private TextView countTextView;
     private int alertCount = 2;
 
     @Override
@@ -34,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        User user = new User("aaa", "aa", "aa", "aa");
-        User.setCurrentUser(user);
         String languageToLoad = "ar";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -83,21 +79,5 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     @Override
     public void itemsCount(int count) {
-    }
-
-    private void setupBadge() {
-
-        if (countTextView != null) {
-            if (alertCount == 0) {
-                if (badge.getVisibility() != View.GONE) {
-                    badge.setVisibility(View.GONE);
-                }
-            } else {
-                countTextView.setText("5");
-                if (countTextView.getVisibility() != View.VISIBLE) {
-                    countTextView.setVisibility(View.VISIBLE);
-                }
-            }
-        }
     }
 }
