@@ -143,6 +143,9 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
                 sortCatalog();
                 break;
             }
+            case R.id.history:{
+                break;
+            }
             case R.id.cart: {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction().addToBackStack(null)
