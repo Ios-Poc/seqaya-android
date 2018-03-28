@@ -1,17 +1,13 @@
 package com.ntg.user.sa2aia;
 
 import android.content.res.Configuration;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +16,10 @@ import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
 
 import java.util.Locale;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener,ShoppingCartItemCount {
+public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, ShoppingCartItemCount {
+    public static String ORDER = "order";
     private FrameLayout badge;
     private TextView countTextView;
     private int alertCount = 2;
@@ -40,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        Toast.makeText(this, config.getLayoutDirection()+"", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, config.getLayoutDirection() + "", Toast.LENGTH_SHORT).show();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container , ProductsFragment.newInstance()).commit();
+                .replace(R.id.container, ProductsFragment.newInstance()).commit();
 
 
     }
@@ -52,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.cart:
                 return true;
         }
@@ -73,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     @Override
     public void itemsCount(int count) {
-        Toast.makeText(this,  String.valueOf(count)+" CountActiv", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, String.valueOf(count) + " CountActiv", Toast.LENGTH_SHORT).show();
     }
 
     private void setupBadge() {
