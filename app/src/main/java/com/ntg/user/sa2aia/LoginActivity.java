@@ -11,6 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.ntg.user.sa2aia.model.Credential;
+import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.network.API;
+import com.ntg.user.sa2aia.network.ProductService;
+
 import java.io.IOException;
 
 import butterknife.BindView;
@@ -67,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         if (getCredential() != null)
-            API.getClient().create(ServiceInterface.class)
+            API.getClient().create(ProductService.class)
                     .login(getCredential())
                     .enqueue(new Callback<User>() {
                         @Override

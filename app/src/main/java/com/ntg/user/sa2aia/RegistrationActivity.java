@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.network.API;
+import com.ntg.user.sa2aia.network.ProductService;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,7 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void addNewUser() {
         if (getUser() != null)
-            API.getClient().create(ServiceInterface.class)
+            API.getClient().create(ProductService.class)
                     .addNewUser(getUser())
                     .enqueue(new Callback<User>() {
                         @Override
