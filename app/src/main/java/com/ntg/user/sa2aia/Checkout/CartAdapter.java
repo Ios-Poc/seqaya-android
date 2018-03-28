@@ -41,7 +41,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
 
     @Override
     public void onBindViewHolder(final ProductViewHolder holder, int position) {
-        CartItem cartItem = cartItemList.get(position);
+        final CartItem cartItem = cartItemList.get(position);
         total += (cartItem.getQuantity() * cartItem.getProduct().getPrice());
         totalListener.onTotalChange(total);
         holder.name.setText(cartItem.getProduct().getName());
@@ -56,6 +56,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
                 int number = Integer.parseInt(holder.numberOfItem.getText().toString());
                 number++;
                 holder.numberOfItem.setText(String.valueOf(number));
+                total += cartItem.getProduct().getPrice();
+                totalListener.onTotalChange(total);
             }
         });
         holder.decrease.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +67,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
                 if (number > 1) {
                     number--;
                     holder.numberOfItem.setText(String.valueOf(number));
+                    total -= cartItem.getProduct().getPrice();
+                    totalListener.onTotalChange(total);
+                    
                 }
 
             }
