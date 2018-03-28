@@ -58,7 +58,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         ButterKnife.bind(this, view);
 
-        cartItemList = User.getCurrentUser().getShoppingCart().getCartItemList();
+        cartItemList = User.getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -70,7 +70,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order order = new Order(User.getCurrentUser().getEmail());
+                Order order = new Order(User.getEmail());
                 List<CartItem> cartItems = new ArrayList<>();
                 cartItems.addAll(cartItemList);
                 order.setCartItems(cartItems);

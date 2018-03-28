@@ -80,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     }
                 }
                 cartItems.add(cartItem);
-                ShoppingCart shoppingCart = User.getCurrentUser().getShoppingCart();
+                ShoppingCart shoppingCart = User.getShoppingCart();
                 shoppingCart.setCartItemList(cartItems);
                 shoppingCartItemCount.itemsCount(cartItems.size());
             }

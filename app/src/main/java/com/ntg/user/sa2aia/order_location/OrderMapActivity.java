@@ -30,6 +30,7 @@ import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Location;
 import com.ntg.user.sa2aia.model.Order;
+import com.ntg.user.sa2aia.model.User;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
@@ -94,10 +95,6 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                 bundle.putSerializable(MainActivity.ORDER, order);
                 SavedLocationsFragment fragment = new SavedLocationsFragment();
                 fragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction()
-//                        .add(R.id.container_id, fragment);
-
-
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.add(R.id.container_id, fragment);// f1_container is your FrameLayout container
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -176,7 +173,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     Toast.makeText(OrderMapActivity.this, address, Toast.LENGTH_SHORT).show();
                     finaladdress = address;
                 }
-                location = new Location("", finaladdress, latLng.latitude, latLng.longitude);
+                location = new Location(User.getEmail(), finaladdress, latLng.latitude, latLng.longitude);
 
             }
         });
@@ -203,7 +200,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
                     finaladdress = address;
-                    location = new Location("", finaladdress, lattiude, longtude);
+                    location = new Location(User.getEmail(), finaladdress, lattiude, longtude);
 
                     MarkerInfo markerInfo = new MarkerInfo();
                     markerInfo.setAddress(address);

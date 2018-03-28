@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TextView
+        android:id="@+id/adress_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/adress_txt"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:gravity="center_horizontal"
         android:text="ُ7 ,Elharam street,Giza,Egypt"
-        android:textSize="16sp"
         android:textColor="@color/colorBlack"
-        android:layout_gravity="center"/>
+        android:textSize="16sp" />
 
 </LinearLayout>
