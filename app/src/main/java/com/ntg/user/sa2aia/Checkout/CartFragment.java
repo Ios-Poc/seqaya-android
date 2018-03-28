@@ -18,6 +18,7 @@ import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.order_location.OrderMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         ButterKnife.bind(this, view);
 
-        cartItemList = User.getCurrentUser().getShoppingCart().getCartItemList();
+        cartItemList = User.getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -69,14 +70,13 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order order = new Order(User.getCurrentUser().getEmail());
+                Order order = new Order(User.getEmail());
                 List<CartItem> cartItems = new ArrayList<>();
                 cartItems.addAll(cartItemList);
                 order.setCartItems(cartItems);
-                Intent intent = new Intent();
-                intent.putExtra(MainActivity.ORDER, order);
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
-
+                Intent i = new Intent(CartFragment.this.getActivity(), OrderMapActivity.class);
+                i.putExtra(MainActivity.ORDER, order);
+                startActivityForResult(i, MainActivity.requestCode);
             }
         });
 

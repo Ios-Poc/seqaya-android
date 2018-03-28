@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.model.UserAPI;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
@@ -75,21 +75,23 @@ public class RegistrationActivity extends AppCompatActivity {
         if (getUser() != null)
             ApiClient.getClient().create(ProductService.class)
                     .addNewUser(getUser())
-                    .enqueue(new Callback<User>() {
+                    .enqueue(new Callback<UserAPI>() {
                         @Override
-                        public void onResponse(@NonNull Call<User> call,
-                                               @NonNull Response<User> response) {
+                        public void onResponse(@NonNull Call<UserAPI> call,
+                                               @NonNull Response<UserAPI> response) {
                             if (response.isSuccessful()) {
-                                User user = response.body();
+                                UserAPI user = response.body();
                                 if (user != null) {
-                                    User.setCurrentUser(user);
+                                    User.setName(user.getName());
+                                    User.setPassword(user.getPassword());
+                                    User.setEmail(user.getEmail());
                                     navigateToLogin();
                                 }
                             }
                         }
 
                         @Override
-                        public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                        public void onFailure(@NonNull Call<UserAPI> call, @NonNull Throwable t) {
 
                         }
                     });
@@ -101,7 +103,7 @@ public class RegistrationActivity extends AppCompatActivity {
         finish();
     }
 
-    private User getUser() {
+    private UserAPI getUser() {
         String name = regNameEditText.getText().toString();
         String email = regEmailEditText.getText().toString();
         String password = regPasswordEditText.getText().toString();
@@ -109,8 +111,15 @@ public class RegistrationActivity extends AppCompatActivity {
         String phone_number = regPhoneEditText.getText().toString();
 
         if (notNullOrEmpty(name) && isValidEmailAddress(email) && notNullOrEmpty(password) &&
-                password.equals(rePassword) && notNullOrEmpty(phone_number))
-            return new User(name, email, password, phone_number);
+                password.equals(rePassword) && notNullOrEmpty(phone_number)) {
+            UserAPI userAPI = new UserAPI();
+            userAPI.setEmail(email);
+            userAPI.setPassword(password);
+            userAPI.setName(name);
+            return userAPI;
+        }
+
+        // return new User(name, email, password, phone_number);
         if (isNullOrEmpty(name))
             regNameEditText.setError("This field shouldn't be blank");
         if (!isValidEmailAddress(email))
