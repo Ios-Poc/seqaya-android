@@ -11,17 +11,20 @@ import android.widget.TextView;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
-import com.ntg.user.sa2aia.model.OrderItem;
-import com.ntg.user.sa2aia.model.Product;
+import com.ntg.user.sa2aia.model.CartItem;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
-    List<Product> orderList;
+    List<CartItem> orderList;
     Context context;
 
-    public ListAdapter(List<Product> orderList, Context context) {
+
+    public ListAdapter(List<CartItem> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
     }
@@ -36,39 +39,44 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
 
-//        Product product = orderList.get(position);
-//        holder.productName.setText(product.getName());
-//        //holder.productImage
-//        holder.bottleSize.setText(String.valueOf(product.getBottleSize()));
-//        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()));
-//        holder.price.setText(String.valueOf(product.getPrice()));
-//        holder.poster.setImageResource(movie.posterImage);
-
+        CartItem cartItem = orderList.get(position);
+        holder.productName.setText(cartItem.getProduct().getName());
+        holder.price.setText(String.valueOf(cartItem.getProduct().getPrice()));
+        holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize()));
+        holder.noInPackage.setText(String.valueOf(cartItem.getProduct().getNo_bpp()));
+        holder.productManufacturer.setText(cartItem.getProduct().getManufacturer());
+        holder.numberOfItem.setText(cartItem.getQuantity());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return orderList.size();
     }
-    public void setProductList(List<OrderItem> orderList){
+
+    public void setProductList(List<CartItem> orderList) {
         this.orderList.clear();
         this.orderList = orderList;
     }
+
     class ListViewHolder extends RecyclerView.ViewHolder {
-        ImageView productImage;
+        @BindView(R.id.product_name)
         TextView productName;
+        @BindView(R.id.product_manufacturer)
+        TextView productManufacturer;
+        @BindView(R.id.bottle_size)
         TextView bottleSize;
-        TextView numberInPackage;
+        @BindView(R.id.no_in_package)
+        TextView noInPackage;
+        @BindView(R.id.price)
         TextView price;
+        @BindView(R.id.number_of_item)
+        TextView numberOfItem;
+        @BindView(R.id.product_image)
+        ImageView productImage;
 
         public ListViewHolder(View itemView) {
             super(itemView);
-            productImage = itemView.findViewById(R.id.product_image);
-            productName = itemView.findViewById(R.id.product_name);
-            bottleSize = itemView.findViewById(R.id.bottle_size);
-            numberInPackage = itemView.findViewById(R.id.number_in_package);
-            price = itemView.findViewById(R.id.price);
-
+            ButterKnife.bind(this, itemView);
         }
     }
 

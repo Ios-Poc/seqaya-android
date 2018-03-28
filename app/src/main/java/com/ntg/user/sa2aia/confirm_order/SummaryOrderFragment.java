@@ -7,22 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
+import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
-import com.ntg.user.sa2aia.model.OrderItem;
-import com.ntg.user.sa2aia.model.Product;
-import com.ntg.user.sa2aia.network.ApiClient;
-import com.ntg.user.sa2aia.network.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,8 +49,12 @@ public class SummaryOrderFragment extends Fragment {
     LinearLayout cardView2;
     @BindView(R.id.cardView3)
     LinearLayout cardView3;
-    private List<OrderItem> productList;
     Order order;
+    @BindView(R.id.total)
+    TextView total;
+    @BindView(R.id.done)
+    Button done;
+    private List<CartItem> cartItems;
 
     public static SummaryOrderFragment newInstance() {
         // Required empty public constructor
@@ -80,17 +76,19 @@ public class SummaryOrderFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        productList = new ArrayList<>();
-        order=new Order();
+        cartItems = new ArrayList<>();
+        order = new Order();
         deliveryLocation.setText(order.getLocation());
         paymentDetails.setText(order.getPaymentMethod());
-        deliveryTime.setText(order.getTime()+" "+order.getDate());
-        listAdapter = new ListAdapter(new ArrayList<Product>(), getActivity());
-        productList =order.getOrderItemList();
-        listAdapter.setProductList(productList);
+        deliveryTime.setText(order.getTime() + " " + order.getDate());
+        total.setText("250"+"ريال");
+        listAdapter = new ListAdapter(new ArrayList<CartItem>(), getActivity());
+        cartItems = order.getCartItems();
+        listAdapter.setProductList(cartItems);
         recyclerList.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerList.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
+        //
 //        ProductService productService = ApiClient.getClient().create(ProductService.class);
 //        Call<List<Product>> productListCall = productService.getProducts();
 //        productListCall.enqueue(new Callback<List<Product>>() {
@@ -128,4 +126,8 @@ public class SummaryOrderFragment extends Fragment {
 
 
 
+    @OnClick(R.id.done)
+    public void onViewClicked() {
+        getActivity().finish();
+    }
 }
