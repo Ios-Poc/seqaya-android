@@ -36,8 +36,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
     private CartAdapter cartAdapter;
 
     public static CartFragment newInstance() {
-        CartFragment fragment = new CartFragment();
-        return fragment;
+        return new CartFragment();
     }
 
     @Override

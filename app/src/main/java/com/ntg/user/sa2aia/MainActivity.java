@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-       User user = new User("aaa","aa","aa","aa");
-       User.setCurrentUser(user);
+        User user = new User("aaa", "aa", "aa", "aa");
+        User.setCurrentUser(user);
         String languageToLoad = "ar";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
