@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        String languageToLoad = "en";
+        String languageToLoad = "ar";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
