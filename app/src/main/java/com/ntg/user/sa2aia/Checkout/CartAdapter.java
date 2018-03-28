@@ -11,9 +11,7 @@ import android.widget.TextView;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
-import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
-import com.ntg.user.sa2aia.model.ShoppingCartClient;
 
 import java.util.List;
 

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
-import com.ntg.user.sa2aia.model.ShoppingCartClient;
+import com.ntg.user.sa2aia.model.User;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class CartFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.checkout));
-        cartItemList = ShoppingCartClient.getShoppingCart().getCartItemList();
+        cartItemList = User.getCurrentUser().getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         products_rv.setLayoutManager(linearLayoutManager);
         cartAdapter = new CartAdapter(cartItemList, getActivity());
