@@ -30,7 +30,7 @@ import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Location;
 import com.ntg.user.sa2aia.model.Order;
-import com.ntg.user.sa2aia.network.API;
+import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
 import java.io.IOException;
@@ -93,7 +93,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(MainActivity.ORDER, order);
                 SavedLocationsFragment fragment = new SavedLocationsFragment();
-          fragment.setArguments(bundle);
+                fragment.setArguments(bundle);
 //                getSupportFragmentManager().beginTransaction()
 //                        .add(R.id.container_id, fragment);
 
@@ -251,7 +251,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         MarkerInfo markerInfo = (MarkerInfo) marker.getTag();
         finaladdress = markerInfo.getAddress();
 
-        API.getClient().create(ProductService.class).addNewLocation(location)
+        ApiClient.getClient().create(ProductService.class).addNewLocation(location)
                 .enqueue(new Callback<Location>() {
                     @Override
                     public void onResponse(Call<Location> call, Response<Location> response) {

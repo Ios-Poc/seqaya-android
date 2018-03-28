@@ -47,7 +47,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.orderDate.setText(order.getDeliveryDate());
         holder.prodName.setText(order.getCartItems().get(0).getProduct().getName());
         holder.prodPrice.setText(order.getCartItems().get(0).getProduct().getPrice());
-        holder.buttleSize.setText(order.getCartItems().get(0).getProduct().getBottleSize());
+        holder.buttleSize.setText("" + order.getCartItems().get(0).getProduct().getBottleSize());
         holder.bpp.setText(order.getCartItems().get(0).getProduct().getNo_bpp());
 //        holder.productImage.set(order.getCartItems().get(0).getProduct().getPhotoUrl());
         holder.orderDetailsText.setOnClickListener(new View.OnClickListener() {

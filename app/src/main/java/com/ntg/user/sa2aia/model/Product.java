@@ -12,9 +12,22 @@ public class Product implements Serializable {
     private String name;
     private String manufacturer;
     private String photoUrl;
-    private int bottleSize;
+    private float bottleSize;
     private int no_bpp;
     private int price;
+
+    public Product() {
+        id = 1;
+        name="مياه نقية";
+        manufacturer="نستله";
+        bottleSize=1;
+        no_bpp=24;
+        price=150;
+
+
+    }
+
+
 
     public int getId() {
         return id;
@@ -32,9 +45,6 @@ public class Product implements Serializable {
         return photoUrl;
     }
 
-    public int getBottleSize() {
-        return bottleSize;
-    }
 
     public int getNo_bpp() {
         return no_bpp;
@@ -42,5 +52,13 @@ public class Product implements Serializable {
 
     public int getPrice() {
         return price;
+    }
+
+    public float getBottleSize() {
+        return bottleSize;
+    }
+
+    public void setBottleSize(float bottleSize) {
+        this.bottleSize = bottleSize;
     }
 }

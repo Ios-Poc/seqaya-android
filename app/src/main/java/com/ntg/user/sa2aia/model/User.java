@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
-    private ShoppingCart shoppingCart;
+    private ShoppingCart shoppingCart = new ShoppingCart();
 
     public User(String name, String email, String password, String phoneNumber) {
         this.name = name;
@@ -21,12 +21,12 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCurrentUser(User user) {
+    public static void setCurrentUser(User user) {
         if (user != null)
             CURRENT = user;
     }
 
-    public static User getCurrentUser(){
+    public static User getCurrentUser() {
         return CURRENT;
     }
 
