@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Sara Elmoghazy on 26/03/2018.
@@ -8,7 +9,7 @@ import java.io.Serializable;
 
 public class Order implements Serializable {
 
-    private ShoppingCartClient shoppingCartClient;
+    private List<CartItem> cartItems;
     private String date;
     private String location;
     private @PaymentMethod
@@ -49,13 +50,7 @@ public class Order implements Serializable {
         this.time = time;
     }
 
-    public ShoppingCartClient getShoppingCartClient() {
-        return shoppingCartClient;
-    }
 
-    public void setShoppingCartClient(ShoppingCartClient shoppingCartClient) {
-        this.shoppingCartClient = shoppingCartClient;
-    }
 
     public String getUserName() {
         return userName;
@@ -63,5 +58,13 @@ public class Order implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 }
