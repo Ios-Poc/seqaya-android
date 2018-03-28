@@ -15,6 +15,19 @@ public class Product implements Serializable {
     private int no_bpp;
     private int price;
 
+    public Product() {
+        id = 1;
+        name="مياه نقية";
+        manufacturer="نستله";
+        bottleSize=1;
+        no_bpp=24;
+        price=150;
+
+
+    }
+
+
+
     public int getId() {
         return id;
     }

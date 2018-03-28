@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,15 +20,18 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHolder> {
-    ShoppingCart shoppingCartClient;
 
+        int total = 0;
     List<CartItem> cartItemList;
     Context context;
-    public CartAdapter(List<CartItem> cartItemList, Context context) {
+    TotalListener totalListener;
+    public CartAdapter(List<CartItem> cartItemList, Context context,TotalListener totalListener) {
         this.cartItemList = cartItemList;
         this.context=context;
+        this.totalListener=totalListener;
     }
 
     @Override
@@ -39,15 +43,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, int position) {
-        shoppingCartClient=ShoppingCartClient.getShoppingCart();
-        shoppingCartClient.getCartItemList().get(position);
-        holder.name.setText( shoppingCartClient.getCartItemList().get(position).getProduct().getName());
-        holder.manufacturer.setText(shoppingCartClient.getCartItemList().get(position).getProduct().getManufacturer());
-        holder.bottleSize.setText(String.valueOf(shoppingCartClient.getCartItemList().get(position).getProduct().getBottleSize()));
-        holder.numberInPackage.setText(String.valueOf(shoppingCartClient.getCartItemList().get(position).getProduct().getNo_bpp()));
-        holder.price.setText(String.valueOf(shoppingCartClient.getCartItemList().get(position).getProduct().getPrice()));
-        holder.numberOfItem.setText(shoppingCartClient.getCartItemList().get(position).getQuantity());
+    public void onBindViewHolder(final ProductViewHolder holder, int position) {
+        CartItem cartItem = cartItemList.get(position);
+        total += (cartItem.getQuantity() * cartItem.getProduct().getPrice());
+        totalListener.onTotalChange(total);
+        holder.name.setText( cartItem.getProduct().getName());
+        holder.manufacturer.setText(cartItem.getProduct().getManufacturer());
+        holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize()));
+        holder.numberInPackage.setText(String.valueOf(cartItem.getProduct().getNo_bpp()));
+        holder.price.setText(String.valueOf(cartItem.getProduct().getPrice()));
+        holder.numberOfItem.setText(String.valueOf(cartItem.getQuantity()));
+        holder.increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int number = Integer.parseInt(holder.numberOfItem.getText().toString());
+                number++;
+                holder.numberOfItem.setText(String.valueOf(number));
+            }
+        });
+        holder.decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int number = Integer.parseInt(holder.numberOfItem.getText().toString());
+                if (number>1){
+                    number--;
+                    holder.numberOfItem.setText(String.valueOf(number));
+                }
+
+            }
+        });
 
     }
 
@@ -71,15 +95,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         TextView numberInPackage;
         @BindView(R.id.price)
         TextView price;
-        @BindView(R.id.number_of_item)
+        @BindView(R.id.quntity)
         TextView numberOfItem;
-
+        @BindView(R.id.minusBtn)
+        ImageButton decrease;
+        @BindView(R.id.plusBtn)
+        ImageButton increase;
 
 
 
         ProductViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this , itemView);
+
         }
+    }
+
+    interface TotalListener{
+        void onTotalChange(int total);
     }
 }
