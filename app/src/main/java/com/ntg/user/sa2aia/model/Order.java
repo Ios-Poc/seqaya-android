@@ -2,6 +2,7 @@ package com.ntg.user.sa2aia.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Sara Elmoghazy on 26/03/2018.
@@ -9,21 +10,49 @@ import java.util.List;
 
 public class Order implements Serializable {
 
+    private String id;
+    private String userId;
     private List<CartItem> cartItems;
-    private String date;
+    private String deliveryDate;
+    private String deliveryTime;
     private String location;
     private @PaymentMethod
     String paymentMethod;
-    private String time;
-    private String userName;
+    private @OrderStatus
+    String status;
 
-
-    public String getDate() {
-        return date;
+    public Order(String userId) {
+        this.id = UUID.randomUUID().toString();
+        this.userId = userId;
+        this.status = OrderStatus.IN_PROCESSING;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public String getId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(@OrderStatus String status) {
+        this.status = status;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public String getLocation() {
@@ -38,33 +67,23 @@ public class Order implements Serializable {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(@PaymentMethod String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getTime() {
-        return time;
+    public String getDeliveryTime() {
+        return deliveryTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
     }
 
-
-
-    public String getUserName() {
-        return userName;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

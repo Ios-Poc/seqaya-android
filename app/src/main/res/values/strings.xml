@@ -15,8 +15,8 @@
 <string name="saved_location">"اختر من العناوين المسجلة"</string>
 <string name="cancel">"إلغاء"</string>
 <string name="save_places">"العناوين المسجلة"</string>
-<string name="date">"التاريخ"</string>
-<string name="time">"الوقت"</string>
+<string name="deliveryDate">"التاريخ"</string>
+<string name="deliveryTime">"الوقت"</string>
 <string name="payment_method">"طريقة الدفع"</string>
 <string name="credit_card">"بطاقة الإئتمان"</string>
 <string name="sadad">"سداد"</string>
