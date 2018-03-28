@@ -81,8 +81,9 @@ public class LoginActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 User user = response.body();
                                 if (user != null)
+                                    User.setCurrentUser(user);
                                     Toast.makeText(LoginActivity.this,
-                                            user.getName(),
+                                            User.getCurrentUser().getEmail(),
                                             Toast.LENGTH_SHORT)
                                             .show();
                             } else {

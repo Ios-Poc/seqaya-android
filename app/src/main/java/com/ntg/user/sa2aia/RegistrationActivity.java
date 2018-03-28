@@ -70,8 +70,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 User user = response.body();
                                 if (user != null)
+                                    User.setCurrentUser(user);
                                     Toast.makeText(RegistrationActivity.this,
-                                            user.getName(),
+                                            User.getCurrentUser().getEmail(),
                                             Toast.LENGTH_SHORT)
                                             .show();
                             }

@@ -21,7 +21,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCurrentUser(User user) {
+    public static void setCurrentUser(User user) {
         if (user != null)
             CURRENT = user;
     }
