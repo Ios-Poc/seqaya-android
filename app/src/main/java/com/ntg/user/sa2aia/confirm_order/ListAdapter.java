@@ -42,7 +42,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         CartItem cartItem = orderList.get(position);
         holder.productName.setText(cartItem.getProduct().getName());
         holder.price.setText(String.valueOf(cartItem.getProduct().getPrice()));
-        holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize()));
+        holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize())+R.string.litre);
         holder.noInPackage.setText(String.valueOf(cartItem.getProduct().getNo_bpp()));
         holder.productManufacturer.setText(cartItem.getProduct().getManufacturer());
         holder.numberOfItem.setText(cartItem.getQuantity());

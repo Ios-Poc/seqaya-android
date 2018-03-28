@@ -80,41 +80,15 @@ public class SummaryOrderFragment extends Fragment {
         order = new Order(null);
         deliveryLocation.setText(order.getLocation());
         paymentDetails.setText(order.getPaymentMethod());
-        deliveryTime.setText(order.getDeliveryTime() + " " + order.getDeliveryDate());
-        total.setText("250" + "ريال");
+        deliveryTime.setText(order.getDeliveryTime() + " , " + order.getDeliveryDate());
+        total.setText(order.Total);
         listAdapter = new ListAdapter(new ArrayList<CartItem>(), getActivity());
         cartItems = order.getCartItems();
         listAdapter.setProductList(cartItems);
         recyclerList.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerList.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
-        //
-//        ProductService productService = ApiClient.getClient().create(ProductService.class);
-//        Call<List<Product>> productListCall = productService.getProducts();
-//        productListCall.enqueue(new Callback<List<Product>>() {
-//            @Override
-//            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-//                if (response.isSuccessful()) {
-//                    listAdapter = new ListAdapter(new ArrayList<Product>(), getActivity());
-//                    productList = response.body();
-//                    listAdapter.setProductList(productList);
-//                    recyclerList.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                    recyclerList.setAdapter(listAdapter);
-//                    listAdapter.notifyDataSetChanged();
-//                    Log.e("proSize", productList.size() + "");
-//                    Toast.makeText(getActivity(), "res", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Product>> call, Throwable t) {
-//                Log.e("proSize", t.getMessage());
-//
-//            }
-//        });
+
         ViewUtil.addShadowToView(getActivity(), cardView);
         ViewUtil.addShadowToView(getActivity(), cardView2);
         ViewUtil.addShadowToView(getActivity(), cardView3);
@@ -128,4 +102,6 @@ public class SummaryOrderFragment extends Fragment {
     public void onViewClicked() {
         getActivity().finish();
     }
+
+
 }
