@@ -9,11 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.PaymentMethod;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,11 +73,23 @@ public class PaymentFragment extends Fragment implements View.OnClickListener{
 
         }
     }
-    public void navigateToOrderSumery(Order order){
+    public void navigateToOrderSumery(final Order order){
+        ProductService productService=API.getClient().create(ProductService.class);
+        Call<Order>call=productService.addNewOrder(order);
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+               Order responseOrder = response.body();
+                Toast.makeText(getActivity(), responseOrder.getId(), Toast.LENGTH_SHORT).show();
+//                Bundle bundle=new Bundle();
+//                bundle.putSerializable("order",responseOrder);
+            }
 
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("order",order);
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
 
+            }
+        });
 //        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,).commit();
     }
 }

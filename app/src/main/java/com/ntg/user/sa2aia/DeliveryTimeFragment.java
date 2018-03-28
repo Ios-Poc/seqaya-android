@@ -100,11 +100,11 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.btn_dialog_confirm:
-                order = new Order();
+                order = new Order("jjef");
                 PaymentFragment paymentFragment=new PaymentFragment();
-                order.setDate(text_date.getText().toString());
-                order.setTime(text_time.getText().toString());
-                Toast.makeText(getActivity(), " " + order.getDate() + " " + order.getTime(), Toast.LENGTH_SHORT).show();
+                order.setDeliveryDate(text_date.getText().toString());
+                order.setDeliveryTime(text_time.getText().toString());
+                Toast.makeText(getActivity(), " " + order.getDeliveryDate() + " " + order.getDeliveryTime(), Toast.LENGTH_SHORT).show();
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("order",order);
                 paymentFragment.setArguments(bundle);
