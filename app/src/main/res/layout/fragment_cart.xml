@@ -4,26 +4,17 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ntg.user.sa2aia.Checkout.cartFragment">
+    tools:context="com.ntg.user.sa2aia.Checkout.CartFragment">
 
-    <include
-        android:id="@+id/main_page_toolbar"
-        layout="@layout/my_toolbar"
-        android:layout_width="384dp"
-        android:layout_height="wrap_content" />
-
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_product"
         android:layout_width="0dp"
-        android:layout_height="389dp"
+        android:layout_height="352dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_page_toolbar">
+        app:layout_constraintStart_toStartOf="parent">
 
     </android.support.v7.widget.RecyclerView>
-
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -67,10 +58,14 @@
         <Button
             android:id="@+id/confirmBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/button"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="confirm"
             app:layout_constraintEnd_toEndOf="parent"

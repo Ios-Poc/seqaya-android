@@ -1,13 +1,10 @@
-package com.ntg.user.sa2aia.Checkout;
+package com.ntg.user.sa2aia;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-<<<<<<< HEAD:app/src/main/java/com/ntg/user/sa2aia/Checkout/MainActivity.java
-import com.ntg.user.sa2aia.R;
-=======
-import com.ntg.user.sa2aia.catalog.CatalogFragment;
->>>>>>> master:app/src/main/java/com/ntg/user/sa2aia/MainActivity.java
+import com.ntg.user.sa2aia.Checkout.CartFragment;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,16 +12,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD:app/src/main/java/com/ntg/user/sa2aia/Checkout/MainActivity.java
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container , cartFragment.newInstance()).commit();
-=======
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, CatalogFragment.newInstance())
-                .commit();
->>>>>>> master:app/src/main/java/com/ntg/user/sa2aia/MainActivity.java
+                .replace(R.id.container, CartFragment.newInstance()).commit();
+
     }
-    }
+}
 

@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/bottle_size"
-            android:layout_width="92dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
@@ -83,30 +83,25 @@
             app:layout_constraintStart_toStartOf="@+id/number_in_package"
             app:layout_constraintTop_toBottomOf="@+id/number_in_package" />
 
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="150"
-            android:textColor="@android:color/holo_blue_dark"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="150"
+        android:textColor="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-        <TextView
+    <TextView
 
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="ريال"
-            android:textColor="@android:color/holo_blue_dark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="ريال"
+        android:textColor="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/errorBtn" />
 
         <TextView
 
@@ -136,16 +131,16 @@
             app:layout_constraintTop_toBottomOf="@+id/number_in_package" />
 
 
-        <ImageView
-            android:id="@+id/product_image"
-            android:layout_width="141dp"
-            android:layout_height="125dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/water_6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="101dp"
+        android:layout_height="125dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/water_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/minusBtn"
@@ -161,16 +156,14 @@
             app:layout_constraintTop_toTopOf="@+id/imageView"
             tools:ignore="MissingConstraints" />
 
-        <ImageButton
-            android:id="@+id/errorBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
-            android:background="@android:color/white"
-            android:src="@drawable/error"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    <ImageButton
+        android:id="@+id/errorBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:src="@drawable/error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/plusBtn"
