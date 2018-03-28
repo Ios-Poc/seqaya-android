@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +14,11 @@ import android.widget.Toast;
 
 import com.ntg.user.sa2aia.model.Credential;
 import com.ntg.user.sa2aia.model.User;
-import com.ntg.user.sa2aia.network.API;
+import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.ntg.user.sa2aia.StringUtil.isNullOrEmpty;
 import static com.ntg.user.sa2aia.StringUtil.isValidEmailAddress;
 import static com.ntg.user.sa2aia.StringUtil.notNullOrEmpty;
 
@@ -50,6 +53,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
     }
 
     @OnClick({R.id.login_button, R.id.reg_nav_button, R.id.facebook_button, R.id.twitter_button, R.id.google_button})
@@ -72,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         if (getCredential() != null)
-            API.getClient().create(ProductService.class)
+            ApiClient.getClient().create(ProductService.class)
                     .login(getCredential())
                     .enqueue(new Callback<User>() {
                         @Override
@@ -82,10 +93,10 @@ public class LoginActivity extends AppCompatActivity {
                                 User user = response.body();
                                 if (user != null)
                                     User.setCurrentUser(user);
-                                    Toast.makeText(LoginActivity.this,
-                                            User.getCurrentUser().getEmail(),
-                                            Toast.LENGTH_SHORT)
-                                            .show();
+                                Toast.makeText(LoginActivity.this,
+                                        User.getCurrentUser().getEmail(),
+                                        Toast.LENGTH_SHORT)
+                                        .show();
                             } else {
                                 try {
                                     Log.d("login error", response.errorBody().string());
@@ -113,9 +124,9 @@ public class LoginActivity extends AppCompatActivity {
         String password = loginPasswordEditText.getText().toString();
         if (isValidEmailAddress(email) && notNullOrEmpty(password))
             return new Credential(email, password);
-        if (isValidEmailAddress(email))
+        if (!isValidEmailAddress(email))
             loginEmailEditText.setError("Invalid email");
-        if (notNullOrEmpty(password))
+        if (isNullOrEmpty(password))
             loginPasswordEditText.setError("Password blank");
         return null;
     }

@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ntg.user.sa2aia.model.User;
-import com.ntg.user.sa2aia.network.API;
+import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.ntg.user.sa2aia.StringUtil.isNullOrEmpty;
 import static com.ntg.user.sa2aia.StringUtil.isValidEmailAddress;
 import static com.ntg.user.sa2aia.StringUtil.notNullOrEmpty;
 
@@ -45,6 +49,14 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         ButterKnife.bind(this);
+
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
     }
 
     @OnClick({R.id.registration_button, R.id.login_nav_button})
@@ -61,7 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void addNewUser() {
         if (getUser() != null)
-            API.getClient().create(ProductService.class)
+            ApiClient.getClient().create(ProductService.class)
                     .addNewUser(getUser())
                     .enqueue(new Callback<User>() {
                         @Override
@@ -71,10 +83,10 @@ public class RegistrationActivity extends AppCompatActivity {
                                 User user = response.body();
                                 if (user != null)
                                     User.setCurrentUser(user);
-                                    Toast.makeText(RegistrationActivity.this,
-                                            User.getCurrentUser().getEmail(),
-                                            Toast.LENGTH_SHORT)
-                                            .show();
+                                Toast.makeText(RegistrationActivity.this,
+                                        User.getCurrentUser().getEmail(),
+                                        Toast.LENGTH_SHORT)
+                                        .show();
                             }
                         }
 
@@ -95,15 +107,15 @@ public class RegistrationActivity extends AppCompatActivity {
         if (notNullOrEmpty(name) && isValidEmailAddress(email) && notNullOrEmpty(password) &&
                 password.equals(rePassword) && notNullOrEmpty(phone_number))
             return new User(name, email, password, phone_number);
-        if (notNullOrEmpty(name))
+        if (isNullOrEmpty(name))
             regNameEditText.setError("This field shouldn't be blank");
-        if (isValidEmailAddress(email))
+        if (!isValidEmailAddress(email))
             regEmailEditText.setError("Invalid email address");
-        if (notNullOrEmpty(password))
+        if (isNullOrEmpty(password))
             regPasswordEditText.setError("This field shouldn't be blank");
-        if (password.equals(rePassword))
+        if (!password.equals(rePassword))
             regRePasswordEditText.setError("password mismatching");
-        if (notNullOrEmpty(phone_number))
+        if (isNullOrEmpty(phone_number))
             regPhoneEditText.setError("This field shouldn't be blank");
         return null;
     }
