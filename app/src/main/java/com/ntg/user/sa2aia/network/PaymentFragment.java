@@ -55,16 +55,22 @@ public class PaymentFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.bankTransfer:
                 order.setPaymentMethod(PaymentMethod.BANK_TRANSFER);
+                navigateToOrderSumery(order);
                 break;
             case R.id.sadad:
                 order.setPaymentMethod(PaymentMethod.SADAD);
+                navigateToOrderSumery(order);
                 break;
             case  R.id.creditCard:
                 order.setPaymentMethod(PaymentMethod.CREDIT_CARD);
+                navigateToOrderSumery(order);
                 break;
 
         }
     }
-    public void navigateToOrderSumery(){
+    public void navigateToOrderSumery(Order order){
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("order",order);
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,).commit();
     }
 }
