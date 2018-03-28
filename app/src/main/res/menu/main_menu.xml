@@ -2,10 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/sort"
+    <item
+        android:id="@+id/sort"
         android:icon="@drawable/ic_sort"
         android:title="sort"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
@@ -14,8 +15,8 @@
         app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/cart"
-        app:actionLayout="@layout/badge"
         android:title="shopping"
-        app:showAsAction="always"/>
+        app:actionLayout="@layout/badge"
+        app:showAsAction="always" />
 
 </menu>

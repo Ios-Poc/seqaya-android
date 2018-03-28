@@ -139,13 +139,14 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sort:
+            case R.id.sort: {
                 sortCatalog();
                 break;
+            }
             case R.id.cart: {
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, CartFragment.newInstance());
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, CartFragment.newInstance()).commit();
                 break;
             }
         }

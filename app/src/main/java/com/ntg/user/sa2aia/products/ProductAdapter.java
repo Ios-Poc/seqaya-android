@@ -48,8 +48,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         final Product product = productList.get(position);
         holder.name.setText(product.getName());
         holder.manufacturer.setText(product.getManufacturer());
-        holder.bottleSize.setText(String.valueOf(product.getBottleSize()));
-        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()));
+        holder.bottleSize.setText(String.valueOf(product.getBottleSize()) + "لتر");
+        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()) + "زجاجة");
         holder.price.setText(String.valueOf(product.getPrice()) + " ريال");
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
