@@ -23,9 +23,9 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentFragment extends Fragment implements View.OnClickListener{
+public class PaymentFragment extends Fragment implements View.OnClickListener {
     View view;
-    LinearLayout bankTransfer,sadad,creditCard;
+    LinearLayout bankTransfer, sadad, creditCard;
     Order order;
 
 
@@ -34,14 +34,14 @@ public class PaymentFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_payment, container, false);
-        bankTransfer=view.findViewById(R.id.bankTransfer);
-        sadad=view.findViewById(R.id.sadad);
-        creditCard=view.findViewById(R.id.creditCard);
-        ViewUtil.addShadowToView(getContext(),bankTransfer);
-        ViewUtil.addShadowToView(getContext(),sadad);
-        ViewUtil.addShadowToView(getContext(),creditCard);
-        Bundle bundle=getArguments();
-        order= (Order) bundle.getSerializable("order");
+        bankTransfer = view.findViewById(R.id.bankTransfer);
+        sadad = view.findViewById(R.id.sadad);
+        creditCard = view.findViewById(R.id.creditCard);
+        ViewUtil.addShadowToView(getContext(), bankTransfer);
+        ViewUtil.addShadowToView(getContext(), sadad);
+        ViewUtil.addShadowToView(getContext(), creditCard);
+        Bundle bundle = getArguments();
+        order = (Order) bundle.getSerializable("order");
         Log.d("order", String.valueOf(bundle));
 
         return view;
@@ -57,7 +57,7 @@ public class PaymentFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.bankTransfer:
                 order.setPaymentMethod(PaymentMethod.BANK_TRANSFER);
                 navigateToOrderSumery(order);
@@ -66,20 +66,21 @@ public class PaymentFragment extends Fragment implements View.OnClickListener{
                 order.setPaymentMethod(PaymentMethod.SADAD);
                 navigateToOrderSumery(order);
                 break;
-            case  R.id.creditCard:
+            case R.id.creditCard:
                 order.setPaymentMethod(PaymentMethod.CREDIT_CARD);
                 navigateToOrderSumery(order);
                 break;
 
         }
     }
-    public void navigateToOrderSumery(final Order order){
-        ProductService productService=API.getClient().create(ProductService.class);
-        Call<Order>call=productService.addNewOrder(order);
+
+    public void navigateToOrderSumery(final Order order) {
+        ProductService productService = ApiClient.getClient().create(ProductService.class);
+        Call<Order> call = productService.addNewOrder(order);
         call.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
-               Order responseOrder = response.body();
+                Order responseOrder = response.body();
                 Toast.makeText(getActivity(), responseOrder.getId(), Toast.LENGTH_SHORT).show();
 //                Bundle bundle=new Bundle();
 //                bundle.putSerializable("order",responseOrder);
