@@ -14,23 +14,22 @@ import android.widget.TextView;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
-import com.ntg.user.sa2aia.model.Product;
-import com.ntg.user.sa2aia.model.ShoppingCartClient;
+import com.ntg.user.sa2aia.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class CartFragment extends Fragment implements CartAdapter.TotalListener{
-
+public class CartFragment extends Fragment implements CartAdapter.TotalListener {
 
     @BindView(R.id.rv_product)
     RecyclerView products_rv;
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.price_all)TextView total_price;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.price_all)
+    TextView total_price;
 
     private List<CartItem> cartItemList;
     private LinearLayoutManager linearLayoutManager;
@@ -52,12 +51,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener{
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         ButterKnife.bind(this, view);
 
-
-//        cartItemList = ShoppingCartClient.getShoppingCart().getCartItemList();
-        cartItemList = new ArrayList<>();
-        cartItemList.add(new CartItem(new Product(), 5));
-        cartItemList.add(new CartItem(new Product(), 4));
-        cartItemList.add(new CartItem(new Product(), 3));
+        cartItemList = User.getCurrentUser().getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -71,6 +65,6 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener{
 
     @Override
     public void onTotalChange(int total) {
-        total_price.setText(""+total);
+        total_price.setText("" + total);
     }
 }

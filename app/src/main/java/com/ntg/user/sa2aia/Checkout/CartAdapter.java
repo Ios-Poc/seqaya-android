@@ -12,32 +12,29 @@ import android.widget.TextView;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
-import com.ntg.user.sa2aia.model.Product;
-import com.ntg.user.sa2aia.model.ShoppingCart;
-import com.ntg.user.sa2aia.model.ShoppingCartClient;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHolder> {
 
-        int total = 0;
+    int total = 0;
     List<CartItem> cartItemList;
     Context context;
     TotalListener totalListener;
-    public CartAdapter(List<CartItem> cartItemList, Context context,TotalListener totalListener) {
+
+    public CartAdapter(List<CartItem> cartItemList, Context context, TotalListener totalListener) {
         this.cartItemList = cartItemList;
-        this.context=context;
-        this.totalListener=totalListener;
+        this.context = context;
+        this.totalListener = totalListener;
     }
 
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chart_item , parent , false);
-        ViewUtil.addShadowToView(context,view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chart_item, parent, false);
+        ViewUtil.addShadowToView(context, view);
 
         return new ProductViewHolder(view);
     }
@@ -47,7 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         final CartItem cartItem = cartItemList.get(position);
         total += (cartItem.getQuantity() * cartItem.getProduct().getPrice());
         totalListener.onTotalChange(total);
-        holder.name.setText( cartItem.getProduct().getName());
+        holder.name.setText(cartItem.getProduct().getName());
         holder.manufacturer.setText(cartItem.getProduct().getManufacturer());
         holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize()));
         holder.numberInPackage.setText(String.valueOf(cartItem.getProduct().getNo_bpp()));
@@ -67,7 +64,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
             @Override
             public void onClick(View view) {
                 int number = Integer.parseInt(holder.numberOfItem.getText().toString());
-                if (number>1){
+                if (number > 1) {
                     number--;
                     holder.numberOfItem.setText(String.valueOf(number));
                     total -= cartItem.getProduct().getPrice();
@@ -86,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         return cartItemList.size();
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder{
+    class ProductViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.product_image)
         ImageView productImage;
@@ -108,15 +105,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         ImageButton increase;
 
 
-
         ProductViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this , itemView);
+            ButterKnife.bind(this, itemView);
 
         }
     }
 
-    interface TotalListener{
+    interface TotalListener {
         void onTotalChange(int total);
     }
 }
