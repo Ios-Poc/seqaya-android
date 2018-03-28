@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.ntg.user.sa2aia.model.Credential;
 import com.ntg.user.sa2aia.model.User;
@@ -91,12 +90,10 @@ public class LoginActivity extends AppCompatActivity {
                                                @NonNull Response<User> response) {
                             if (response.isSuccessful()) {
                                 User user = response.body();
-                                if (user != null)
+                                if (user != null) {
                                     User.setCurrentUser(user);
-                                Toast.makeText(LoginActivity.this,
-                                        User.getCurrentUser().getEmail(),
-                                        Toast.LENGTH_SHORT)
-                                        .show();
+                                    navigateToMainActivity();
+                                }
                             } else {
                                 try {
                                     Log.d("login error", response.errorBody().string());
@@ -111,6 +108,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         }
                     });
+    }
+
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void navigateToRegistrationActivity() {

@@ -81,12 +81,10 @@ public class RegistrationActivity extends AppCompatActivity {
                                                @NonNull Response<User> response) {
                             if (response.isSuccessful()) {
                                 User user = response.body();
-                                if (user != null)
+                                if (user != null) {
                                     User.setCurrentUser(user);
-                                Toast.makeText(RegistrationActivity.this,
-                                        User.getCurrentUser().getEmail(),
-                                        Toast.LENGTH_SHORT)
-                                        .show();
+                                    navigateToLogin();
+                                }
                             }
                         }
 
@@ -95,6 +93,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         }
                     });
+    }
+
+    private void navigateToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private User getUser() {
