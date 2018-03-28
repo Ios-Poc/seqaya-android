@@ -69,7 +69,7 @@ public class PaymentFragment extends Fragment implements View.OnClickListener{
         }
     }
     public void navigateToOrderSumery(Order order){
-        
+
         Bundle bundle=new Bundle();
         bundle.putSerializable("order",order);
 
