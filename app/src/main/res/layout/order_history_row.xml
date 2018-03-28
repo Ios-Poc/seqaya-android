@@ -26,20 +26,19 @@
     android:layout_height="30dp"
     android:hint="Shipment No."
     android:textSize="16sp"
-    android:id="@+id/shipment_number"/>
+    />
         <TextView
             android:layout_width="115dp"
             android:layout_height="30dp"
             android:hint="Order Date"
             android:textSize="16sp"
-            android:id="@+id/order_dat"/>
+            />
         <TextView
             android:layout_width="115dp"
             android:layout_height="30dp"
             android:text="Track order"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
-            android:onClick="onTrackOrderTextSelected"
             />
     </LinearLayout>
     <LinearLayout
@@ -134,7 +133,6 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/van_image"
             android:background="@drawable/ic_delivery_truck"/>
         <TextView
             android:layout_width="wrap_content"
@@ -201,7 +199,8 @@
             android:layout_height="34dp"
             android:text="Deliverd"
             android:textSize="20dp"
-            android:textColor="@color/colorgreen"/>
+            android:textColor="@color/colorgreen"
+            android:id="@+id/checked_state"/>
 
     </LinearLayout>
     <LinearLayout
@@ -216,14 +215,15 @@
             android:textSize="25sp"
             android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
-            android:onClick="onOrderDetailsTextSelected"
+            android:id="@+id/order_details_text"
             />
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_right_arrow"
             android:layout_gravity="center"
-            android:onClick="onArrowImageSelected"/>
+            android:id="@+id/right_arrow"
+            />
 
     </LinearLayout>
 
