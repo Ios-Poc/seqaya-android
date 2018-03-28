@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Sara Elmoghazy on 26/03/2018.
  */
 
-public class OrderItem implements Serializable {
+public class CartItem implements Serializable {
 
     private Product product;
     private int quantity;
