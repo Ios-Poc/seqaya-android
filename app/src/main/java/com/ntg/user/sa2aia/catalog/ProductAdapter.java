@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.catalog;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.model.Product;
 
 import java.util.List;
 

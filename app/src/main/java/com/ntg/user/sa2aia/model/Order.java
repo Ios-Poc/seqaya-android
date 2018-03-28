@@ -1,9 +1,8 @@
 package com.ntg.user.sa2aia.model;
 
-import android.net.Uri;
-
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Sara Elmoghazy on 26/03/2018.
@@ -11,58 +10,49 @@ import java.util.List;
 
 public class Order implements Serializable {
 
-    private ShoppingCartClient shoppingCartClient;
-    private String date;
+    private String id;
+    private String userId;
+    private List<CartItem> cartItems;
+    private String deliveryDate;
+    private String deliveryTime;
     private String location;
     private @PaymentMethod
     String paymentMethod;
-    private String time;
-    private String userId;
+    private @OrderStatus
+    String status;
 
-
-    public List<Product> getProducts() {
-        return products;
+    public Order(String userId) {
+        this.id = UUID.randomUUID().toString();
+        this.userId = userId;
+        this.status = OrderStatus.IN_PROCESSING;
     }
 
-    List<Product> products;
-
-
-    public void setExpectedDeliveryTime(String expectedDeliveryTime) {
-        this.expectedDeliveryTime = expectedDeliveryTime;
+    public String getId() {
+        return id;
     }
 
-    private String expectedDeliveryTime;
-
-    public String getExpectedDeliveryTime() {
-        return expectedDeliveryTime;
-    }
-    public String getOrderId() {
-        return orderId;
+    public String getStatus() {
+        return status;
     }
 
-    private String orderId;
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setStatus(@OrderStatus String status) {
+        this.status = status;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
-    private String orderStatus;
-
-
-    public String getDate() {
-        return date;
+    public String getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public String getLocation() {
@@ -77,24 +67,16 @@ public class Order implements Serializable {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(@PaymentMethod String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getTime() {
-        return time;
+    public String getDeliveryTime() {
+        return deliveryTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public ShoppingCartClient getShoppingCartClient() {
-        return shoppingCartClient;
-    }
-
-    public void setShoppingCartClient(ShoppingCartClient shoppingCartClient) {
-        this.shoppingCartClient = shoppingCartClient;
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
     }
 
     public String getUserId() {
