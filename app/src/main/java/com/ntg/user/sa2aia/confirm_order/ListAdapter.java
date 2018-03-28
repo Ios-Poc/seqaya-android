@@ -31,7 +31,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.test, parent, false);
+        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row, parent, false);
         ViewUtil.addShadowToView(context, row);
         return new ListViewHolder(row);
     }

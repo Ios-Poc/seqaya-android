@@ -68,7 +68,7 @@ public class SummaryOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.order_main, container, false);
         ButterKnife.bind(this, view);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.order_summery);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.order_summary);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +77,11 @@ public class SummaryOrderFragment extends Fragment {
             }
         });
         cartItems = new ArrayList<>();
-        order = new Order();
+        order = new Order(null);
         deliveryLocation.setText(order.getLocation());
         paymentDetails.setText(order.getPaymentMethod());
-        deliveryTime.setText(order.getTime() + " " + order.getDate());
-        total.setText("250"+"ريال");
+        deliveryTime.setText(order.getDeliveryTime() + " " + order.getDeliveryDate());
+        total.setText("250" + "ريال");
         listAdapter = new ListAdapter(new ArrayList<CartItem>(), getActivity());
         cartItems = order.getCartItems();
         listAdapter.setProductList(cartItems);
@@ -122,8 +122,6 @@ public class SummaryOrderFragment extends Fragment {
 
         return view;
     }
-
-
 
 
     @OnClick(R.id.done)

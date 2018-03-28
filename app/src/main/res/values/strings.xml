@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="order_summary">"المخلص"</string>
 <string name="login">"تسجيل الدخول"</string>
 <string name="register">"سجل الان"</string>
 <string name="username">"اسم المستخدم"</string>
