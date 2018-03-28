@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.Checkout;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
+import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +34,9 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
     Toolbar toolbar;
     @BindView(R.id.price_all)
     TextView total_price;
+    @BindView(R.id.confirmBtn)
+    TextView confirmBtn;
+
 
     private List<CartItem> cartItemList;
     private LinearLayoutManager linearLayoutManager;
@@ -58,6 +65,20 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         products_rv.setLayoutManager(linearLayoutManager);
         cartAdapter = new CartAdapter(cartItemList, getActivity(), this);
         products_rv.setAdapter(cartAdapter);
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Order order = new Order(User.getCurrentUser().getEmail());
+                List<CartItem> cartItems = new ArrayList<>();
+                cartItems.addAll(cartItemList);
+                order.setCartItems(cartItems);
+                Intent intent = new Intent();
+                intent.putExtra(MainActivity.ORDER, order);
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
+
+            }
+        });
 
         return view;
     }
