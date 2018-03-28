@@ -12,7 +12,7 @@ public class Location implements Serializable {
 
     private String userId;
     private String address;
-    @SerializedName("lat")
+    @SerializedName("latt")
     private double latitude;
     @SerializedName("long")
     private double longitude;
