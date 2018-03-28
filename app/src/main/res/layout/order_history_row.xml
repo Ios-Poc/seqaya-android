@@ -159,14 +159,41 @@
             android:id="@+id/product_image"
             android:background="@drawable/water_6"
             />
-        <TextView
-            android:layout_width="285dp"
-            android:layout_height="68dp"
-            android:id="@+id/product_discription_in_history"
-            tools:text="INFINIX NOTE3 ,16GB RAM,16MB front CAM 55GB BackCam"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="70dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="290dp"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:id="@+id/prod_name"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:id="@+id/prod_price"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="290dp"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:id="@+id/buttle_size"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:id="@+id/bpp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </LinearLayout>
     <LinearLayout

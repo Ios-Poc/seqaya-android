@@ -1,9 +1,7 @@
 package com.ntg.user.sa2aia;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.ntg.user.sa2aia.catalog.CatalogFragment;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, CatalogFragment.newInstance())
+                .replace(R.id.container,new SavedAdressesFragment())
                 .commit();
     }
 }

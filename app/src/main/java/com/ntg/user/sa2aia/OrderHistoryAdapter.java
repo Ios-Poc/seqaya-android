@@ -39,20 +39,23 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(OrderHistoryViewHolder holder, int position) {
-        Order order=orders.get(position);
-        OrderHistoryViewHolder orderHistoryViewHolder=(OrderHistoryViewHolder)holder;
-        holder.orderId.setText(order.getOrderId());
-        holder.expectedDelivery.setText(order.getExpectedDeliveryTime());
-        holder.orderDate.setText(order.getDate());
-        holder.productDiscriptionInHistory.setText(order.getProducts().get(position).getName());
-        holder.productImage.setImageURI(order.getProducts());
+        Order order = orders.get(position);
+        OrderHistoryViewHolder orderHistoryViewHolder = (OrderHistoryViewHolder) holder;
+        holder.orderId.setText(order.getId());
+        holder.expectedDelivery.setText(order.getDeliveryTime());
+        holder.orderDate.setText(order.getDeliveryDate());
+        holder.prodName.setText(order.getCartItems().get(0).getProduct().getName());
+        holder.prodPrice.setText(order.getCartItems().get(0).getProduct().getPrice());
+        holder.buttleSize.setText(order.getCartItems().get(0).getProduct().getBottleSize());
+        holder.bpp.setText(order.getCartItems().get(0).getProduct().getNo_bpp());
+//        holder.productImage.set(order.getCartItems().get(0).getProduct().getPhotoUrl());
         holder.orderDetailsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        switch (order.getOrderStatus()){
+        switch (order.getStatus()) {
             case "inproccessing":
                 holder.shippedImage.setImageResource(R.drawable.ic_x_mark);
                 holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
@@ -92,7 +95,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         return orders.size();
     }
 
-    static class OrderHistoryViewHolder extends RecyclerView.ViewHolder{
+    static class OrderHistoryViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.order_id)
         TextView orderId;
         @BindView(R.id.order_date)
@@ -111,14 +114,20 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView expectedDelivery;
         @BindView(R.id.product_image)
         ImageView productImage;
-        @BindView(R.id.product_discription_in_history)
-        TextView productDiscriptionInHistory;
         @BindView(R.id.checked_state)
         TextView checkedState;
         @BindView(R.id.order_details_text)
         TextView orderDetailsText;
         @BindView(R.id.right_arrow)
         ImageView rightArrow;
+        @BindView(R.id.prod_name)
+        TextView prodName;
+        @BindView(R.id.prod_price)
+        TextView prodPrice;
+        @BindView(R.id.buttle_size)
+        TextView buttleSize;
+        @BindView(R.id.bpp)
+        TextView bpp;
 
         OrderHistoryViewHolder(View view) {
             super(view);
