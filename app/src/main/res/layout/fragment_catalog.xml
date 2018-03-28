@@ -1,8 +1,22 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ntg.user.sa2aia.catalog.CatalogFragment">
+    android:layout_height="match_parent">
 
+    <include layout="@layout/my_toolbar" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="48dp"
+        android:layout_marginTop="64dp" />
+
+    <Button
+        android:id="@+id/check_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorAccent"
+        android:text="@string/checkout"
+        android:textColor="@android:color/white" />
 </FrameLayout>
