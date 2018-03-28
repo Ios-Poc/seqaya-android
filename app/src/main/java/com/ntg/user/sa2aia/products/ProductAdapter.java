@@ -50,7 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.manufacturer.setText(product.getManufacturer());
         holder.bottleSize.setText(String.valueOf(product.getBottleSize()));
         holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()));
-        holder.price.setText(String.valueOf(product.getPrice()));
+        holder.price.setText(String.valueOf(product.getPrice())+" ريال");
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             @Override
             public void onClick(View view) {
                 int number = Integer.parseInt(holder.numberOfItem.getText().toString());
-                if (number>0){
+                if (number>1){
                     number--;
                     holder.numberOfItem.setText(String.valueOf(number));
                 }

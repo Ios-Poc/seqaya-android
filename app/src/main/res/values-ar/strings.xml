@@ -34,4 +34,6 @@
     <string name="register">سجل الان</string>
     <string name="login">تسجيل الدخول</string>
     <string name="bank_transfer">التحويل البنكي</string>
+    <string name="price">السعر</string>
+    <string name="size">الحجم</string>
 </resources>

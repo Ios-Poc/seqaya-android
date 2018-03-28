@@ -34,4 +34,6 @@
     <string name="credit_card">Cr</string>
     <string name="transaction_approved">Transaction Approved</string>
     <string name="delivery">Delivery</string>
+    <string name="price">price</string>
+    <string name="size">size</string>
 </resources>

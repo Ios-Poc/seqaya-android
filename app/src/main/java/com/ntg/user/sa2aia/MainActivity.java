@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container , ProductsFragment.newInstance(this)).commit();
+                .replace(R.id.container , ProductsFragment.newInstance()).commit();
 
 
     }

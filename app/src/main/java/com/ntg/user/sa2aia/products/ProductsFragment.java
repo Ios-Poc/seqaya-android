@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +34,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class ProductsFragment extends Fragment implements ShoppingCartItemCount{
+
+public class ProductsFragment extends Fragment implements ShoppingCartItemCount {
 
     @BindView(R.id.my_toolbar)
     Toolbar toolbar;
@@ -42,33 +46,37 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount{
     RecyclerView products_rv;
     @BindView(R.id.check_out)
     Button checkOut;
+    FrameLayout cart;
     ShoppingCartItemCount shoppingCartItemCount;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
-    public static ProductsFragment newInstance(ShoppingCartItemCount shoppingCartItemCount) {
+    private FrameLayout redCircle;
+    private TextView countTextView;
+    private int alertCount = 0;
+
+    public static ProductsFragment newInstance() {
         ProductsFragment fragment = new ProductsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("count", shoppingCartItemCount);
-        fragment.setArguments(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("count", shoppingCartItemCount);
+//        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        shoppingCartItemCount = (ShoppingCartItemCount) getArguments().getSerializable("count");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalog, container, false);
-        ButterKnife.bind(this , view);
+        ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         productList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         getProducts();
 
         return view;
@@ -76,17 +84,19 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount{
 
     @Override
     public void itemsCount(int count) {
-        Toast.makeText(getActivity(),  String.valueOf(count)+" Count", Toast.LENGTH_SHORT).show();
+        updateAlertIcon(String.valueOf(count));
+//        alertCount = count;
+        Toast.makeText(getActivity(), String.valueOf(count) + " CountFragment", Toast.LENGTH_SHORT).show();
     }
 
-    void getProducts(){
+    void getProducts() {
         ProductService productService = ApiClient.getClient().create(ProductService.class);
         final Call<List<Product>> productListCall = productService.getProducts();
         productListCall.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (response.isSuccessful()){
-                    productAdapter = new ProductAdapter(productList, getActivity(), shoppingCartItemCount);
+                if (response.isSuccessful()) {
+                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -106,7 +116,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu , menu);
+        menuInflater.inflate(R.menu.main_menu, menu);
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -118,96 +128,135 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount{
             @Override
             public boolean onQueryTextChange(String s) {
                 productAdapter.clear();
-                if (s.equals("")){
+                if (s.equals("")) {
                     getProducts();
-                }else {
+                } else {
                     search(s);
                 }
                 return false;
             }
         });
+
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.sort:
-                final android.support.design.widget.BottomSheetDialog mBottomSheetDialog = new android.support.design.widget.BottomSheetDialog(getActivity());
-                View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
-                TextView price = dialogView.findViewById(R.id.price);
-                price.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Collections.sort(productList, new Comparator<Product>() {
-                            @Override
-                            public int compare(Product product, Product t1) {
-                                if (product.getPrice()>t1.getPrice()){
-                                    return 0;
-                                }else if (product.getPrice()<t1.getPrice()){
-                                    return -1;
-                                }
-                                return 1;
-                            }
-                        });
-                        productAdapter.notifyDataSetChanged();
-                        mBottomSheetDialog.dismiss();
-                    }
-                });
-                TextView bottle_size = dialogView.findViewById(R.id.bottle_size);
-                bottle_size.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Collections.sort(productList, new Comparator<Product>() {
-                            @Override
-                            public int compare(Product product, Product t1) {
-                                if (product.getBottleSize()>t1.getBottleSize()){
-                                    return 0;
-                                }else if (product.getBottleSize()<t1.getBottleSize()){
-                                    return -1;
-                                }
-                                return 1;
-                            }
-                        });
-                        productAdapter.notifyDataSetChanged();
-                        mBottomSheetDialog.dismiss();
-                    }
-                });
-                TextView bottle_per_package = dialogView.findViewById(R.id.bottle_per_package);
-                bottle_per_package.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Collections.sort(productList, new Comparator<Product>() {
-                            @Override
-                            public int compare(Product product, Product t1) {
-                                if (product.getNo_bpp()>t1.getNo_bpp()){
-                                    return 0;
-                                }else if (product.getNo_bpp()<t1.getNo_bpp()){
-                                    return -1;
-                                }
-                                return 1;
-                            }
-                        });
-                        productAdapter.notifyDataSetChanged();
-                        mBottomSheetDialog.dismiss();
-                    }
-                });
-                mBottomSheetDialog.setContentView(dialogView);
-                mBottomSheetDialog.show();
+                sortCatalog();
                 break;
+            case R.id.cart: {
+                Toast.makeText(getActivity(), "navigate to cart screen", Toast.LENGTH_SHORT).show();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    void search(String keyWord){
+    private void sortCatalog() {
+        final android.support.design.widget.BottomSheetDialog mBottomSheetDialog = new android.support.design.widget.BottomSheetDialog(getActivity());
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
+        TextView price = dialogView.findViewById(R.id.price);
+        price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(productList, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product, Product t1) {
+                        if (product.getPrice() > t1.getPrice()) {
+                            return 0;
+                        } else if (product.getPrice() < t1.getPrice()) {
+                            return -1;
+                        }
+                        return 1;
+                    }
+                });
+                productAdapter.notifyDataSetChanged();
+                mBottomSheetDialog.dismiss();
+            }
+        });
+        TextView bottle_size = dialogView.findViewById(R.id.bottle_size);
+        bottle_size.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(productList, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product, Product t1) {
+                        if (product.getBottleSize() > t1.getBottleSize()) {
+                            return 0;
+                        } else if (product.getBottleSize() < t1.getBottleSize()) {
+                            return -1;
+                        }
+                        return 1;
+                    }
+                });
+                productAdapter.notifyDataSetChanged();
+                mBottomSheetDialog.dismiss();
+            }
+        });
+        TextView bottle_per_package = dialogView.findViewById(R.id.bottle_per_package);
+        bottle_per_package.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(productList, new Comparator<Product>() {
+                    @Override
+                    public int compare(Product product, Product t1) {
+                        if (product.getNo_bpp() > t1.getNo_bpp()) {
+                            return 0;
+                        } else if (product.getNo_bpp() < t1.getNo_bpp()) {
+                            return -1;
+                        }
+                        return 1;
+                    }
+                });
+                productAdapter.notifyDataSetChanged();
+                mBottomSheetDialog.dismiss();
+            }
+        });
+        mBottomSheetDialog.setContentView(dialogView);
+        mBottomSheetDialog.show();
+    }
+
+    private void updateAlertIcon(String count) {
+        // if alert count extends into two digits, just show the red circle
+        if (Integer.parseInt(count)>0) {
+            countTextView.setText(count);
+        } else {
+            countTextView.setText("");
+            redCircle.setVisibility(GONE);
+        }
+
+        redCircle.setVisibility((Integer.parseInt(count) > 0) ? VISIBLE : GONE);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        final MenuItem alertMenuItem = menu.findItem(R.id.cart);
+        FrameLayout rootView = (FrameLayout) alertMenuItem.getActionView();
+        redCircle = (FrameLayout) rootView.findViewById(R.id.view_alert_red_circle);
+        countTextView = (TextView) rootView.findViewById(R.id.view_alert_count_textview);
+        countTextView.setText(String.valueOf(alertCount));
+        updateAlertIcon("0");
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(alertMenuItem);
+            }
+        });
+
+    }
+
+    void search(String keyWord) {
 
         ProductService productService = ApiClient.getClient().create(ProductService.class);
         final Call<List<Product>> productListCall = productService.search(keyWord);
         productListCall.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (response.isSuccessful()){
-                    productAdapter = new ProductAdapter(productList, getActivity(), shoppingCartItemCount);
+                if (response.isSuccessful()) {
+                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -215,6 +264,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount{
                     productAdapter.notifyDataSetChanged();
                 }
             }
+
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
 
