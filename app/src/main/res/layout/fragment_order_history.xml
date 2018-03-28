@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ntg.user.sa2aia.OrderHistoryFragment">
+    tools:context="com.ntg.user.sa2aia.order_history.OrderHistoryFragment">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

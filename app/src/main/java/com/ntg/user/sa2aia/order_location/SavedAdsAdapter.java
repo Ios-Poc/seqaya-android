@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.order_location;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.ntg.user.sa2aia.R;
 
 import java.util.List;
 
@@ -34,8 +36,10 @@ public class SavedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
-                bundle.putString("adress",((AdsViewHolder) holder).adressTxt.getText().toString());
+//                Bundle bundle=new Bundle();
+//                bundle.putString("adress",((AdsViewHolder) holder).adressTxt.getText().toString());
+
+
             }
         });
 

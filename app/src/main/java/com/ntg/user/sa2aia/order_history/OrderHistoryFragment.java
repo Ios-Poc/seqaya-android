@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.order_history;
 
 
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.network.API;
 import com.ntg.user.sa2aia.network.ProductService;

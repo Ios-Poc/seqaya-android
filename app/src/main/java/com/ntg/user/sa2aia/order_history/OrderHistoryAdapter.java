@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia;
+package com.ntg.user.sa2aia.order_history;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
+import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Order;
 
 import java.util.List;

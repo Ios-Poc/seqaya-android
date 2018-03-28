@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ntg.user.sa2aia.SavedAdressesFragment"
+    tools:context="com.ntg.user.sa2aia.order_location.SavedLocationsFragment"
     android:background="@color/colorgrayShfaf">
 
     <!-- TODO: Update blank fragment layout -->
