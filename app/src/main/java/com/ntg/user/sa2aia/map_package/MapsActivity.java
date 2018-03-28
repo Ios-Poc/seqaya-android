@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -28,11 +27,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.model.Location;
 import com.ntg.user.sa2aia.model.Order;
+import com.ntg.user.sa2aia.network.API;
+import com.ntg.user.sa2aia.network.ProductService;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -41,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
     GoogleApiClient mGoogleApiClient;
-    Location mLastLocation;
+   // Location mLastLocation;
     Marker mCurrLocationMarker;
     GPSTracker gps;
     public static boolean isMyLocationSet = false;
@@ -51,13 +57,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button nextButton, savedLocationButton;
     Order order;
     String finaladdress;
+    Location location;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        order = new Order();
+
 
 
         nextButton = findViewById(R.id.next_button_id);
@@ -169,6 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(MapsActivity.this, address, Toast.LENGTH_SHORT).show();
                     finaladdress=address;
                 }
+                location=new Location("",finaladdress,latLng.latitude,latLng.longitude);
 
             }
         });
@@ -195,6 +203,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
                     finaladdress=address;
+                    location=new Location("",finaladdress,lattiude,longtude);
+
                     MarkerInfo markerInfo = new MarkerInfo();
                     markerInfo.setAddress(address);
                     marker.setTag(markerInfo);
@@ -240,6 +250,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onInfoWindowClick(Marker marker) {
         MarkerInfo markerInfo = (MarkerInfo) marker.getTag();
         finaladdress = markerInfo.getAddress();
+
+        API.getClient().create(ProductService.class).addNewLocation(location)
+                .enqueue(new Callback<Location>() {
+                    @Override
+                    public void onResponse(Call<Location> call, Response<Location> response) {
+                        Location loc=response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Location> call, Throwable t) {
+
+                    }
+                });
 
     }
 }
