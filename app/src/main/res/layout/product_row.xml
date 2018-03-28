@@ -27,7 +27,6 @@
                 android:id="@+id/product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pepsiss"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"/>
@@ -36,22 +35,19 @@
                 android:padding="2dp"
                 android:id="@+id/product_manufacturer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pepsicp" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:padding="2dp"
                 android:id="@+id/bottle_size"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1.5L" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:padding="2dp"
                 android:id="@+id/number_in_package"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="6" />
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,8 +66,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="10"
                     android:gravity="center"
-                    android:lines="1"
-                    android:text="5" />
+                    android:lines="1" />
                 <ImageButton
                     android:layout_marginStart="2dp"
                     android:id="@+id/increase"
@@ -96,10 +91,9 @@
                 android:layout_gravity="end"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/price"
                 android:textSize="24sp"
-                android:text="12 SR"
                 android:gravity="center"
                 android:layout_weight="10"/>
             <Button

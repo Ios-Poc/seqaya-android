@@ -2,7 +2,6 @@ package com.ntg.user.sa2aia.products;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.ShoppingCart;
 import com.ntg.user.sa2aia.model.ShoppingCartClient;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,11 +26,13 @@ import butterknife.ButterKnife;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
    private List<Product> productList;
    private Context context;
-   List<CartItem> cartItems = new ArrayList<>();
+   private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
+   private ShoppingCartItemCount shoppingCartItemCount;
 
-    public ProductAdapter(List<Product> productList, Context context) {
+    public ProductAdapter(List<Product> productList, Context context, ShoppingCartItemCount shoppingCartItemCount) {
         this.productList = productList;
         this.context = context;
+        this.shoppingCartItemCount = shoppingCartItemCount;
     }
 
     @Override
@@ -75,17 +76,27 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 CartItem cartItem = new CartItem();
                 cartItem.setProduct(product);
                 cartItem.setQuantity(Integer.parseInt(holder.numberOfItem.getText().toString()));
+
+                for (CartItem item:cartItems){
+                    if (item.getProduct().getId() == product.getId()){
+                        cartItems.remove(item);
+                        Toast.makeText(context, "exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 cartItems.add(cartItem);
                 ShoppingCart shoppingCart = ShoppingCartClient.getShoppingCart();
                 shoppingCart.setCartItemList(cartItems);
-                Log.e( "cartitems" , shoppingCart.getCartItemList().size()+"added");
-                Toast.makeText(context , "ggggg",Toast.LENGTH_SHORT).show();
+                shoppingCartItemCount.itemsCount(cartItems.size());
             }
         });
     }
     public void setProductList(List<Product> productList){
         this.productList.clear();
         this.productList = productList;
+    }
+    public void clear(){
+        this.productList.clear();
+        notifyDataSetChanged();
     }
 
     @Override
