@@ -9,40 +9,39 @@ import android.widget.TextView;
 
 import com.ntg.user.sa2aia.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by devsaad on 3/26/2018.
  */
 
-public class SavedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class SavedAdsAdapter extends RecyclerView.Adapter<SavedAdsAdapter.AdsViewHolder>{
     public SavedAdsAdapter(List<String> locations) {
         this.locations = locations;
     }
 
-    List<String> locations;
+    List<String> locations = new ArrayList<>();
+
+
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
+    public AdsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adress_row,parent,false);
         return new AdsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        AdsViewHolder adsViewHolder= (AdsViewHolder) holder;
-        ((AdsViewHolder) holder).adressTxt.setText(locations.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(final AdsViewHolder holder, int position) {
+        AdsViewHolder adsViewHolder=(AdsViewHolder) holder;
+        holder.adressTxt.setText(locations.get(position));
+        ((AdsViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle=new Bundle();
-//                bundle.putString("adress",((AdsViewHolder) holder).adressTxt.getText().toString());
-
-
+                Bundle bundle=new Bundle();
+                bundle.putString("adress",((AdsViewHolder) holder).adressTxt.getText().toString());
             }
         });
-
     }
 
     @Override
@@ -50,7 +49,7 @@ public class SavedAdsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return locations.size();
     }
 
-    public class AdsViewHolder extends RecyclerView.ViewHolder {
+    class AdsViewHolder extends RecyclerView.ViewHolder {
         TextView adressTxt;
         public AdsViewHolder(View itemView) {
             super(itemView);

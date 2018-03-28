@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
@@ -25,6 +26,7 @@ import io.reactivex.subjects.PublishSubject;
 public class SavedLocationsFragment extends Fragment {
     private RecyclerView rvLocations;
     SavedAdsAdapter adsAdapter;
+    FrameLayout frameLayout;
     LinearLayoutManager layoutManager;
     List<String> locations;
     Button cancel;
@@ -74,6 +76,13 @@ public class SavedLocationsFragment extends Fragment {
         });
         rvLocations.setAdapter(adsAdapter);
         cancel = view.findViewById(R.id.cancel_button);
+        frameLayout=view.findViewById(R.id.fram);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getFragmentManager().popBackStack();
+            }
+        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

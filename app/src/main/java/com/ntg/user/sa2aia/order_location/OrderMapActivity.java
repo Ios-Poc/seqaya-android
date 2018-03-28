@@ -101,6 +101,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.add(R.id.container_id, fragment);// f1_container is your FrameLayout container
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.addToBackStack(null);
                 ft.commit();
 
 
