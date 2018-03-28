@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.model.Order;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,15 +49,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lattiude, longtude;
     Bundle bundle = new Bundle();
     Button nextButton, savedLocationButton;
+    Order order;
+    String finaladdress;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        order = new Order();
+
 
         nextButton = findViewById(R.id.next_button_id);
         savedLocationButton = findViewById(R.id.saved_location_button_id);
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -94,13 +100,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+
         savedLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentofnext=new Intent();
+                intentofnext.putExtra("order",order);
+                startActivity(intentofnext);
 
+            }
+        });
     }
 
 
@@ -152,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (addresses.size() > 0) {
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                     Toast.makeText(MapsActivity.this, address, Toast.LENGTH_SHORT).show();
-
+                    finaladdress=address;
                 }
 
             }
@@ -179,7 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (addresses.size() > 0) {
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-
+                    finaladdress=address;
                     MarkerInfo markerInfo = new MarkerInfo();
                     markerInfo.setAddress(address);
                     marker.setTag(markerInfo);
@@ -223,7 +238,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-      MarkerInfo markerInfo= (MarkerInfo) marker.getTag();
-      String finaladdress=markerInfo.getAddress();
+        MarkerInfo markerInfo = (MarkerInfo) marker.getTag();
+        finaladdress = markerInfo.getAddress();
+
     }
 }

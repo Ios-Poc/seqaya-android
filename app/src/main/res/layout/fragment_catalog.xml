@@ -4,8 +4,5 @@
     android:layout_height="match_parent"
     tools:context="com.ntg.user.sa2aia.catalog.CatalogFragment">
 
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 </FrameLayout>
