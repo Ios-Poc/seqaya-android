@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://F:\privete\seqaya-android\seqaya-android\app\app.iml" filepath="F:\privete\seqaya-android\seqaya-android\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/seqaya-android.iml" filepath="$PROJECT_DIR$/seqaya-android.iml" />
-      <module fileurl="file://F:\privete\seqaya-android\seqaya-android\seqaya-android.iml" filepath="F:\privete\seqaya-android\seqaya-android\seqaya-android.iml" />
     </modules>
   </component>
 </project>

@@ -1,6 +1,7 @@
-package com.ntgclarity.sdfa.presentation.submit_report;
+package com.ntg.user.sa2aia.map_package;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +13,9 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,42 +27,36 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ntgclarity.sdfa.R;
-import com.ntgclarity.sdfa.util.GPSTracker;
+import com.ntg.user.sa2aia.R;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private final int REQUEST_PERMISSION_LOCATION = 101;
     ImageView backImage;
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
-    //    LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     GPSTracker gps;
     public static boolean isMyLocationSet = false;
     LatLng currentLocation;
-    double lattiude;
-    double longtude;
+    double lattiude, longtude;
     Bundle bundle = new Bundle();
+    Button nextButton, savedLocationButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        backImage = (ImageView) findViewById(R.id.back_id);
-        backImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        nextButton = findViewById(R.id.next_button_id);
+        savedLocationButton = findViewById(R.id.saved_location_button_id);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -86,24 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return cm.getActiveNetworkInfo() != null;
     }
-//
-//    private void buildAlertMessageNoGps() {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-//                .setCancelable(false)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-//                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-//                    }
-//                })
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-//                        Toast.makeText(MapsActivity.this, "????", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//        final AlertDialog alert = builder.create();
-//        alert.show();
-//    }
+
 
     @Override
     protected void onStart() {
@@ -114,12 +94,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+        savedLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mGoogleMap = googleMap;
         //   mGoogleMap.setMyLocationEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -128,8 +114,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     REQUEST_PERMISSION_LOCATION);
         } else {
             getCurrentLocation();
+            MarkerInfo markerInfo = new MarkerInfo();
+
         }
-//        getCurrentLocation();
+
+        mGoogleMap.setOnInfoWindowClickListener(this);
 
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             List<Address> addresses;
@@ -138,19 +127,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMapClick(final LatLng latLng) {
 
 
-                // Creating a marker
                 MarkerOptions markerOptions = new MarkerOptions();
-                // Setting the position for the marker
                 markerOptions.position(latLng);
-                // Setting the title for the marker.
-                // This will be displayed on taping the marker
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-                // Clears the previously touched position
+
                 mGoogleMap.clear();
 
-                // Animating to the touched position
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                // Placing a marker on the touched position
                 mGoogleMap.addMarker(markerOptions);
 
 
@@ -169,22 +151,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 if (addresses.size() > 0) {
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    Toast.makeText(MapsActivity.this, address, Toast.LENGTH_SHORT).show();
 
-                    bundle.putString("address", address);
-                    Intent mIntent = new Intent();
-                    mIntent.putExtras(bundle);
-                    setResult(RESULT_OK, mIntent);
-                    onBackPressed();
                 }
+
             }
         });
+
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             List<Address> addresses;
             Geocoder geocoder;
 
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                      latLng.latitude = gps.getLatitude();
                 lattiude = marker.getPosition().latitude;
                 longtude = marker.getPosition().longitude;
                 geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
@@ -200,17 +179,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (addresses.size() > 0) {
                     String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-                    bundle.putString("address", address);
-                    Intent mIntent = new Intent();
-                    mIntent.putExtras(bundle);
-                    setResult(RESULT_OK, mIntent);
-                    onBackPressed();
+
+                    MarkerInfo markerInfo = new MarkerInfo();
+                    markerInfo.setAddress(address);
+                    marker.setTag(markerInfo);
+                    marker.showInfoWindow();
+                    CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(MapsActivity.this);
+                    googleMap.setInfoWindowAdapter(customInfoWindow);
+                    onInfoWindowClick(marker);
                 }
 
                 return false;
             }
         });
     }
+
 
     private void getCurrentLocation() {
         if (gps.canGetLocation()) {
@@ -238,4 +221,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+      MarkerInfo markerInfo= (MarkerInfo) marker.getTag();
+      String finaladdress=markerInfo.getAddress();
+    }
 }
