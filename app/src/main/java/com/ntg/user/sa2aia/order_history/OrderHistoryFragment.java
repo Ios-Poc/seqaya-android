@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Order;
+import com.ntg.user.sa2aia.model.User;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
@@ -34,18 +35,17 @@ public class OrderHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_history, container, false);
         listOfOldOrders = view.findViewById(R.id.list_of_oders);
-        adapter = new OrderHistoryAdapter(orders);
         layoutManager = new LinearLayoutManager(this.getContext());
-        listOfOldOrders.setAdapter(adapter);
         listOfOldOrders.setLayoutManager(layoutManager);
-        ApiClient.getClient().create(ProductService.class).getOrderHistory("1")
+        ApiClient.getClient().create(ProductService.class).getOrderHistory(User.getEmail())
                 .enqueue(new Callback<List<Order>>() {
                     @Override
                     public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                         orders = response.body();
+                        adapter = new OrderHistoryAdapter(orders);
+                        listOfOldOrders.setAdapter(adapter);
                     }
 
                     @Override

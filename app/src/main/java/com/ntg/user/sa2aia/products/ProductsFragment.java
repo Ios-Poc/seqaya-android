@@ -24,6 +24,7 @@ import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
+import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -143,7 +144,10 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
                 sortCatalog();
                 break;
             }
-            case R.id.history:{
+            case R.id.history: {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, new OrderHistoryFragment()).commit();
                 break;
             }
             case R.id.cart: {
