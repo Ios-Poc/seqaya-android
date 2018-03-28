@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ntg.user.sa2aia.products.ProductsFragment;
 import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        String languageToLoad = "ar";
+        String languageToLoad = "en";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
