@@ -34,6 +34,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chart_item, parent, false);
+        view.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
         ViewUtil.addShadowToView(context, view);
 
         return new ProductViewHolder(view);
