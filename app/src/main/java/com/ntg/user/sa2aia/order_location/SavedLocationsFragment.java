@@ -1,9 +1,9 @@
 package com.ntg.user.sa2aia.order_location;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,8 +43,8 @@ public class SavedLocationsFragment extends Fragment {
         order = (Order) getArguments().getSerializable(MainActivity.ORDER);
 
         rvLocations = view.findViewById(R.id.adress_list);
-        layoutManager = new LinearLayoutManager(this.getContext());
-        adsAdapter = new SavedAdsAdapter(locations);
+        layoutManager = new LinearLayoutManager(getActivity());
+
         rvLocations.setLayoutManager(layoutManager);
         addressObservable.subscribe(new Observer<String>() {
             @Override
@@ -55,6 +55,7 @@ public class SavedLocationsFragment extends Fragment {
             @Override
             public void onNext(String s) {
                 order.setLocation(s);
+                adsAdapter = new SavedAdsAdapter(locations);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra(MainActivity.ORDER, order);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
@@ -76,7 +77,7 @@ public class SavedLocationsFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getFragmentManager().popBackStack();
             }
         });
 

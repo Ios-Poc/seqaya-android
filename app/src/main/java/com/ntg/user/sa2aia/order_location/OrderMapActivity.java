@@ -2,6 +2,7 @@ package com.ntg.user.sa2aia.order_location;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -67,7 +68,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         order = (Order) getIntent().getExtras().getSerializable(MainActivity.ORDER);
         nextButton = findViewById(R.id.next_button_id);
         savedLocationButton = findViewById(R.id.saved_location_button_id);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        final SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         gps = new GPSTracker(this);
@@ -92,9 +93,17 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(MainActivity.ORDER, order);
                 SavedLocationsFragment fragment = new SavedLocationsFragment();
-                fragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.container_id, fragment);
+          fragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction()
+//                        .add(R.id.container_id, fragment);
+
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.add(R.id.container_id, fragment);// f1_container is your FrameLayout container
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
+
+
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() {
