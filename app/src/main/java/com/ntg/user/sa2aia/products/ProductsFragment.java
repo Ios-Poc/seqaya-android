@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.model.Product;
+import com.ntg.user.sa2aia.network.ApiClient;
+import com.ntg.user.sa2aia.network.ProductService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +102,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-
+                Log.e("Products", t.getMessage());
             }
         });
     }
@@ -242,7 +246,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     void search(String keyWord) {
 
         ProductService productService = ApiClient.getClient().create(ProductService.class);
-        final Call<List<Product>> productListCall = productService.search(keyWord);
+        final Call<List<Product>> productListCall = productService.getSearchResult(keyWord);
         productListCall.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {

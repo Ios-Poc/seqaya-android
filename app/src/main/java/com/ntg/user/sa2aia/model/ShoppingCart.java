@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by islam on 3/27/2018.
+ * Created by Sara Elmoghazy on 27/03/2018.
  */
 
 public class ShoppingCart implements Serializable {

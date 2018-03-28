@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        Toast.makeText(this, config.getLayoutDirection() + "", Toast.LENGTH_SHORT).show();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -69,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     @Override
     public void itemsCount(int count) {
-        Toast.makeText(this, String.valueOf(count) + " CountActiv", Toast.LENGTH_SHORT).show();
-    }
+     }
 
     private void setupBadge() {
 
@@ -83,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 countTextView.setText("5");
                 if (countTextView.getVisibility() != View.VISIBLE) {
                     countTextView.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, countTextView.getText().toString() + " badge", Toast.LENGTH_SHORT).show();
                 }
             }
         }
