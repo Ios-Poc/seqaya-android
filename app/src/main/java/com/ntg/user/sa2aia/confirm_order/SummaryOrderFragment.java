@@ -67,7 +67,7 @@ public class SummaryOrderFragment extends BaseFragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.order_summary);
 
         order = (Order) getArguments().getSerializable(MainActivity.ORDER);
-        deliveryLocation.setText(order.getLocation());
+        deliveryLocation.setText(order.getLocation().getAddress());
         switch (order.getPaymentMethod()) {
             case PaymentMethod.BANK_TRANSFER:
                 paymentDetails.setText(getString(R.string.bank_transfer));

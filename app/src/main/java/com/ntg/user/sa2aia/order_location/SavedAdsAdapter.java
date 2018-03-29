@@ -20,9 +20,9 @@ import io.reactivex.subjects.PublishSubject;
  */
 
 public class SavedAdsAdapter extends RecyclerView.Adapter<SavedAdsAdapter.AdsViewHolder> {
-    PublishSubject<String> addressObservable;
+    PublishSubject<Location> addressObservable;
 
-    public SavedAdsAdapter(List<Location> locations, PublishSubject<String> addressObservable) {
+    public SavedAdsAdapter(List<Location> locations, PublishSubject<Location> addressObservable) {
         this.locations = locations;
         this.addressObservable = addressObservable;
     }
@@ -44,7 +44,12 @@ public class SavedAdsAdapter extends RecyclerView.Adapter<SavedAdsAdapter.AdsVie
         ((AdsViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addressObservable.onNext(((AdsViewHolder) holder).adressTxt.getText().toString());
+                for (Location location : locations) {
+                    if (location.getAddress().equals(holder.adressTxt.getText().toString())) {
+                        addressObservable.onNext(location);
+                        break;
+                    }
+                }
             }
         });
     }
