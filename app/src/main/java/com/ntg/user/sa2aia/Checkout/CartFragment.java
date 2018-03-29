@@ -70,18 +70,18 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.checkout));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.shopping_cart));
         products_rv.setLayoutManager(linearLayoutManager);
         if (cartItemList == null)
             cartItemList = new ArrayList<>();
         cartAdapter = new CartAdapter(cartItemList, getActivity(), this);
         products_rv.setAdapter(cartAdapter);
-
+        Order order = new Order(User.getEmail());
+        order.setTotal(total);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Order order = new Order(User.getEmail());
-                order.setTotal(total);
+
                 List<CartItem> cartItems = new ArrayList<>();
                 cartItems.addAll(cartItemList);
                 order.setCartItems(cartItems);

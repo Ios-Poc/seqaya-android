@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
@@ -85,6 +87,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 shoppingCartItemCount.itemsCount(cartItems.size());
             }
         });
+
+        holder.likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
     }
 
     public void setProductList(List<Product> productList) {
@@ -123,10 +137,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         ImageButton increase;
         @BindView(R.id.add_to_cart)
         Button addToCart;
+        LikeButton likeButton;
 
 
         ProductViewHolder(View itemView) {
             super(itemView);
+            likeButton = itemView.findViewById(R.id.fav);
             ButterKnife.bind(this, itemView);
         }
     }
