@@ -9,10 +9,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,7 +47,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, LocationListener {
 
     private final int REQUEST_PERMISSION_LOCATION = 101;
     ImageView backImage;
@@ -59,12 +64,16 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     Order order;
     String finaladdress;
     Location location;
+    LocationManager locationManager;
+    String provider;
+    private boolean flag = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        //checkLocationPermission();
 
         order = (Order) getIntent().getExtras().getSerializable(MainActivity.ORDER);
         nextButton = findViewById(R.id.next_button_id);
@@ -75,7 +84,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         gps = new GPSTracker(this);
 
         if (!isNetworkConnected()) {
-            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("هناك خطأ");
             builder.setMessage("تأكد من الاتصال الأنترنت");
             builder.setPositiveButton("تم", new DialogInterface.OnClickListener() {
@@ -125,6 +134,48 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+        LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        if (!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("رجاء التأكد من الانترنت وتشغيل الموقع");
+            dialog.setPositiveButton("موافق", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    getBaseContext().startActivity(myIntent);
+                    //get gps
+                    flag = true;
+                }
+
+
+            });
+            dialog.setNegativeButton("لا اوافق", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    finish();
+
+                }
+            });
+            dialog.show();
+        }
+
         mGoogleMap = googleMap;
         //   mGoogleMap.setMyLocationEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -227,6 +278,8 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -236,6 +289,13 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     startActivity(getIntent());
                 } else {
                     Toast.makeText(OrderMapActivity.this, "!!!!", Toast.LENGTH_SHORT).show();
+                }
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+
+                    //Request location updates:
+                    getCurrentLocation();
                 }
                 return;
             }
@@ -247,6 +307,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onInfoWindowClick(Marker marker) {
         MarkerInfo markerInfo = (MarkerInfo) marker.getTag();
         finaladdress = markerInfo.getAddress();
+
         ApiClient.getClient().create(ProductService.class).addNewLocation(location)
                 .enqueue(new Callback<Location>() {
                     @Override
@@ -261,5 +322,40 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     }
                 });
 
+    }
+
+
+    @Override
+    public void onLocationChanged(android.location.Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (flag) {
+            finish();
+            Intent i = new Intent(this, OrderMapActivity.class);
+            i.putExtra(MainActivity.ORDER, order);
+
+            startActivity(i);
+            flag = false;
+        }
     }
 }

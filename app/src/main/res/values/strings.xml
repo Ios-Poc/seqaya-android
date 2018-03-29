@@ -47,8 +47,15 @@
     <string name="history">الطلبات السابقة</string>
     <string name="order_summary">"الملخص"</string>
     <string name="loading_indicator_message">"فى انتظار التحميل"</string>
-    <string name="in_progress">فى الطريق</string>
+    <string name="in_progress">مرحلة التجهيز</string>
     <string name="delivered">تم التوصيل</string>
     <string name="canceled">تم إلغاء الطلب</string>
     <string name="shopping_cart">عربة البضائع</string>
+    <string name="order_details">تفاصيل الطلب</string>
+    <string name="order_status">حالة الطلب</string>
+    <string name="shipment_no">رقم الطلب</string>
+    <string name="delivery_date">تاريخ وصول الطلب</string>
+    <string name="track_order">متابعة الطلب</string>
+    <string name="shipped">تم الشحن</string>
+    <string name="order_date">تاريخ الطلب</string>
 </resources>

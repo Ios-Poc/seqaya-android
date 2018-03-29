@@ -20,7 +20,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/ic_worlwide"
+            app:srcCompat="@drawable/ic_worlwide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -131,7 +131,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/colorTransparent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_facebook"
+            app:srcCompat="@drawable/ic_facebook"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="@+id/view2"
@@ -146,7 +146,7 @@
             android:layout_marginRight="8dp"
             android:background="@color/colorTransparent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_twitter"
+            app:srcCompat="@drawable/ic_twitter"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="@+id/textView"
             app:layout_constraintRight_toRightOf="@+id/textView" />
@@ -161,7 +161,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/colorTransparent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_google_plus"
+            app:srcCompat="@drawable/ic_google_plus"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="@+id/view2"
             app:layout_constraintStart_toEndOf="@+id/textView"

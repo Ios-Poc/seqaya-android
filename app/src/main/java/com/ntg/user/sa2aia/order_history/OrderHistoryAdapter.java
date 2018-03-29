@@ -1,6 +1,6 @@
 package com.ntg.user.sa2aia.order_history;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.OrderStatus;
 
@@ -27,15 +28,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 
     private List<Order> orders;
+    private Context context;
 
-    public OrderHistoryAdapter(List<Order> orders) {
+    public OrderHistoryAdapter(List<Order> orders, Context context) {
         this.orders = orders;
+        this.context = context;
     }
 
     @Override
     public OrderHistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.order_history_row, parent, false);
+                .inflate(R.layout.order_history, parent, false);
+        ViewUtil.addShadowToView(context, view);
         return new OrderHistoryViewHolder(view);
     }
 
@@ -44,7 +48,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         Order order = orders.get(position);
         OrderHistoryViewHolder orderHistoryViewHolder = (OrderHistoryViewHolder) holder;
         holder.orderId.setText(order.getId());
-        holder.expectedDelivery.setText(order.getDeliveryTime());
+        holder.expectedDelivery.setText(order.getDeliveryDate());
         holder.orderDate.setText(order.getDeliveryDate());
         holder.prodName.setText(order.getCartItems().get(0).getProduct().getName());
         holder.prodPrice.setText(String.valueOf(order.getCartItems().get(0).getProduct().getPrice()));
@@ -74,7 +78,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 break;
             case OrderStatus.CANCELED:
                 holder.checkedState.setText("deliverd");
-                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorgreen));
+                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.green));
                 break;
             case OrderStatus.RETURNED:
                 holder.inprossisngImage.setImageResource(R.drawable.ic_x_mark);

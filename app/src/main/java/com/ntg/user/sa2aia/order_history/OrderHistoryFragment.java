@@ -53,7 +53,7 @@ public class OrderHistoryFragment extends BaseFragment {
                     @Override
                     public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                         orders = response.body();
-                        adapter = new OrderHistoryAdapter(orders);
+                        adapter = new OrderHistoryAdapter(orders, getContext());
                         listOfOldOrders.setAdapter(adapter);
                     }
 
