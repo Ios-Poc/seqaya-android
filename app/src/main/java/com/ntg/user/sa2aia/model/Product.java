@@ -11,7 +11,8 @@ public class Product implements Serializable {
     private int id;
     private String name;
     private String manufacturer;
-    private int bottleSize;
+    private String photoUrl;
+    private float bottleSize;
     private int no_bpp;
     private int price;
 
@@ -19,47 +20,32 @@ public class Product implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getManufacturer() {
         return manufacturer;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public int getBottleSize() {
-        return bottleSize;
-    }
-
-    public void setBottleSize(int bottleSize) {
-        this.bottleSize = bottleSize;
-    }
 
     public int getNo_bpp() {
         return no_bpp;
-    }
-
-    public void setNo_bpp(int no_bpp) {
-        this.no_bpp = no_bpp;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public float getBottleSize() {
+        return bottleSize;
+    }
+
+    public void setBottleSize(float bottleSize) {
+        this.bottleSize = bottleSize;
     }
 }

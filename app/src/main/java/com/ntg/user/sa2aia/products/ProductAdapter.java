@@ -9,11 +9,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
+import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
 import com.ntg.user.sa2aia.model.ShoppingCartClient;
 
@@ -24,10 +24,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-   private List<Product> productList;
-   private Context context;
-   private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
-   private ShoppingCartItemCount shoppingCartItemCount;
+    private List<Product> productList;
+    private Context context;
+    private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
+    private ShoppingCartItemCount shoppingCartItemCount;
 
     public ProductAdapter(List<Product> productList, Context context, ShoppingCartItemCount shoppingCartItemCount) {
         this.productList = productList;
@@ -37,9 +37,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_row , parent , false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_row, parent, false);
         view.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
-        ViewUtil.addShadowToView(context , view);
+        ViewUtil.addShadowToView(context, view);
         return new ProductViewHolder(view);
     }
 
@@ -48,9 +48,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         final Product product = productList.get(position);
         holder.name.setText(product.getName());
         holder.manufacturer.setText(product.getManufacturer());
-        holder.bottleSize.setText(String.valueOf(product.getBottleSize())+"             لتر   ");
-        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp())+"          زجاجة   ");
-        holder.price.setText(String.valueOf(product.getPrice())+"   ريال    ");
+        holder.bottleSize.setText(String.valueOf(product.getBottleSize()));
+        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()));
+        holder.price.setText(String.valueOf(product.getPrice()) + " ريال");
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             @Override
             public void onClick(View view) {
                 int number = Integer.parseInt(holder.numberOfItem.getText().toString());
-                if (number>1){
+                if (number > 1) {
                     number--;
                     holder.numberOfItem.setText(String.valueOf(number));
                 }
@@ -73,14 +73,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartItem cartItem = new CartItem();
-                cartItem.setProduct(product);
-                cartItem.setQuantity(Integer.parseInt(holder.numberOfItem.getText().toString()));
-
-                for (CartItem item:cartItems){
-                    if (item.getProduct().getId() == product.getId()){
+                CartItem cartItem = new CartItem(product, Integer.parseInt(holder.numberOfItem.getText().toString()));
+                for (CartItem item : cartItems) {
+                    if (item.getProduct().getId() == product.getId()) {
                         cartItems.remove(item);
-                        Toast.makeText(context, "exist", Toast.LENGTH_SHORT).show();
                     }
                 }
                 cartItems.add(cartItem);
@@ -90,11 +86,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
         });
     }
-    public void setProductList(List<Product> productList){
+
+    public void setProductList(List<Product> productList) {
         this.productList.clear();
         this.productList = productList;
     }
-    public void clear(){
+
+    public void clear() {
         this.productList.clear();
         notifyDataSetChanged();
     }
@@ -104,7 +102,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder{
+    class ProductViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.product_image)
         ImageView productImage;
         @BindView(R.id.product_name)
@@ -129,7 +127,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         ProductViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this , itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -2,13 +2,13 @@ package com.ntg.user.sa2aia.products;
 
 
 import android.os.Bundle;
-import android.support.design.widget.*;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,12 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.model.Product;
+import com.ntg.user.sa2aia.network.ApiClient;
+import com.ntg.user.sa2aia.network.ProductService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -46,8 +47,6 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     RecyclerView products_rv;
     @BindView(R.id.check_out)
     Button checkOut;
-    FrameLayout cart;
-    ShoppingCartItemCount shoppingCartItemCount;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
@@ -57,9 +56,6 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
 
     public static ProductsFragment newInstance() {
         ProductsFragment fragment = new ProductsFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("count", shoppingCartItemCount);
-//        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -85,8 +81,6 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     @Override
     public void itemsCount(int count) {
         updateAlertIcon(String.valueOf(count));
-//        alertCount = count;
-        Toast.makeText(getActivity(), String.valueOf(count) + " CountFragment", Toast.LENGTH_SHORT).show();
     }
 
     void getProducts() {
@@ -108,7 +102,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-
+                Log.e("Products", t.getMessage());
             }
         });
     }
@@ -148,7 +142,8 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
                 sortCatalog();
                 break;
             case R.id.cart: {
-                Toast.makeText(getActivity(), "navigate to cart screen", Toast.LENGTH_SHORT).show();
+                // CartFragment cartFragment = new
+                // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
                 break;
             }
         }
@@ -221,7 +216,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
 
     private void updateAlertIcon(String count) {
         // if alert count extends into two digits, just show the red circle
-        if (Integer.parseInt(count)>0) {
+        if (Integer.parseInt(count) > 0) {
             countTextView.setText(count);
         } else {
             countTextView.setText("");
@@ -251,7 +246,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     void search(String keyWord) {
 
         ProductService productService = ApiClient.getClient().create(ProductService.class);
-        final Call<List<Product>> productListCall = productService.search(keyWord);
+        final Call<List<Product>> productListCall = productService.getSearchResult(keyWord);
         productListCall.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
