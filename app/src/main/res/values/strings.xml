@@ -42,4 +42,13 @@
     <string name="sort">sort</string>
     <string name="history">history</string>
     <string name="copyright">© Copyright 2018 NTG Clarity</string>
+    <string name="pick_date">أختر تاريخ</string>
+    <string name="pick_time">أختر توقيت</string>
+    <string name="order_summary">"الملخص"</string>
+    <string name="loading_indicator_message">"فى انتظار التحميل"</string>
+    <string name="time_title">اختر توقيت الطلب</string>
+    <string name="in_progress">ى  </string>
+    <string name="delivered">ى  </string>
+    <string name="canceled">ى  </string>
+
 </resources>

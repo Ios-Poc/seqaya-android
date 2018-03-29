@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 })
 public @interface PaymentMethod {
 
-    public static final String BANK_TRANSFER = "bankTransfer";
-    public static final String SADAD = "sadad";
-    public static final String CREDIT_CARD = "creditCard";
+    String BANK_TRANSFER = "bankTransfer";
+    String SADAD = "sadad";
+    String CREDIT_CARD = "creditCard";
 }

@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.order_history;
 
 import android.annotation.SuppressLint;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ViewAnimator;
 
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Order;
+import com.ntg.user.sa2aia.model.OrderStatus;
 
 import java.util.List;
 
@@ -37,7 +39,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         return new OrderHistoryViewHolder(view);
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(OrderHistoryViewHolder holder, int position) {
         Order order = orders.get(position);
@@ -46,10 +47,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.expectedDelivery.setText(order.getDeliveryTime());
         holder.orderDate.setText(order.getDeliveryDate());
         holder.prodName.setText(order.getCartItems().get(0).getProduct().getName());
-        holder.prodPrice.setText(order.getCartItems().get(0).getProduct().getPrice());
-        holder.buttleSize.setText("" + order.getCartItems().get(0).getProduct().getBottleSize());
-        holder.bpp.setText(order.getCartItems().get(0).getProduct().getNo_bpp());
-//        holder.productImage.set(order.getCartItems().get(0).getProduct().getPhotoUrl());
+        holder.prodPrice.setText(String.valueOf(order.getCartItems().get(0).getProduct().getPrice()));
+        holder.buttleSize.setText(String.valueOf(order.getCartItems().get(0).getProduct().getBottleSize()));
+        holder.bpp.setText(String.valueOf(order.getCartItems().get(0).getProduct().getNo_bpp()));
         holder.orderDetailsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,29 +57,34 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
         });
         switch (order.getStatus()) {
-            case "inproccessing":
-                holder.shippedImage.setImageResource(R.drawable.ic_x_mark);
-                holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
+            case OrderStatus.IN_PROCESSING:
+                holder.shippedImage
+                        .setImageDrawable(ContextCompat.getDrawable(holder.deliverdImage.getContext(), R.drawable.x_mark));
+                holder.deliverdImage.setImageDrawable(ContextCompat.getDrawable(holder.deliverdImage.getContext(), R.drawable.x_mark));
                 holder.firstPeace.setBackgroundResource(R.color.colorRed);
                 holder.secondPeace.setBackgroundResource(R.color.colorRed);
-                holder.checkedState.setText("inProccessing");
-                holder.checkedState.setTextColor(R.color.colorBlack);
-            case "shipped":
+                holder.checkedState.setText(holder.checkedState.getContext().getString(R.string.in_progress));
+                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorBlack));
+                break;
+            case OrderStatus.DELIVERED:
                 holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
                 holder.secondPeace.setBackgroundResource(R.color.colorRed);
                 holder.checkedState.setText("shipped");
-                holder.checkedState.setTextColor(R.color.colorBlack);
-            case "deliverd":
+                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorBlack));
+                break;
+            case OrderStatus.CANCELED:
                 holder.checkedState.setText("deliverd");
-                holder.checkedState.setTextColor(R.color.colorgreen);
-            case "returned":
+                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorgreen));
+                break;
+            case OrderStatus.RETURNED:
                 holder.inprossisngImage.setImageResource(R.drawable.ic_x_mark);
                 holder.shippedImage.setImageResource(R.drawable.ic_x_mark);
                 holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
                 holder.firstPeace.setBackgroundResource(R.color.colorRed);
                 holder.secondPeace.setBackgroundResource(R.color.colorRed);
                 holder.checkedState.setText("returned");
-                holder.checkedState.setTextColor(R.color.colorRed);
+                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorRed));
+                break;
 
         }
         holder.rightArrow.setOnClickListener(new View.OnClickListener() {

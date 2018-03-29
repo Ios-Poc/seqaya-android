@@ -2,12 +2,10 @@ package com.ntg.user.sa2aia.products;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +20,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.Checkout.CartFragment;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Product;
@@ -45,21 +44,19 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class ProductsFragment extends Fragment implements ShoppingCartItemCount {
-
+public class ProductsFragment extends BaseFragment implements ShoppingCartItemCount {
 
     @BindView(R.id.rv_products)
     RecyclerView products_rv;
     @BindView(R.id.check_out)
     Button checkOut;
-    Animation checkOutAnimation , toolBarAnimation;
+    Animation checkOutAnimation, toolBarAnimation;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
     private FrameLayout redCircle;
     private TextView countTextView;
     private int alertCount = 0;
-    private LayoutAnimationController controller;
 
 
     public static ProductsFragment newInstance() {
@@ -80,17 +77,14 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
         setHasOptionsMenu(true);
         int res = R.anim.layout_animation_fall_down;
         productList = new ArrayList<>();
-        controller = AnimationUtils.loadLayoutAnimation(getActivity() , res);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity) getActivity()).getSupportActionBar();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
 
 
-        checkOutAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_bottom);
-        toolBarAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_top);
+        checkOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
+        toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);
         checkOut.setAnimation(checkOutAnimation);
-        //toolbar.setAnimation(toolBarAnimation);
         products_rv.setItemAnimator(new OvershootInLeftAnimator());
         products_rv.getItemAnimator().setAddDuration(700);
         getProducts();
@@ -163,15 +157,15 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
                 break;
             }
             case R.id.history: {
-                getActivity().getSupportFragmentManager()
+                getActivity().getFragmentManager()
                         .beginTransaction().addToBackStack(null)
                         .replace(R.id.container, new OrderHistoryFragment()).commit();
                 break;
             }
             case R.id.cart: {
-                getActivity().getSupportFragmentManager()
+                getActivity().getFragmentManager()
                         .beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, CartFragment.newInstance()).commit();
+                        .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
                 break;
             }
         }
