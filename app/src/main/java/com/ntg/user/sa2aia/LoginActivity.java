@@ -1,5 +1,6 @@
 package com.ntg.user.sa2aia;
 
+import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -52,7 +53,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
+if (BuildConfig.DEBUG){
+    loginEmailEditText.setText("a@b.com");
+    loginPasswordEditText.setText("1234");
+}
         String languageToLoad = "ar";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);

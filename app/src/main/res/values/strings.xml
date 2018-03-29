@@ -6,7 +6,7 @@
     <string name="add_to_cart">Add To Cart</string>
     <string name="checkout">Checkout</string>
     <string name="rs">RS</string>
-    <string name="litre">L</string>
+    <string name="litre">Litre</string>
     <string name="bottle_per_package">b/p</string>
     <string name="email">Email</string>
     <string name="phone_number">Phone Number</string>
@@ -37,7 +37,7 @@
     <string name="price">price</string>
     <string name="size">size</string>
     <string name="re_password">Enter password again</string>
-    <string name="sign_up_with">Or login</string>
+    <string name="sign_up_with">Or login with</string>
     <string name="create_account">Create account</string>
     <string name="copyright">© Copyright 2018 NTG Clarity</string>
 </resources>

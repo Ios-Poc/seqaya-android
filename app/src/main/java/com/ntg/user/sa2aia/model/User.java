@@ -12,13 +12,14 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
-    private ShoppingCart shoppingCart = new ShoppingCart();
+    private ShoppingCart shoppingCart;
 
     public User(String name, String email, String password, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        shoppingCart = new ShoppingCart();
     }
 
     public static void setCurrentUser(User user) {

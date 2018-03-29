@@ -30,7 +30,7 @@ public interface ProductService {
     @POST("user")
     Call<User> addNewUser(@Body User user);
 
-    @POST("user")
+    @POST("login")
     Call<User> login(@Body Credential credential);
 
     @POST("order")

@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/seqaya-android.iml" filepath="$PROJECT_DIR$/seqaya-android.iml" />
-      <module fileurl="file://H:\NTG\water\seqaya-android\seqaya-android.iml" filepath="H:\NTG\water\seqaya-android\seqaya-android.iml" />
     </modules>
   </component>
 </project>
