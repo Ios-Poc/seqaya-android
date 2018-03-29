@@ -3,10 +3,12 @@ package com.ntg.user.sa2aia.confirm_order;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
+import com.ntg.user.sa2aia.model.PaymentMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +34,6 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class SummaryOrderFragment extends Fragment {
-
 
     @BindView(R.id.my_toolbar)
     Toolbar myToolbar;
@@ -54,12 +57,6 @@ public class SummaryOrderFragment extends Fragment {
     TextView total;
     @BindView(R.id.done)
     Button done;
-    private List<CartItem> cartItems;
-
-    public static SummaryOrderFragment newInstance() {
-        // Required empty public constructor
-        return new SummaryOrderFragment();
-    }
 
 
     @Override
@@ -76,15 +73,24 @@ public class SummaryOrderFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        cartItems = new ArrayList<>();
-        order = new Order(null);
+        order = (Order) getArguments().getSerializable(MainActivity.ORDER);
         deliveryLocation.setText(order.getLocation());
-        paymentDetails.setText(order.getPaymentMethod());
+        switch (order.getPaymentMethod()) {
+            case PaymentMethod.BANK_TRANSFER:
+                paymentDetails.setText(getString(R.string.bank_transfer));
+                break;
+
+            case PaymentMethod.CREDIT_CARD:
+                paymentDetails.setText(getString(R.string.credit_card));
+                break;
+            case PaymentMethod.SADAD:
+                paymentDetails.setText(getString(R.string.sadad));
+                break;
+        }
+        Log.i("Order", order.toString());
         deliveryTime.setText(order.getDeliveryTime() + " , " + order.getDeliveryDate());
-        total.setText(order.Total);
-        listAdapter = new ListAdapter(new ArrayList<CartItem>(), getActivity());
-        cartItems = order.getCartItems();
-        listAdapter.setProductList(cartItems);
+        total.setText(String.valueOf(order.getTotal()));
+        listAdapter = new ListAdapter(order.getCartItems(), getActivity());
         recyclerList.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerList.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
@@ -93,15 +99,15 @@ public class SummaryOrderFragment extends Fragment {
         ViewUtil.addShadowToView(getActivity(), cardView2);
         ViewUtil.addShadowToView(getActivity(), cardView3);
 
-
         return view;
     }
 
 
     @OnClick(R.id.done)
     public void onViewClicked() {
-        getActivity().finish();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
-
-
 }
