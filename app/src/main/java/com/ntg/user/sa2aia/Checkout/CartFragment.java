@@ -64,21 +64,20 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.checkout));
         products_rv.setLayoutManager(linearLayoutManager);
+        if (cartItemList == null)
+            cartItemList = new ArrayList<>();
         cartAdapter = new CartAdapter(cartItemList, getActivity(), this);
         products_rv.setAdapter(cartAdapter);
 
-        confirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Order order = new Order(User.getCurrentUser().getEmail());
-                List<CartItem> cartItems = new ArrayList<>();
-                cartItems.addAll(cartItemList);
-                order.setCartItems(cartItems);
-                Intent intent = new Intent();
-                intent.putExtra(MainActivity.ORDER, order);
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
+        confirmBtn.setOnClickListener(view1 -> {
+            Order order = new Order(User.getCurrentUser().getEmail());
+            List<CartItem> cartItems = new ArrayList<>();
+            cartItems.addAll(cartItemList);
+            order.setCartItems(cartItems);
+            Intent intent = new Intent();
+            intent.putExtra(MainActivity.ORDER, order);
+            //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
 
-            }
         });
 
         return view;
