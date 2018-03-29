@@ -9,6 +9,7 @@
     <string name="save_places">العناوين المسجلة</string>
     <string name="date">التاريخ</string>
     <string name="time">الوقت</string>
+    <string name="time_title">اختر توقيت الطلب</string>
     <string name="payment_method">طريقة الدفع</string>
     <string name="credit_card">بطاقة الإئتمان</string>
     <string name="sadad">سداد</string>
@@ -22,9 +23,9 @@
     <string name="delivery">التوصيل</string>
     <string name="confirm">تأكيد</string>
     <string name="cost">التكلفة</string>
-    <string name="total">الإجمالي</string>
-    <string name="quantity">الكمية</string>
-    <string name="bottle_per_package">زجاجة / عبوة</string>
+    <string name="total">الإجمالي: </string>
+    <string name="quantity">الكمية: </string>
+    <string name="bottle_per_package">زجاجة / عبوة: </string>
     <string name="litre">لتر</string>
     <string name="rs">ريال سعودي</string>
     <string name="checkout">الدفع</string>
@@ -39,7 +40,14 @@
     <string name="re_password">أعد كتابة كلمة المرور</string>
     <string name="sign_up_with">يمكنك الدخول بواسطة</string>
     <string name="create_account">إنشاء حساب</string>
+    <string name="pick_date">أختر تاريخ</string>
+    <string name="pick_time">أختر توقيت</string>
     <string name="copyright">©جميع حقوق الطبع محفوظة لشركة NTG Clarity</string>
     <string name="sort">الترتيب علي حسب</string>
     <string name="history">الطلبات السابقة</string>
+    <string name="order_summary">"الملخص"</string>
+    <string name="loading_indicator_message">"فى انتظار التحميل"</string>
+    <string name="in_progress">فى الطريق</string>
+    <string name="delivered">تم التوصيل</string>
+    <string name="canceled">تم إلغاء الطلب</string>
 </resources>

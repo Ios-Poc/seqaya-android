@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.Checkout;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.BaseFragment;
+import com.ntg.user.sa2aia.DeliveryTimeFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
@@ -30,7 +33,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class CartFragment extends Fragment implements CartAdapter.TotalListener {
+public class CartFragment extends BaseFragment implements CartAdapter.TotalListener {
+
+    public static final int REQUEST_CODE = 1;
 
     @BindView(R.id.rv_product)
     RecyclerView products_rv;
@@ -57,11 +62,11 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.time));
         ButterKnife.bind(this, view);
         cartItemList = User.getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity) getActivity()).getSupportActionBar();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.checkout));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         products_rv.setLayoutManager(linearLayoutManager);
@@ -72,16 +77,29 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
             @Override
             public void onClick(View view) {
                 Order order = new Order(User.getEmail());
+                order.setTotal(Integer.parseInt(total_price.getText().toString()));
                 List<CartItem> cartItems = new ArrayList<>();
                 cartItems.addAll(cartItemList);
                 order.setCartItems(cartItems);
                 Intent i = new Intent(CartFragment.this.getActivity(), OrderMapActivity.class);
                 i.putExtra(MainActivity.ORDER, order);
-                startActivityForResult(i, MainActivity.requestCode);
+                startActivityForResult(i, REQUEST_CODE);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            DeliveryTimeFragment deliveryTimeFragment = new DeliveryTimeFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(MainActivity.ORDER, data.getSerializableExtra(MainActivity.ORDER));
+            deliveryTimeFragment.setArguments(args);
+            getActivity().getFragmentManager().beginTransaction().addToBackStack(null)
+                    .replace(R.id.container, deliveryTimeFragment).commitAllowingStateLoss();
+        }
     }
 
     @Override

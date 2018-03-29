@@ -20,6 +20,7 @@ public class Order implements Serializable {
     String paymentMethod;
     private @OrderStatus
     String status;
+    private int total;
 
     public Order(String userId) {
         this.id = UUID.randomUUID().toString();
@@ -86,4 +87,14 @@ public class Order implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+
 }
