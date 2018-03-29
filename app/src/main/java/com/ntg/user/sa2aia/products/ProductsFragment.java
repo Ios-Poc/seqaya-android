@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -49,6 +51,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     RecyclerView products_rv;
     @BindView(R.id.check_out)
     Button checkOut;
+    Animation checkOutAnimation , toolBarAnimation;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
@@ -75,6 +78,10 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
         productList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        checkOutAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_bottom);
+        toolBarAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_top);
+        checkOut.setAnimation(checkOutAnimation);
+        toolbar.setAnimation(toolBarAnimation);
         getProducts();
 
         return view;

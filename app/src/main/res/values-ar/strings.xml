@@ -40,4 +40,6 @@
     <string name="sign_up_with">يمكنك الدخول بواسطة</string>
     <string name="create_account">إنشاء حساب</string>
     <string name="copyright">©جميع حقوق الطبع محفوظة لشركة NTG Clarity</string>
+    <string name="sort">الترتيب علي حسب</string>
+    <string name="history">الطلبات السابقة</string>
 </resources>
