@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">سقاية</string>
-    <string name="email">الالكتروني</string>
-    <string name="phone_number">الجوال</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="phone_number">رقم الجوال</string>
     <string name="search">ابحث</string>
     <string name="saved_location">اختر من العناوين المسجلة</string>
     <string name="cancel">إلغاء</string>
@@ -36,4 +36,10 @@
     <string name="bank_transfer">التحويل البنكي</string>
     <string name="price">السعر</string>
     <string name="size">الحجم</string>
+    <string name="re_password">أعد كتابة كلمة المرور</string>
+    <string name="sign_up_with">يمكنك الدخول بواسطة</string>
+    <string name="create_account">إنشاء حساب</string>
+    <string name="copyright">©جميع حقوق الطبع محفوظة لشركة NTG Clarity</string>
+    <string name="sort">الترتيب علي حسب</string>
+    <string name="history">الطلبات السابقة</string>
 </resources>

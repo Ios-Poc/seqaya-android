@@ -15,14 +15,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.Checkout.CartFragment;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
+import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,18 +47,20 @@ import static android.view.View.VISIBLE;
 
 public class ProductsFragment extends Fragment implements ShoppingCartItemCount {
 
-    @BindView(R.id.my_toolbar)
-    Toolbar toolbar;
+
     @BindView(R.id.rv_products)
     RecyclerView products_rv;
     @BindView(R.id.check_out)
     Button checkOut;
+    Animation checkOutAnimation , toolBarAnimation;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
     private FrameLayout redCircle;
     private TextView countTextView;
     private int alertCount = 0;
+    private LayoutAnimationController controller;
+
 
     public static ProductsFragment newInstance() {
         ProductsFragment fragment = new ProductsFragment();
@@ -70,9 +78,21 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
         View view = inflater.inflate(R.layout.fragment_catalog, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+        int res = R.anim.layout_animation_fall_down;
         productList = new ArrayList<>();
+        controller = AnimationUtils.loadLayoutAnimation(getActivity() , res);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
+
+
+        checkOutAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_bottom);
+        toolBarAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_top);
+        checkOut.setAnimation(checkOutAnimation);
+        //toolbar.setAnimation(toolBarAnimation);
+        products_rv.setItemAnimator(new OvershootInLeftAnimator());
+        products_rv.getItemAnimator().setAddDuration(700);
         getProducts();
 
         return view;
@@ -138,12 +158,20 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sort:
+            case R.id.sort: {
                 sortCatalog();
                 break;
+            }
+            case R.id.history: {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, new OrderHistoryFragment()).commit();
+                break;
+            }
             case R.id.cart: {
-                // CartFragment cartFragment = new
-                // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, CartFragment.newInstance()).commit();
                 break;
             }
         }

@@ -15,7 +15,7 @@ import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
-import com.ntg.user.sa2aia.model.ShoppingCartClient;
+import com.ntg.user.sa2aia.model.User;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -48,8 +48,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         final Product product = productList.get(position);
         holder.name.setText(product.getName());
         holder.manufacturer.setText(product.getManufacturer());
-        holder.bottleSize.setText(String.valueOf(product.getBottleSize()));
-        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()));
+        holder.bottleSize.setText(String.valueOf(product.getBottleSize()) + "لتر");
+        holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()) + "زجاجة");
         holder.price.setText(String.valueOf(product.getPrice()) + " ريال");
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     }
                 }
                 cartItems.add(cartItem);
-                ShoppingCart shoppingCart = ShoppingCartClient.getShoppingCart();
+                ShoppingCart shoppingCart = User.getShoppingCart();
                 shoppingCart.setCartItemList(cartItems);
                 shoppingCartItemCount.itemsCount(cartItems.size());
             }

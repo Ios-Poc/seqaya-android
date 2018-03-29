@@ -3,7 +3,7 @@ package com.ntg.user.sa2aia.model;
 import java.io.Serializable;
 
 /**
- * Created by islam on 3/27/2018.
+ * Created by Sara Elmoghazy on 27/03/2018.
  */
 
 public class ShoppingCartClient implements Serializable {
@@ -18,5 +18,6 @@ public class ShoppingCartClient implements Serializable {
         }
         return SHOPPING_CART;
     }
+
 
 }

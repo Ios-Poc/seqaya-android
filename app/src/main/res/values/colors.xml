@@ -2,7 +2,16 @@
 <resources>
     <color name="colorPrimary">#42a5f5</color>
     <color name="colorPrimaryDark">#2196f3</color>
+
+    <color name="colorgrayShfaf">#70141418</color>
+    <color name="colorgreen">#a5f258</color>
+    <color name="colorRed">#ec2b35</color>
+    <color name="colorBlack">#030303</color>
+
+    <color name="backgroundTransparent">#7000569b</color>
+    <color name="colorTransparent">#00000000</color>
     <color name="colorAccent">#ffa940</color>
     <color name="white">#FFFFFF</color>
     <color name="shadow_black">#33000000</color>
+
 </resources>
