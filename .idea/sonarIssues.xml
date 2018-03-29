@@ -238,6 +238,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_un_like.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/drawable/menu_cart.xml">
           <value>
             <set />
@@ -334,6 +339,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/AndroidStudioProjects/Filmo/app/src/main/res/layout/movie_item.xml">
           <value>
             <set />
           </value>

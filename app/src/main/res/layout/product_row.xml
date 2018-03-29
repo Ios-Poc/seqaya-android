@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CardStyle"
     android:orientation="vertical">
 
@@ -80,8 +81,6 @@
                     android:layout_weight="10"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_remove_circle" />
-
-
             </LinearLayout>
         </LinearLayout>
 
@@ -93,11 +92,13 @@
             android:orientation="vertical"
             android:padding="4dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.like.LikeButton
+                android:id="@+id/fav"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_like" />
+                app:like_drawable="@drawable/ic_like"
+                app:unlike_drawable="@drawable/ic_un_like"/>
 
             <TextView
                 android:id="@+id/price"
