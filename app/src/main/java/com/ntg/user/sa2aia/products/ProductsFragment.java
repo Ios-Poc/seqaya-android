@@ -160,7 +160,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
             case R.id.cart: {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, CartFragment.newInstance()).commit();
+                        .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
                 break;
             }
         }

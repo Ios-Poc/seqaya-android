@@ -42,4 +42,6 @@
     <string name="sort">sort</string>
     <string name="history">history</string>
     <string name="copyright">© Copyright 2018 NTG Clarity</string>
+    <string name="pick_date">أختر تاريخ</string>
+    <string name="pick_time">أختر توقيت</string>
 </resources>
