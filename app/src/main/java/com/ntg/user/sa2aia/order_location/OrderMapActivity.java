@@ -253,7 +253,7 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
                     @Override
                     public void onResponse(Call<Location> call, Response<Location> response) {
                         Location loc = response.body();
-                        order.setLocation(loc.getAddress());
+                        order.setLocation(loc);
                     }
 
                     @Override

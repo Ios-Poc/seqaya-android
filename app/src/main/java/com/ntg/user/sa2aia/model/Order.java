@@ -15,7 +15,7 @@ public class Order implements Serializable {
     private List<CartItem> cartItems;
     private String deliveryDate;
     private String deliveryTime;
-    private String location;
+    private Location location;
     private @PaymentMethod
     String paymentMethod;
     private @OrderStatus
@@ -56,11 +56,11 @@ public class Order implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
