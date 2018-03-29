@@ -45,4 +45,5 @@
     <string name="pick_date">أختر تاريخ</string>
     <string name="pick_time">أختر توقيت</string>
     <string name="order_summary">"الملخص"</string>
+    <string name="loading_indicator_message">"فى انتظار التحميل"</string>
 </resources>

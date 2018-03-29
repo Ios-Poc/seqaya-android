@@ -82,7 +82,12 @@
 
     <style name="dateDialog" parent="Animation.AppCompat.Dialog">
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
+    <style name="loadingIndicatorText" parent="GeneralTextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">serif</item>
     </style>
 
     <style name="SignPostBody" parent="GeneralTextView">
@@ -90,11 +95,13 @@
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:typeface">serif</item>
     </style>
+
     <style name="SignPostHeader" parent="GeneralTextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:typeface">serif</item>
     </style>
+
 
     <style name="timeDialog" parent="Animation.AppCompat.Dialog">
         <item name="colorAccent">@color/colorAccent</item>
