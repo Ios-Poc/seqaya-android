@@ -47,9 +47,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.expectedDelivery.setText(order.getDeliveryTime());
         holder.orderDate.setText(order.getDeliveryDate());
         holder.prodName.setText(order.getCartItems().get(0).getProduct().getName());
-        holder.prodPrice.setText(order.getCartItems().get(0).getProduct().getPrice());
-        holder.buttleSize.setText("" + order.getCartItems().get(0).getProduct().getBottleSize());
-        holder.bpp.setText(order.getCartItems().get(0).getProduct().getNo_bpp());
+        holder.prodPrice.setText(String.valueOf(order.getCartItems().get(0).getProduct().getPrice()));
+        holder.buttleSize.setText(String.valueOf(order.getCartItems().get(0).getProduct().getBottleSize()));
+        holder.bpp.setText(String.valueOf(order.getCartItems().get(0).getProduct().getNo_bpp()));
         holder.orderDetailsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,8 +58,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         });
         switch (order.getStatus()) {
             case OrderStatus.IN_PROCESSING:
-                holder.shippedImage.setImageResource(R.drawable.ic_x_mark);
-                holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
+                holder.shippedImage
+                        .setImageDrawable(ContextCompat.getDrawable(holder.deliverdImage.getContext(), R.drawable.x_mark));
+                holder.deliverdImage.setImageDrawable(ContextCompat.getDrawable(holder.deliverdImage.getContext(), R.drawable.x_mark));
                 holder.firstPeace.setBackgroundResource(R.color.colorRed);
                 holder.secondPeace.setBackgroundResource(R.color.colorRed);
                 holder.checkedState.setText(holder.checkedState.getContext().getString(R.string.in_progress));
@@ -83,7 +84,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 holder.secondPeace.setBackgroundResource(R.color.colorRed);
                 holder.checkedState.setText("returned");
                 holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorRed));
-
+                break;
 
         }
         holder.rightArrow.setOnClickListener(new View.OnClickListener() {
