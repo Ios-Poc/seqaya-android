@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SummaryOrderFragment extends Fragment {
+public class SummaryOrderFragment extends BaseFragment {
 
     @BindView(R.id.my_toolbar)
     Toolbar myToolbar;
@@ -105,9 +106,9 @@ public class SummaryOrderFragment extends Fragment {
 
     @OnClick(R.id.done)
     public void onViewClicked() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
+
+        for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); ++i) {
+            getFragmentManager().popBackStack();
         }
     }
 }

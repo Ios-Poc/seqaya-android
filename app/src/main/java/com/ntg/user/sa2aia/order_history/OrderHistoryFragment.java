@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.User;
@@ -25,7 +26,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrderHistoryFragment extends Fragment {
+public class OrderHistoryFragment extends BaseFragment {
     private RecyclerView listOfOldOrders;
     private OrderHistoryAdapter adapter;
     List<Order> orders;
@@ -37,7 +38,7 @@ public class OrderHistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_history, container, false);
         listOfOldOrders = view.findViewById(R.id.list_of_oders);
-        layoutManager = new LinearLayoutManager(this.getContext());
+        layoutManager = new LinearLayoutManager(this.getActivity());
         listOfOldOrders.setLayoutManager(layoutManager);
         ApiClient.getClient().create(ProductService.class).getOrderHistory(User.getEmail())
                 .enqueue(new Callback<List<Order>>() {

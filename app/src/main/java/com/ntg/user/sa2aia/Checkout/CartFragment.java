@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.DeliveryTimeFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class CartFragment extends Fragment implements CartAdapter.TotalListener {
+public class CartFragment extends BaseFragment implements CartAdapter.TotalListener {
 
     public static final int REQUEST_CODE = 1;
 
@@ -95,7 +96,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
             Bundle args = new Bundle();
             args.putSerializable(MainActivity.ORDER, data.getSerializableExtra(MainActivity.ORDER));
             deliveryTimeFragment.setArguments(args);
-            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null)
+            getActivity().getFragmentManager().beginTransaction().addToBackStack(null)
                     .replace(R.id.container, deliveryTimeFragment).commitAllowingStateLoss();
         }
     }

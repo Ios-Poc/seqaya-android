@@ -29,7 +29,7 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DeliveryTimeFragment extends Fragment implements View.OnClickListener {
+public class DeliveryTimeFragment extends BaseFragment implements View.OnClickListener {
     View view;
     LinearLayout Button;
     private Button btn_dialog_confirm;
@@ -52,7 +52,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
 
         order = (Order) getArguments().getSerializable(MainActivity.ORDER);
 
-        ViewUtil.addShadowToView(getContext(), Button);
+        ViewUtil.addShadowToView(getActivity(), Button);
 
         return view;
     }
@@ -108,7 +108,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(MainActivity.ORDER, order);
                 paymentFragment.setArguments(bundle);
-                getActivity().getSupportFragmentManager().
+                getActivity().getFragmentManager().
                         beginTransaction().addToBackStack(null).replace(R.id.container, paymentFragment).commit();
                 break;
         }

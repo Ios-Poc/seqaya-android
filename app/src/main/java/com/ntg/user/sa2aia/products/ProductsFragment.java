@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.Checkout.CartFragment;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Product;
@@ -43,7 +44,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class ProductsFragment extends Fragment implements ShoppingCartItemCount {
+public class ProductsFragment extends BaseFragment implements ShoppingCartItemCount {
 
     @BindView(R.id.my_toolbar)
     Toolbar toolbar;
@@ -51,7 +52,7 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
     RecyclerView products_rv;
     @BindView(R.id.check_out)
     Button checkOut;
-    Animation checkOutAnimation , toolBarAnimation;
+    Animation checkOutAnimation, toolBarAnimation;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
@@ -78,8 +79,8 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
         productList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        checkOutAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_bottom);
-        toolBarAnimation = AnimationUtils.loadAnimation(getActivity() , R.anim.from_top);
+        checkOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
+        toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);
         checkOut.setAnimation(checkOutAnimation);
         toolbar.setAnimation(toolBarAnimation);
         getProducts();
@@ -152,13 +153,13 @@ public class ProductsFragment extends Fragment implements ShoppingCartItemCount 
                 break;
             }
             case R.id.history: {
-                getActivity().getSupportFragmentManager()
+                getActivity().getFragmentManager()
                         .beginTransaction().addToBackStack(null)
                         .replace(R.id.container, new OrderHistoryFragment()).commit();
                 break;
             }
             case R.id.cart: {
-                getActivity().getSupportFragmentManager()
+                getActivity().getFragmentManager()
                         .beginTransaction().addToBackStack(null)
                         .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
                 break;

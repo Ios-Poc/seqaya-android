@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
@@ -26,7 +27,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PaymentFragment extends Fragment implements View.OnClickListener {
+public class PaymentFragment extends BaseFragment implements View.OnClickListener {
     View view;
     RelativeLayout bankTransfer, sadad, creditCard;
     Order order;
@@ -39,9 +40,9 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
         bankTransfer = view.findViewById(R.id.bankTransfer);
         sadad = view.findViewById(R.id.sadad);
         creditCard = view.findViewById(R.id.creditCard);
-        ViewUtil.addShadowToView(getContext(), bankTransfer);
-        ViewUtil.addShadowToView(getContext(), sadad);
-        ViewUtil.addShadowToView(getContext(), creditCard);
+        ViewUtil.addShadowToView(getActivity(), bankTransfer);
+        ViewUtil.addShadowToView(getActivity(), sadad);
+        ViewUtil.addShadowToView(getActivity(), creditCard);
         Bundle bundle = getArguments();
         order = (Order) bundle.getSerializable(MainActivity.ORDER);
 
@@ -85,7 +86,7 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
                 args.putSerializable(MainActivity.ORDER, order);
                 SummaryOrderFragment summaryOrderFragment = new SummaryOrderFragment();
                 summaryOrderFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction()
+                getActivity().getFragmentManager().beginTransaction()
                         .addToBackStack(null).replace(R.id.container, summaryOrderFragment).commit();
             }
 
