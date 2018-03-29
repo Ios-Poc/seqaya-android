@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.ntg.user.sa2aia.model.APIError;
 import com.ntg.user.sa2aia.model.Credential;
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.model.UserAPI;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         if (BuildConfig.DEBUG) {
-            loginEmailEditText.setText("a@b.com");
+            loginEmailEditText.setText("seqa@ntgclairty.com");
             loginPasswordEditText.setText("1234");
         }
         String languageToLoad = "ar";
@@ -96,14 +97,16 @@ public class LoginActivity extends AppCompatActivity {
             retrofit = ApiClient.getClient();
             retrofit.create(ProductService.class)
                     .login(getCredential())
-                    .enqueue(new Callback<User>() {
+                    .enqueue(new Callback<UserAPI>() {
                         @Override
-                        public void onResponse(@NonNull Call<User> call,
-                                               @NonNull Response<User> response) {
+                        public void onResponse(@NonNull Call<UserAPI> call,
+                                               @NonNull Response<UserAPI> response) {
                             if (response.isSuccessful()) {
-                                User user = response.body();
+                                UserAPI user = (UserAPI) response.body();
                                 if (user != null) {
-                                    User.setCurrentUser(user);
+                                    User.setEmail(user.getEmail());
+                                    User.setName(user.getName());
+                                    User.setPassword(user.getPassword());
                                     navigateToMainActivity();
                                 }
                             } else {
@@ -118,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                        public void onFailure(@NonNull Call<UserAPI> call, @NonNull Throwable t) {
                             Snackbar.make(loginLayout, "Check your connection",
                                     Snackbar.LENGTH_LONG)
                                     .show();
@@ -129,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showErrorMessage(String jsonString) {
         Gson gson = new Gson();
-        APIError apiError = gson.fromJson( jsonString, APIError.class );
+        APIError apiError = gson.fromJson(jsonString, APIError.class);
         Snackbar.make(loginLayout, apiError.getMessage(), Snackbar.LENGTH_LONG).show();
     }
 

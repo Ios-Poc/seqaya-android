@@ -5,6 +5,7 @@ import com.ntg.user.sa2aia.model.Location;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.model.UserAPI;
 
 import java.util.List;
 
@@ -28,10 +29,10 @@ public interface ProductService {
     Call<List<Product>> getSearchResult(@Query("q") String searchKeyword);
 
     @POST("user")
-    Call<User> addNewUser(@Body User user);
+    Call<UserAPI> addNewUser(@Body UserAPI user);
 
     @POST("login")
-    Call<User> login(@Body Credential credential);
+    Call<UserAPI> login(@Body Credential credential);
 
     @POST("order")
     Call<Order> addNewOrder(@Body Order order);

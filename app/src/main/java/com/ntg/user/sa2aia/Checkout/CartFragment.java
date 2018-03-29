@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.Checkout;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,15 +11,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.BaseFragment;
+import com.ntg.user.sa2aia.DeliveryTimeFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.order_location.OrderMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +34,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class CartFragment extends Fragment implements CartAdapter.TotalListener {
+public class CartFragment extends BaseFragment implements CartAdapter.TotalListener {
+
+    public static final int REQUEST_CODE = 1;
 
     @BindView(R.id.rv_product)
     RecyclerView products_rv;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.price_all)
     TextView total_price;
     @BindView(R.id.confirmBtn)
@@ -42,6 +49,7 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
     private List<CartItem> cartItemList;
     private LinearLayoutManager linearLayoutManager;
     private CartAdapter cartAdapter;
+    int total = 0;
 
     public static CartFragment newInstance() {
         return new CartFragment();
@@ -57,11 +65,11 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         ButterKnife.bind(this, view);
-
-        cartItemList = User.getCurrentUser().getShoppingCart().getCartItemList();
+        cartItemList = User.getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.checkout));
         products_rv.setLayoutManager(linearLayoutManager);
         if (cartItemList == null)
@@ -69,23 +77,47 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
         cartAdapter = new CartAdapter(cartItemList, getActivity(), this);
         products_rv.setAdapter(cartAdapter);
 
-        confirmBtn.setOnClickListener(view1 -> {
-            Order order = new Order(User.getCurrentUser().getEmail());
-            List<CartItem> cartItems = new ArrayList<>();
-            cartItems.addAll(cartItemList);
-            order.setCartItems(cartItems);
-            Intent intent = new Intent();
-            intent.putExtra(MainActivity.ORDER, order);
-            //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,)
-
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Order order = new Order(User.getEmail());
+                order.setTotal(total);
+                List<CartItem> cartItems = new ArrayList<>();
+                cartItems.addAll(cartItemList);
+                order.setCartItems(cartItems);
+                Intent i = new Intent(CartFragment.this.getActivity(), OrderMapActivity.class);
+                i.putExtra(MainActivity.ORDER, order);
+                startActivityForResult(i, REQUEST_CODE);
+            }
         });
 
         return view;
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            DeliveryTimeFragment deliveryTimeFragment = new DeliveryTimeFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(MainActivity.ORDER, data.getSerializableExtra(MainActivity.ORDER));
+            deliveryTimeFragment.setArguments(args);
+            getActivity().getFragmentManager().beginTransaction().addToBackStack(null)
+                    .replace(R.id.container, deliveryTimeFragment).commitAllowingStateLoss();
+        }
+    }
+
+    @Override
     public void onTotalChange(int total) {
-        Log.d("total", total + "");
-        total_price.setText(String.valueOf(total) + " ريال");
+        this.total = total;
+
+        total_price.setText(String.valueOf(total));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.history_menu, menu);
+        MenuItem item = menu.findItem(R.id.back);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

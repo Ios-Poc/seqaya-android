@@ -15,11 +15,12 @@ public class Order implements Serializable {
     private List<CartItem> cartItems;
     private String deliveryDate;
     private String deliveryTime;
-    private String location;
+    private Location location;
     private @PaymentMethod
     String paymentMethod;
     private @OrderStatus
     String status;
+    private int total;
 
     public Order(String userId) {
         this.id = UUID.randomUUID().toString();
@@ -55,11 +56,11 @@ public class Order implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -86,4 +87,14 @@ public class Order implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+
 }
