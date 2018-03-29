@@ -39,5 +39,7 @@
     <string name="re_password">أعد كتابة كلمة المرور</string>
     <string name="sign_up_with">يمكنك الدخول بواسطة</string>
     <string name="create_account">إنشاء حساب</string>
+    <string name="pick_date">أختر تاريخ</string>
+    <string name="pick_time">أختر توقيت</string>
     <string name="copyright">©جميع حقوق الطبع محفوظة لشركة NTG Clarity</string>
 </resources>

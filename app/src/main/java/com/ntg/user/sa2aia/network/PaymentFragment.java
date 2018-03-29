@@ -4,13 +4,15 @@ package com.ntg.user.sa2aia.network;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.Order;
@@ -25,14 +27,13 @@ import retrofit2.Response;
  */
 public class PaymentFragment extends Fragment implements View.OnClickListener {
     View view;
-    LinearLayout bankTransfer, sadad, creditCard;
+    RelativeLayout bankTransfer, sadad, creditCard;
     Order order;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_payment, container, false);
         bankTransfer = view.findViewById(R.id.bankTransfer);
         sadad = view.findViewById(R.id.sadad);
@@ -41,8 +42,7 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
         ViewUtil.addShadowToView(getContext(), sadad);
         ViewUtil.addShadowToView(getContext(), creditCard);
         Bundle bundle = getArguments();
-        order = (Order) bundle.getSerializable("order");
-        Log.d("order", String.valueOf(bundle));
+        order = (Order) bundle.getSerializable(MainActivity.ORDER);
 
         return view;
     }
@@ -80,10 +80,7 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
-                Order responseOrder = response.body();
-                Toast.makeText(getActivity(), responseOrder.getId(), Toast.LENGTH_SHORT).show();
-//                Bundle bundle=new Bundle();
-//                bundle.putSerializable("order",responseOrder);
+                //   getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).
             }
 
             @Override
@@ -91,6 +88,5 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,).commit();
     }
 }

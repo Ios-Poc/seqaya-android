@@ -40,4 +40,6 @@
     <string name="sign_up_with">Or login</string>
     <string name="create_account">Create account</string>
     <string name="copyright">© Copyright 2018 NTG Clarity</string>
+    <string name="pick_date">أختر تاريخ</string>
+    <string name="pick_time">أختر توقيت</string>
 </resources>

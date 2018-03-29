@@ -1,88 +1,75 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_time"
+    style="@style/CardStyle"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.ntg.user.sa2aia.DeliveryTimeFragment">
-
+    android:layout_marginTop="10dp">
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-     style="@style/CardStyle"
-        android:id="@+id/Button">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
-
-        <ImageView
-            android:id="@+id/btn_dialog_1"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_date_range"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
-        <TextView
-            android:textSize="30dp"
-            android:text="Pick Date"
-            android:gravity="center"
-            android:id="@+id/text_date"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_dialog_1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="14dp"-->
-        <!--android:backgroundTint="#4CAF50"-->
-        <!--android:padding="20dp"-->
-        <!--android:text="Date Picker Dialog"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="14sp" />-->
+            <ImageView
+                android:id="@+id/btn_dialog_1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_date_range" />
 
-        <ImageView
-            android:id="@+id/btn_dialog_2"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_access_time"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            <TextView
+                android:id="@+id/text_date"
+                style="@style/timeTitle"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/pick_date" />
 
-        <TextView
-            android:textSize="30dp"
-            android:text="Pick Time"
-            android:id="@+id/text_time"
-            android:gravity="center"
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_dialog_2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="14dp"-->
-        <!--android:backgroundTint="#FF9800"-->
-        <!--android:padding="20dp"-->
-        <!--android:text="Time Picker Dialog"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="14sp" />-->
+            <ImageView
+                android:id="@+id/btn_dialog_2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_access_time" />
+
+            <TextView
+                android:id="@+id/text_time"
+                style="@style/timeTitle"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/pick_time" />
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_dialog_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:backgroundTint="#2196F3"
-            android:padding="20dp"
-            android:text="Confirm"
-            android:textColor="@color/white"
-
-            android:textSize="14sp" />
-   </LinearLayout>
-
-
-
-
-
-
+            style="@style/buttonStyle"
+            android:layout_gravity="bottom"
+            android:text="@string/confirm" />
+    </LinearLayout>
 
 
 </LinearLayout>

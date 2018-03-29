@@ -13,10 +13,7 @@
 
     <Button
         android:id="@+id/check_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/buttonStyle"
         android:layout_gravity="bottom"
-        android:background="@color/colorAccent"
-        android:text="@string/checkout"
-        android:textColor="@android:color/white" />
+        android:text="@string/checkout" />
 </FrameLayout>

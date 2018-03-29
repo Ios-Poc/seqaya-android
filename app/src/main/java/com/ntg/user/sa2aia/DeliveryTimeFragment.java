@@ -43,12 +43,14 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_date_and_time, container, false);
-        Button = view.findViewById(R.id.Button);
+        Button = view.findViewById(R.id.layout_time);
         btn_dialog_1 = view.findViewById(R.id.btn_dialog_1);
         btn_dialog_2 = view.findViewById(R.id.btn_dialog_2);
         text_date = view.findViewById(R.id.text_date);
         text_time = view.findViewById(R.id.text_time);
         btn_dialog_confirm = view.findViewById(R.id.btn_dialog_confirm);
+
+        order = (Order) getArguments().getSerializable(MainActivity.ORDER);
 
         ViewUtil.addShadowToView(getContext(), Button);
 
@@ -71,7 +73,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_dialog_1:
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.dateDialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         calendar.set(Calendar.YEAR, year);
@@ -86,7 +88,7 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.btn_dialog_2:
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), R.style.timeDialog,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int i, int i1) {
@@ -100,16 +102,14 @@ public class DeliveryTimeFragment extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.btn_dialog_confirm:
-                order = new Order("jjef");
-                PaymentFragment paymentFragment=new PaymentFragment();
+                PaymentFragment paymentFragment = new PaymentFragment();
                 order.setDeliveryDate(text_date.getText().toString());
                 order.setDeliveryTime(text_time.getText().toString());
-                Toast.makeText(getActivity(), " " + order.getDeliveryDate() + " " + order.getDeliveryTime(), Toast.LENGTH_SHORT).show();
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("order",order);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(MainActivity.ORDER, order);
                 paymentFragment.setArguments(bundle);
                 getActivity().getSupportFragmentManager().
-                        beginTransaction().replace(R.id.container, paymentFragment).commit();
+                        beginTransaction().addToBackStack(null).replace(R.id.container, paymentFragment).commit();
                 break;
         }
 

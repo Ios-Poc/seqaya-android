@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.Checkout;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ntg.user.sa2aia.DeliveryTimeFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.CartItem;
@@ -28,6 +30,8 @@ import butterknife.ButterKnife;
 
 
 public class CartFragment extends Fragment implements CartAdapter.TotalListener {
+
+    public static final int REQUEST_CODE = 1;
 
     @BindView(R.id.rv_product)
     RecyclerView products_rv;
@@ -76,11 +80,23 @@ public class CartFragment extends Fragment implements CartAdapter.TotalListener 
                 order.setCartItems(cartItems);
                 Intent i = new Intent(CartFragment.this.getActivity(), OrderMapActivity.class);
                 i.putExtra(MainActivity.ORDER, order);
-                startActivityForResult(i, MainActivity.requestCode);
+                startActivityForResult(i, REQUEST_CODE);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            DeliveryTimeFragment deliveryTimeFragment = new DeliveryTimeFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(MainActivity.ORDER, data.getSerializableExtra(MainActivity.ORDER));
+            deliveryTimeFragment.setArguments(args);
+            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                    .replace(R.id.container, deliveryTimeFragment).commitAllowingStateLoss();
+        }
     }
 
     @Override
