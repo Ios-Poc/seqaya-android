@@ -283,6 +283,61 @@
             <set />
           </value>
         </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/SplachActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/model/Doctor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/network/ApiClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/network/DoctorService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/network/DoctorsService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/view/SearchDoctorActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/res/layout/activity_main.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/res/layout/activity_search_doctor.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/res/values/strings.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>
