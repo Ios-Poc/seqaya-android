@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.products;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,8 +23,11 @@ import android.widget.TextView;
 
 import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.Checkout.CartFragment;
+import com.ntg.user.sa2aia.LoginActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Product;
+import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.model.UserAPI;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
@@ -80,14 +84,9 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
-        checkOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getFragmentManager()
-                        .beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
-            }
-        });
+        checkOut.setOnClickListener(view1 -> getActivity().getFragmentManager()
+                .beginTransaction().addToBackStack(null)
+                .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit());
 
         checkOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
         toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);
@@ -175,69 +174,60 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
                         .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
                 break;
             }
+
+            case R.id.sign_out: {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void sortCatalog() {
-        final android.support.design.widget.BottomSheetDialog mBottomSheetDialog = new android.support.design.widget.BottomSheetDialog(getActivity());
-        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
+        final android.support.design.widget.BottomSheetDialog mBottomSheetDialog =
+                new android.support.design.widget.BottomSheetDialog(getActivity());
+        View dialogView = getActivity().getLayoutInflater()
+                .inflate(R.layout.dialog_bottom_sheet, null);
         TextView price = dialogView.findViewById(R.id.price);
-        price.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Collections.sort(productList, new Comparator<Product>() {
-                    @Override
-                    public int compare(Product product, Product t1) {
-                        if (product.getPrice() > t1.getPrice()) {
-                            return 0;
-                        } else if (product.getPrice() < t1.getPrice()) {
-                            return -1;
-                        }
-                        return 1;
-                    }
-                });
-                productAdapter.notifyDataSetChanged();
-                mBottomSheetDialog.dismiss();
-            }
+        price.setOnClickListener(view -> {
+            Collections.sort(productList, (product, t1) -> {
+                if (product.getPrice() > t1.getPrice()) {
+                    return 0;
+                } else if (product.getPrice() < t1.getPrice()) {
+                    return -1;
+                }
+                return 1;
+            });
+            productAdapter.notifyDataSetChanged();
+            mBottomSheetDialog.dismiss();
         });
         TextView bottle_size = dialogView.findViewById(R.id.bottle_size);
-        bottle_size.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Collections.sort(productList, new Comparator<Product>() {
-                    @Override
-                    public int compare(Product product, Product t1) {
-                        if (product.getBottleSize() > t1.getBottleSize()) {
-                            return 0;
-                        } else if (product.getBottleSize() < t1.getBottleSize()) {
-                            return -1;
-                        }
-                        return 1;
-                    }
-                });
-                productAdapter.notifyDataSetChanged();
-                mBottomSheetDialog.dismiss();
-            }
+        bottle_size.setOnClickListener(view -> {
+            Collections.sort(productList, (product, t1) -> {
+                if (product.getBottleSize() > t1.getBottleSize()) {
+                    return 0;
+                } else if (product.getBottleSize() < t1.getBottleSize()) {
+                    return -1;
+                }
+                return 1;
+            });
+            productAdapter.notifyDataSetChanged();
+            mBottomSheetDialog.dismiss();
         });
         TextView bottle_per_package = dialogView.findViewById(R.id.bottle_per_package);
-        bottle_per_package.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Collections.sort(productList, new Comparator<Product>() {
-                    @Override
-                    public int compare(Product product, Product t1) {
-                        if (product.getNo_bpp() > t1.getNo_bpp()) {
-                            return 0;
-                        } else if (product.getNo_bpp() < t1.getNo_bpp()) {
-                            return -1;
-                        }
-                        return 1;
-                    }
-                });
-                productAdapter.notifyDataSetChanged();
-                mBottomSheetDialog.dismiss();
-            }
+        bottle_per_package.setOnClickListener(view -> {
+            Collections.sort(productList, (product, t1) -> {
+                if (product.getNo_bpp() > t1.getNo_bpp()) {
+                    return 0;
+                } else if (product.getNo_bpp() < t1.getNo_bpp()) {
+                    return -1;
+                }
+                return 1;
+            });
+            productAdapter.notifyDataSetChanged();
+            mBottomSheetDialog.dismiss();
         });
         mBottomSheetDialog.setContentView(dialogView);
         mBottomSheetDialog.show();
@@ -259,16 +249,11 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
     public void onPrepareOptionsMenu(Menu menu) {
         final MenuItem alertMenuItem = menu.findItem(R.id.cart);
         FrameLayout rootView = (FrameLayout) alertMenuItem.getActionView();
-        redCircle = (FrameLayout) rootView.findViewById(R.id.view_alert_red_circle);
-        countTextView = (TextView) rootView.findViewById(R.id.view_alert_count_textview);
+        redCircle =  rootView.findViewById(R.id.view_alert_red_circle);
+        countTextView = rootView.findViewById(R.id.view_alert_count_textview);
         countTextView.setText(String.valueOf(alertCount));
         updateAlertIcon("0");
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(alertMenuItem);
-            }
-        });
+        rootView.setOnClickListener(v -> onOptionsItemSelected(alertMenuItem));
 
     }
 

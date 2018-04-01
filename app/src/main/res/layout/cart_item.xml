@@ -116,7 +116,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/no_in_package" />
 
-    <TextView
+    <EditText
         android:id="@+id/quntity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -58,4 +58,5 @@
     <string name="track_order">متابعة الطلب</string>
     <string name="shipped">تم الشحن</string>
     <string name="order_date">تاريخ الطلب</string>
+    <string name="sign_out">تسجيل الخروج</string>
 </resources>

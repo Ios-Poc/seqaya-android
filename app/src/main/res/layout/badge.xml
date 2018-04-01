@@ -1,5 +1,6 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/menu_item_size"
     android:layout_height="@dimen/menu_item_size"
@@ -14,7 +15,7 @@
             android:layout_width="@dimen/menu_item_icon_size"
             android:layout_height="@dimen/menu_item_icon_size"
             android:layout_gravity="center"
-            android:src="@drawable/ic_add_shopping_cart"/>
+            app:srcCompat="@drawable/ic_add_shopping_cart"/>
 
         <FrameLayout
             android:id="@+id/view_alert_red_circle"

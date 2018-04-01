@@ -75,8 +75,8 @@
 
     <ViewAnimator
         android:id="@+id/first_peace"
-        android:layout_width="115dp"
-        android:layout_height="10dp"
+        android:layout_width="100dp"
+        android:layout_height="5dp"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
@@ -96,8 +96,8 @@
 
     <ViewAnimator
         android:id="@+id/second_peace"
-        android:layout_width="115dp"
-        android:layout_height="10dp"
+        android:layout_width="100dp"
+        android:layout_height="5dp"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
@@ -111,9 +111,7 @@
         android:layout_width="33dp"
         android:layout_height="33dp"
         android:background="@drawable/ic_checked"
-        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/shipped_image"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/second_peace"
         app:layout_constraintTop_toTopOf="@+id/shipped_image" />
 

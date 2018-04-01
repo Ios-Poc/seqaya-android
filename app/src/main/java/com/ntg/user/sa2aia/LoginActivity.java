@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onResponse(@NonNull Call<UserAPI> call,
                                                @NonNull Response<UserAPI> response) {
                             if (response.isSuccessful()) {
-                                UserAPI user = (UserAPI) response.body();
+                                UserAPI user = response.body();
                                 if (user != null) {
                                     User.setEmail(user.getEmail());
                                     User.setName(user.getName());

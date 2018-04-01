@@ -109,8 +109,7 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
     @Override
     public void onTotalChange(int total) {
         this.total = total;
-
-        total_price.setText(String.valueOf(total));
+        total_price.setText("" + total);
     }
 
     @Override

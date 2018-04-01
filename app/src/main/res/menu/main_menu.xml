@@ -22,8 +22,12 @@
         android:id="@+id/history"
         android:title="@string/history"
         android:icon="@drawable/ic_history"
-        app:showAsAction="ifRoom">
+        app:showAsAction="ifRoom"/>
 
-    </item>
+    <item
+        android:id="@+id/sign_out"
+        android:title="@string/sign_out"
+        android:icon="@drawable/ic_history"
+        app:showAsAction="ifRoom"/>
 
 </menu>
