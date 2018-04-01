@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
+import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.Order;
@@ -38,7 +39,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public OrderHistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.order_history, parent, false);
+                .inflate(R.layout.order_history_item, parent, false);
         ViewUtil.addShadowToView(context, view);
         return new OrderHistoryViewHolder(view);
     }
@@ -60,42 +61,38 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
             }
         });
+
+        StateProgressBar stateProgressBar = holder.stateProgressBar;
+        String[] descriptionData = {"فى الطريق","تم التوصيل", "تم اعادة الطلب", "تم إلغاء الطلب"};
         switch (order.getStatus()) {
             case OrderStatus.IN_PROCESSING:
-                holder.shippedImage
-                        .setImageDrawable(ContextCompat.getDrawable(holder.deliverdImage.getContext(), R.drawable.x_mark));
-                holder.deliverdImage.setImageDrawable(ContextCompat.getDrawable(holder.deliverdImage.getContext(), R.drawable.x_mark));
-                holder.firstPeace.setBackgroundResource(R.color.colorRed);
-                holder.secondPeace.setBackgroundResource(R.color.colorRed);
-                holder.checkedState.setText(holder.checkedState.getContext().getString(R.string.in_progress));
-                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorBlack));
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[1]});
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
                 break;
             case OrderStatus.DELIVERED:
-                holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
-                holder.secondPeace.setBackgroundResource(R.color.colorRed);
-                holder.checkedState.setText("shipped");
-                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorBlack));
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[1]});
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setAllStatesCompleted(true);
                 break;
             case OrderStatus.CANCELED:
-                holder.checkedState.setText("deliverd");
-                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.green));
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[3]});
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
                 break;
             case OrderStatus.RETURNED:
-                holder.inprossisngImage.setImageResource(R.drawable.ic_x_mark);
-                holder.shippedImage.setImageResource(R.drawable.ic_x_mark);
-                holder.deliverdImage.setImageResource(R.drawable.ic_x_mark);
-                holder.firstPeace.setBackgroundResource(R.color.colorRed);
-                holder.secondPeace.setBackgroundResource(R.color.colorRed);
-                holder.checkedState.setText("returned");
-                holder.checkedState.setTextColor(ContextCompat.getColor(holder.checkedState.getContext(), R.color.colorRed));
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[2]});
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
                 break;
 
         }
-        holder.rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.rightArrow.setOnClickListener(v -> {
 
-            }
         });
 
     }
@@ -110,16 +107,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView orderId;
         @BindView(R.id.order_date)
         TextView orderDate;
-        @BindView(R.id.inprossisng_image)
-        ImageView inprossisngImage;
-        @BindView(R.id.first_peace)
-        ViewAnimator firstPeace;
-        @BindView(R.id.shipped_image)
-        ImageView shippedImage;
-        @BindView(R.id.second_peace)
-        ViewAnimator secondPeace;
-        @BindView(R.id.deliverd_image)
-        ImageView deliverdImage;
+        StateProgressBar stateProgressBar;
         @BindView(R.id.expected_delivery)
         TextView expectedDelivery;
         @BindView(R.id.product_image)
@@ -141,6 +129,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         OrderHistoryViewHolder(View view) {
             super(view);
+            stateProgressBar = view.findViewById(R.id.state_progress_bar);
             ButterKnife.bind(this, view);
         }
     }
