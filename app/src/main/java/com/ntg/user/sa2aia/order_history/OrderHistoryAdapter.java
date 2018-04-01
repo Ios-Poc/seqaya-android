@@ -55,15 +55,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.prodPrice.setText(String.valueOf(order.getCartItems().get(0).getProduct().getPrice()));
         holder.buttleSize.setText(String.valueOf(order.getCartItems().get(0).getProduct().getBottleSize()));
         holder.bpp.setText(String.valueOf(order.getCartItems().get(0).getProduct().getNo_bpp()));
-        holder.orderDetailsText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.orderDetailsText.setOnClickListener(v -> {});
 
         StateProgressBar stateProgressBar = holder.stateProgressBar;
-        String[] descriptionData = {"فى الطريق","تم التوصيل", "تم اعادة الطلب", "تم إلغاء الطلب"};
+        String[] descriptionData = {"جاري التجهيز","تم التوصيل", "تم اعادة الطلب", "تم إلغاء الطلب"};
         switch (order.getStatus()) {
             case OrderStatus.IN_PROCESSING:
                 stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[1]});

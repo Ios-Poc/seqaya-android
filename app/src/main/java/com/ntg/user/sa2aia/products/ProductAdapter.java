@@ -24,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
@@ -68,16 +69,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         });
         holder.addToCart.setOnClickListener(view -> {
+            ShoppingCart shoppingCart = User.getShoppingCart();
             CartItem cartItem = new CartItem(product, Integer.parseInt(holder.numberOfItem.getText().toString()));
-            for (CartItem item : cartItems) {
+            for (CartItem item : shoppingCart.getCartItemList()) {
                 if (item.getProduct().getId() == product.getId()) {
-                    cartItems.remove(item);
+                    shoppingCart.getCartItemList().remove(item);
                 }
             }
-            cartItems.add(cartItem);
-            ShoppingCart shoppingCart = User.getShoppingCart();
-            shoppingCart.setCartItemList(cartItems);
-            shoppingCartItemCount.itemsCount(cartItems.size());
+            shoppingCart.getCartItemList().add(cartItem);
+            shoppingCartItemCount.itemsCount(shoppingCart.getCartItemList().size());
         });
 
         holder.likeButton.setOnLikeListener(new OnLikeListener() {

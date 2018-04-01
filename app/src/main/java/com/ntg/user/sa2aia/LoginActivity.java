@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.ntg.user.sa2aia.model.APIError;
@@ -22,11 +24,16 @@ import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton googleButton;
     @BindView(R.id.login_layout)
     ConstraintLayout loginLayout;
+    @BindView(R.id.language_change)
+    ImageView languageChange;
+    @BindView(R.id.language_letter_indicator)
+    TextView languageLetterIndicator;
     private Retrofit retrofit;
 
     @Override
@@ -71,10 +82,10 @@ public class LoginActivity extends AppCompatActivity {
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-
     }
 
-    @OnClick({R.id.login_button, R.id.reg_nav_button, R.id.facebook_button, R.id.twitter_button, R.id.google_button})
+    @OnClick({R.id.login_button, R.id.reg_nav_button, R.id.facebook_button, R.id.twitter_button,
+            R.id.google_button, R.id.language_change})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_button:
@@ -88,6 +99,15 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.twitter_button:
                 break;
             case R.id.google_button:
+                break;
+            case R.id.language_change:
+                if (languageLetterIndicator.getText().toString()
+                        .equals(getString(R.string.english))) {
+                    languageLetterIndicator.setText(R.string.arabic);
+                } else {
+                    languageLetterIndicator.setText(R.string.english);
+                }
+
                 break;
         }
     }

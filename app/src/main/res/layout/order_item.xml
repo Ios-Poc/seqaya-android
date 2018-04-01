@@ -71,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bottle_size" />
 
     <View
-        android:id="@+id/imageView"
+        android:id="@+id/language_change"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="4dp"
@@ -115,7 +115,7 @@
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="16dp"
         app:layout_constraintEnd_toStartOf="@+id/product_image"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/language_change" />
 
     <TextView
         android:id="@+id/number_of_item"
