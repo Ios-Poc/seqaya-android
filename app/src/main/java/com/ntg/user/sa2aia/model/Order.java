@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by Sara Elmoghazy on 26/03/2018.
- */
+
 
 public class Order implements Serializable {
 

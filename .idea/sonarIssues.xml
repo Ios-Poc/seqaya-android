@@ -343,12 +343,27 @@
             <set />
           </value>
         </entry>
+        <entry key="E:/download ram/AndroidStudioProjects/Filmo/app/src/main/java/com/example/islam/filmo/adapters/MoviesAdpater.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="E:/download ram/AndroidStudioProjects/Filmo/app/src/main/res/layout/movie_item.xml">
           <value>
             <set />
           </value>
         </entry>
         <entry key="E:/download ram/Downloads/TantaDoctors/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/debug/res/values/google_maps_api.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/AndroidManifest.xml">
           <value>
             <set />
           </value>
@@ -379,6 +394,11 @@
           </value>
         </entry>
         <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/network/DoctorsService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="E:/download ram/Downloads/TantaDoctors/app/src/main/java/com/example/islam/tantadoctors/view/MapActivity.java">
           <value>
             <set />
           </value>
