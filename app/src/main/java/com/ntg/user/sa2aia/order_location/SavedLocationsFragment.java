@@ -18,12 +18,9 @@ import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Location;
 import com.ntg.user.sa2aia.model.Order;
-import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.User;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
-import com.ntg.user.sa2aia.products.ProductAdapter;
-import com.ntg.user.sa2aia.products.ProductsFragment;
 
 import java.util.List;
 
@@ -40,9 +37,8 @@ public class SavedLocationsFragment extends Fragment {
     SavedAdsAdapter adsAdapter;
     FrameLayout frameLayout;
     LinearLayoutManager layoutManager;
-    List<String> locations;
     Button cancel;
-    PublishSubject<String> addressObservable = PublishSubject.create();
+    PublishSubject<Location> addressObservable = PublishSubject.create();
     Order order;
 
     @Override
@@ -86,14 +82,14 @@ public class SavedLocationsFragment extends Fragment {
         rvLocations.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL));
         getLocations();
-        addressObservable.subscribe(new Observer<String>() {
+        addressObservable.subscribe(new Observer<Location>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(String s) {
+            public void onNext(Location s) {
                 order.setLocation(s);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra(MainActivity.ORDER, order);

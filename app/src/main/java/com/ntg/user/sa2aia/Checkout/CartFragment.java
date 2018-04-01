@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +49,7 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
     private List<CartItem> cartItemList;
     private LinearLayoutManager linearLayoutManager;
     private CartAdapter cartAdapter;
+    int total = 0;
 
     public static CartFragment newInstance() {
         return new CartFragment();
@@ -62,14 +64,16 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.time));
         ButterKnife.bind(this, view);
         cartItemList = User.getShoppingCart().getCartItemList();
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.checkout));
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.shopping_cart));
         products_rv.setLayoutManager(linearLayoutManager);
+        if (cartItemList == null)
+            cartItemList = new ArrayList<>();
         cartAdapter = new CartAdapter(cartItemList, getActivity(), this);
         products_rv.setAdapter(cartAdapter);
 
@@ -77,7 +81,7 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
             @Override
             public void onClick(View view) {
                 Order order = new Order(User.getEmail());
-                order.setTotal(Integer.parseInt(total_price.getText().toString()));
+                order.setTotal(total);
                 List<CartItem> cartItems = new ArrayList<>();
                 cartItems.addAll(cartItemList);
                 order.setCartItems(cartItems);
@@ -104,7 +108,9 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
 
     @Override
     public void onTotalChange(int total) {
-        total_price.setText("" + total);
+        this.total = total;
+
+        total_price.setText(String.valueOf(total));
     }
 
     @Override

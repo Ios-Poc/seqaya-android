@@ -14,10 +14,10 @@
     <string name="credit_card">بطاقة الإئتمان</string>
     <string name="sadad">سداد</string>
     <string name="transaction_approved">العملية</string>
-    <string name="order_items">اصناف الطلب</string>
+    <string name="order_items">أصناف الطلب</string>
     <string name="payment_details">تفاصيل الدفع</string>
-    <string name="delivery_location">التوصيل</string>
-    <string name="delivery_time">التوصيل</string>
+    <string name="delivery_location">عنوان التوصيل</string>
+    <string name="delivery_time">وقت التوصيل</string>
     <string name="done">تم</string>
     <string name="next">التالي</string>
     <string name="delivery">التوصيل</string>

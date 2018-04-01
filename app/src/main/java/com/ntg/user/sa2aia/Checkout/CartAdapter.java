@@ -20,10 +20,10 @@ import butterknife.ButterKnife;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHolder> {
 
-    int total = 0;
-    List<CartItem> cartItemList;
-    Context context;
-    TotalListener totalListener;
+    private int total = 0;
+    private List<CartItem> cartItemList;
+    private Context context;
+    private TotalListener totalListener;
 
     public CartAdapter(List<CartItem> cartItemList, Context context, TotalListener totalListener) {
         this.cartItemList = cartItemList;
@@ -33,7 +33,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
 
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chart_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item, parent, false);
         view.setLayoutDirection(View.LAYOUT_DIRECTION_LOCALE);
         ViewUtil.addShadowToView(context, view);
 
@@ -51,31 +51,34 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         holder.numberInPackage.setText(String.valueOf(cartItem.getProduct().getNo_bpp()));
         holder.price.setText(String.valueOf(cartItem.getProduct().getPrice()));
         holder.numberOfItem.setText(String.valueOf(cartItem.getQuantity()));
-        holder.increase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int number = Integer.parseInt(holder.numberOfItem.getText().toString());
-                number++;
+        holder.increase.setOnClickListener(view ->
+        {
+            int number = Integer.parseInt(holder.numberOfItem.getText().toString());
+            number++;
+            holder.numberOfItem.setText(String.valueOf(number));
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            total += cartItem.getProduct().getPrice();
+            totalListener.onTotalChange(total);
+        });
+        holder.decrease.setOnClickListener(view -> {
+            int number = Integer.parseInt(holder.numberOfItem.getText().toString());
+            if (number > 1) {
+                number--;
                 holder.numberOfItem.setText(String.valueOf(number));
-                total += cartItem.getProduct().getPrice();
+                cartItem.setQuantity(cartItem.getQuantity() - 1);
+                total -= cartItem.getProduct().getPrice();
                 totalListener.onTotalChange(total);
-            }
-        });
-        holder.decrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int number = Integer.parseInt(holder.numberOfItem.getText().toString());
-                if (number > 1) {
-                    number--;
-                    holder.numberOfItem.setText(String.valueOf(number));
-                    total -= cartItem.getProduct().getPrice();
-                    totalListener.onTotalChange(total);
-                    
-                }
 
             }
-        });
 
+        });
+        holder.errorBtn.setOnClickListener(view -> {
+            total = 0;
+            cartItemList.remove(cartItem);
+            notifyDataSetChanged();
+            if (cartItemList.isEmpty())
+                totalListener.onTotalChange(total);
+        });
     }
 
 
@@ -104,6 +107,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         ImageButton decrease;
         @BindView(R.id.plusBtn)
         ImageButton increase;
+        @BindView(R.id.errorBtn)
+        ImageButton errorBtn;
 
 
         ProductViewHolder(View itemView) {

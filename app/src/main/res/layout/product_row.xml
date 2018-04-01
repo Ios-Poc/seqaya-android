@@ -81,6 +81,8 @@
                     android:layout_weight="10"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_remove_circle" />
+
+
             </LinearLayout>
         </LinearLayout>
 
@@ -94,11 +96,11 @@
 
             <com.like.LikeButton
                 android:id="@+id/fav"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
                 app:like_drawable="@drawable/ic_like"
-                app:unlike_drawable="@drawable/ic_un_like"/>
+                app:unlike_drawable="@drawable/ic_unlike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
 
             <TextView
                 android:id="@+id/price"

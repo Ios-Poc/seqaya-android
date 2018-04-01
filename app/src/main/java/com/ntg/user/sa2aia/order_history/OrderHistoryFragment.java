@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +43,7 @@ public class OrderHistoryFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_history, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.history));
         listOfOldOrders = view.findViewById(R.id.list_of_oders);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -57,6 +59,7 @@ public class OrderHistoryFragment extends BaseFragment {
 
                     @Override
                     public void onFailure(Call<List<Order>> call, Throwable t) {
+                        Log.e("Error", t.getMessage());
 
                     }
                 });

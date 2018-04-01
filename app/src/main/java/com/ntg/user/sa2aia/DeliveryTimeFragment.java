@@ -45,6 +45,7 @@ public class DeliveryTimeFragment extends BaseFragment implements View.OnClickLi
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_date_and_time, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.time_title));
         Button = view.findViewById(R.id.layout_time);
         btn_dialog_1 = view.findViewById(R.id.btn_dialog_1);

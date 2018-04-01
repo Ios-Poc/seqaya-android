@@ -247,13 +247,12 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
     public void onInfoWindowClick(Marker marker) {
         MarkerInfo markerInfo = (MarkerInfo) marker.getTag();
         finaladdress = markerInfo.getAddress();
-
         ApiClient.getClient().create(ProductService.class).addNewLocation(location)
                 .enqueue(new Callback<Location>() {
                     @Override
                     public void onResponse(Call<Location> call, Response<Location> response) {
                         Location loc = response.body();
-                        order.setLocation(loc.getAddress());
+                        order.setLocation(loc);
                     }
 
                     @Override

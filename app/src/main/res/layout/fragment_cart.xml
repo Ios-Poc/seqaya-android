@@ -10,71 +10,76 @@
         android:id="@+id/rv_product"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </android.support.v7.widget.RecyclerView>
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/CardStyle">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="right"
-    >
-
     <TextView
         android:id="@+id/price_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="750ريال"
+        android:layout_marginRight="16dp"
+        android:gravity="right"
+        android:text="10"
         android:textColor="@android:color/black"
-        android:textSize="20dp" />
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="التكلفه الكلية :"
-            android:textColor="@android:color/black"
-            android:textSize="20dp"
-            android:gravity="right"
-            />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv"
+        app:layout_constraintRight_toLeftOf="@+id/tv"
+        app:layout_constraintTop_toTopOf="@+id/tv" />
 
-</LinearLayout>
-        <Button
-            android:id="@+id/confirmBtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/button"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/confirm"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="511dp" />
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="right"
+        android:text="@string/total"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/confirmBtn"
+        style="@style/buttonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="115dp" />
+
+    <TextView
+        android:id="@+id/tetet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:text="@string/rs"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/price_all"
+        app:layout_constraintRight_toLeftOf="@+id/price_all"
+        app:layout_constraintTop_toTopOf="@+id/price_all"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
 

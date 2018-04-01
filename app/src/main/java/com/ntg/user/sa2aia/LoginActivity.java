@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.gson.Gson;
+import com.ntg.user.sa2aia.model.APIError;
 import com.ntg.user.sa2aia.model.Credential;
 import com.ntg.user.sa2aia.model.User;
 import com.ntg.user.sa2aia.model.UserAPI;
@@ -26,6 +30,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static com.ntg.user.sa2aia.StringUtil.isNullOrEmpty;
 import static com.ntg.user.sa2aia.StringUtil.isValidEmailAddress;
@@ -47,13 +52,19 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton twitterButton;
     @BindView(R.id.google_button)
     ImageButton googleButton;
+    @BindView(R.id.login_layout)
+    ConstraintLayout loginLayout;
+    private Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
+        if (BuildConfig.DEBUG) {
+            loginEmailEditText.setText("seqa@ntgclairty.com");
+            loginPasswordEditText.setText("1234");
+        }
         String languageToLoad = "ar";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -82,8 +93,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        if (getCredential() != null)
-            ApiClient.getClient().create(ProductService.class)
+        if (getCredential() != null) {
+            retrofit = ApiClient.getClient();
+            retrofit.create(ProductService.class)
                     .login(getCredential())
                     .enqueue(new Callback<UserAPI>() {
                         @Override
@@ -99,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             } else {
                                 try {
-                                    Log.d("login error", response.errorBody().string());
+                                    String errorJson = response.errorBody().string();
+                                    Log.d("login error", errorJson);
+                                    showErrorMessage(errorJson);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -108,9 +122,18 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(@NonNull Call<UserAPI> call, @NonNull Throwable t) {
-
+                            Snackbar.make(loginLayout, "Check your connection",
+                                    Snackbar.LENGTH_LONG)
+                                    .show();
                         }
                     });
+        }
+    }
+
+    private void showErrorMessage(String jsonString) {
+        Gson gson = new Gson();
+        APIError apiError = gson.fromJson(jsonString, APIError.class);
+        Snackbar.make(loginLayout, apiError.getMessage(), Snackbar.LENGTH_LONG).show();
     }
 
     private void navigateToMainActivity() {

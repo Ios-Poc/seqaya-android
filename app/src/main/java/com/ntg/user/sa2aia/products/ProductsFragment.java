@@ -80,7 +80,14 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
         linearLayoutManager = new LinearLayoutManager(getActivity());
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
-
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getFragmentManager()
+                        .beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
+            }
+        });
 
         checkOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
         toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);

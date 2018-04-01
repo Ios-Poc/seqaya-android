@@ -64,10 +64,11 @@ public class SummaryOrderFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.order_main, container, false);
         ButterKnife.bind(this, view);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.order_summary);
 
         order = (Order) getArguments().getSerializable(MainActivity.ORDER);
-        deliveryLocation.setText(order.getLocation());
+        deliveryLocation.setText(order.getLocation().getAddress());
         switch (order.getPaymentMethod()) {
             case PaymentMethod.BANK_TRANSFER:
                 paymentDetails.setText(getString(R.string.bank_transfer));
