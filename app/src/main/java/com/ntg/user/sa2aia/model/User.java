@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.model;
 
 import java.io.Serializable;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by ilias on 27/03/2018.
@@ -38,5 +39,9 @@ public class User implements Serializable {
 
     public static void setPassword(String password) {
         User.password = password;
+    }
+
+    public static void clearCart(){
+        shoppingCart.setCartItemList(new CopyOnWriteArrayList<>());
     }
 }

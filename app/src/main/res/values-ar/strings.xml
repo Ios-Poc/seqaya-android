@@ -25,7 +25,7 @@
     <string name="cost">التكلفة</string>
     <string name="total">الإجمالي: </string>
     <string name="quantity">الكمية: </string>
-    <string name="bottle_per_package">زجاجة / عبوة: </string>
+    <string name="bottle_per_package">زجاجة / عبوة</string>
     <string name="litre">لتر</string>
     <string name="rs">ريال سعودي</string>
     <string name="checkout">الدفع</string>

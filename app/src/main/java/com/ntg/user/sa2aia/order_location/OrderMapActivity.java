@@ -87,12 +87,9 @@ public class OrderMapActivity extends FragmentActivity implements OnMapReadyCall
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("هناك خطأ");
             builder.setMessage("تأكد من الاتصال الأنترنت");
-            builder.setPositiveButton("تم", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                    OrderMapActivity.this.finish();
-                }
+            builder.setPositiveButton("تم", (dialog, which) -> {
+                dialog.cancel();
+                OrderMapActivity.this.finish();
             });
             builder.show();
         }

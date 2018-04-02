@@ -62,4 +62,5 @@
     <string name="sign_out">تسجيل الخروج</string>
     <string name="arabic">ع</string>
     <string name="english">En</string>
+    <string name="no_items">العربة فارغة</string>
 </resources>

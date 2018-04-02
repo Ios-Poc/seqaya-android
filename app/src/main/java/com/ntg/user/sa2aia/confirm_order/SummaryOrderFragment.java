@@ -23,6 +23,7 @@ import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.PaymentMethod;
+import com.ntg.user.sa2aia.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +100,7 @@ public class SummaryOrderFragment extends BaseFragment {
 
     @OnClick(R.id.done)
     public void onViewClicked() {
-
+        User.clearCart();
         for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); ++i) {
             getFragmentManager().popBackStack();
         }

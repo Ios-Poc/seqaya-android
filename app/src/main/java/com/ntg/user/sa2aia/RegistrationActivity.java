@@ -112,7 +112,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(@NonNull Call<UserAPI> call, @NonNull Throwable t) {
-                            Snackbar.make(registrationLayout, "Check your connection",
+                            Snackbar.make(registrationLayout, "تأكد من اتصال الانترنت",
                                     Snackbar.LENGTH_LONG)
                                     .show();
                         }

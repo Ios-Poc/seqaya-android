@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(@NonNull Call<UserAPI> call, @NonNull Throwable t) {
-                            Snackbar.make(loginLayout, "Check your connection",
+                            Snackbar.make(loginLayout, "تأكد من اتصال الانترنت",
                                     Snackbar.LENGTH_LONG)
                                     .show();
                         }

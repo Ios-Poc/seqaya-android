@@ -31,7 +31,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_row, parent, false);
+        View row = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.order_row, parent, false);
         ViewUtil.addShadowToView(context, row);
         return new ListViewHolder(row);
     }
@@ -53,7 +54,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return orderList.size();
     }
 
-    class ListViewHolder extends RecyclerView.ViewHolder {
+    static class ListViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.product_name)
         TextView productName;
         @BindView(R.id.product_manufacturer)
@@ -69,12 +70,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         @BindView(R.id.product_image)
         ImageView productImage;
 
-        public ListViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        ListViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
         }
     }
-
 }
 
 
