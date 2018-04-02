@@ -3,6 +3,7 @@ package com.ntg.user.sa2aia.products;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -25,16 +25,17 @@ import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.Checkout.CartFragment;
 import com.ntg.user.sa2aia.LoginActivity;
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.favourites.FavouritesFragment;
+import com.ntg.user.sa2aia.model.Fav;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.User;
-import com.ntg.user.sa2aia.model.UserAPI;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
 import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,7 +49,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class ProductsFragment extends BaseFragment implements ShoppingCartItemCount {
+public class ProductsFragment extends BaseFragment implements ShoppingCartItemCount, AddFavourite {
 
     @BindView(R.id.rv_products)
     RecyclerView products_rv;
@@ -110,7 +111,7 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this);
+                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -181,6 +182,11 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
                 getActivity().finish();
                 break;
             }
+            case R.id.fav:{
+                getActivity().getFragmentManager()
+                        .beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, new FavouritesFragment()).commit();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -249,7 +255,7 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
     public void onPrepareOptionsMenu(Menu menu) {
         final MenuItem alertMenuItem = menu.findItem(R.id.cart);
         FrameLayout rootView = (FrameLayout) alertMenuItem.getActionView();
-        redCircle =  rootView.findViewById(R.id.view_alert_red_circle);
+        redCircle = rootView.findViewById(R.id.view_alert_red_circle);
         countTextView = rootView.findViewById(R.id.view_alert_count_textview);
         countTextView.setText(String.valueOf(alertCount));
         updateAlertIcon("0");
@@ -265,7 +271,7 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this);
+                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -279,5 +285,35 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
 
             }
         });
+    }
+
+    @Override
+    public void getFavouriteProduct(Product product) {
+        Fav fav = new Fav(User.getEmail(), String.valueOf(product.getId()));
+        ProductService productService = ApiClient.getClient().create(ProductService.class);
+        productService.addFav(fav)
+                .enqueue(new Callback<Fav>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Fav> call,
+                                           @NonNull Response<Fav> response) {
+                        if (response.isSuccessful()) {
+                            Fav fav = response.body();
+                            Log.d("fav", fav.getProductId());
+                        } else {
+                            String error = null;
+                            try {
+                                error = response.errorBody().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.d("fav", error);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Fav> call, @NonNull Throwable t) {
+                        Log.d("fav", t.getMessage());
+                    }
+                });
     }
 }

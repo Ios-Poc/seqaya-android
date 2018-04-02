@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.network;
 
 import com.ntg.user.sa2aia.model.Credential;
+import com.ntg.user.sa2aia.model.Fav;
 import com.ntg.user.sa2aia.model.Location;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.Product;
@@ -45,4 +46,10 @@ public interface ProductService {
 
     @GET("location/{userId}")
     Call<List<Location>> getSavedLocations(@Path("userId") String userId);
+
+    @POST("fav")
+    Call<Fav> addFav(@Body Fav fav);
+
+    @GET("fav/{userId}")
+    Call<List<Product>> getFavs(@Path("userId") String userId);
 }

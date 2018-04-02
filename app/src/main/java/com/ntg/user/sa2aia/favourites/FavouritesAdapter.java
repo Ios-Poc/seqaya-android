@@ -1,4 +1,4 @@
-package com.ntg.user.sa2aia.products;
+package com.ntg.user.sa2aia.favourites;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +19,8 @@ import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.products.AddFavourite;
+import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,18 +28,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ProductViewHolder> {
     private List<Product> productList;
     private Context context;
-    private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
-    private ShoppingCartItemCount shoppingCartItemCount;
-    private AddFavourite addFavourite;
 
-    public ProductAdapter(List<Product> productList, Context context, ShoppingCartItemCount shoppingCartItemCount, AddFavourite addFavourite) {
+    public FavouritesAdapter(List<Product> productList, Context context) {
         this.productList = productList;
         this.context = context;
-        this.shoppingCartItemCount = shoppingCartItemCount;
-        this.addFavourite = addFavourite;
+
     }
 
     @Override
@@ -79,14 +77,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
             }
             shoppingCart.getCartItemList().add(cartItem);
-            shoppingCartItemCount.itemsCount(shoppingCart.getCartItemList().size());
         });
 
         holder.likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
                 Toast.makeText(context, "liked", Toast.LENGTH_SHORT).show();
-                addFavourite.getFavouriteProduct(product);
 
             }
 

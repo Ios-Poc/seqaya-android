@@ -3,6 +3,7 @@ package com.ntg.user.sa2aia.order_history;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ViewAnimator;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
+import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.OrderStatus;
 
@@ -47,14 +49,17 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder(OrderHistoryViewHolder holder, int position) {
         Order order = orders.get(position);
+        List<CartItem> cartItems = order.getCartItems();
         OrderHistoryViewHolder orderHistoryViewHolder = (OrderHistoryViewHolder) holder;
         holder.orderId.setText(order.getId());
         holder.expectedDelivery.setText(order.getDeliveryDate());
         holder.orderDate.setText(order.getDeliveryDate());
-        holder.prodName.setText(order.getCartItems().get(0).getProduct().getName());
-        holder.prodPrice.setText(String.valueOf(order.getCartItems().get(0).getProduct().getPrice()));
-        holder.buttleSize.setText(String.valueOf(order.getCartItems().get(0).getProduct().getBottleSize()));
-        holder.bpp.setText(String.valueOf(order.getCartItems().get(0).getProduct().getNo_bpp()));
+        if (!cartItems.isEmpty()) {
+            holder.prodName.setText(cartItems.get(0).getProduct().getName());
+            holder.prodPrice.setText(String.valueOf(cartItems.get(0).getProduct().getPrice()));
+            holder.buttleSize.setText(String.valueOf(cartItems.get(0).getProduct().getBottleSize()));
+            holder.bpp.setText(String.valueOf(cartItems.get(0).getProduct().getNo_bpp()));
+        }
         holder.orderDetailsText.setOnClickListener(v -> {});
 
         StateProgressBar stateProgressBar = holder.stateProgressBar;
@@ -107,8 +112,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView expectedDelivery;
         @BindView(R.id.product_image)
         ImageView productImage;
-        @BindView(R.id.checked_state)
-        TextView checkedState;
         @BindView(R.id.order_details_text)
         TextView orderDetailsText;
         @BindView(R.id.right_arrow)
