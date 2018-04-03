@@ -8,11 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.R;
@@ -23,6 +21,9 @@ import com.ntg.user.sa2aia.network.ProductService;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +33,9 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class OrderHistoryFragment extends BaseFragment {
+    @BindView(R.id.loading_indicator)
+    LinearLayout loadingIndicator;
+    Unbinder unbinder;
     private RecyclerView listOfOldOrders;
     private OrderHistoryAdapter adapter;
     List<Order> orders;
@@ -42,6 +46,7 @@ public class OrderHistoryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_history, container, false);
+        unbinder = ButterKnife.bind(this, view);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.history));
@@ -52,9 +57,12 @@ public class OrderHistoryFragment extends BaseFragment {
                 .enqueue(new Callback<List<Order>>() {
                     @Override
                     public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
-                        orders = response.body();
-                        adapter = new OrderHistoryAdapter(orders, getContext());
-                        listOfOldOrders.setAdapter(adapter);
+                        if (response.isSuccessful()) {
+                            loadingIndicator.setVisibility(View.GONE);
+                            orders = response.body();
+                            adapter = new OrderHistoryAdapter(orders, getActivity());
+                            listOfOldOrders.setAdapter(adapter);
+                        }
                     }
 
                     @Override
@@ -64,5 +72,11 @@ public class OrderHistoryFragment extends BaseFragment {
                     }
                 });
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

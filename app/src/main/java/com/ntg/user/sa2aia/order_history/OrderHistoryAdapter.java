@@ -50,7 +50,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public void onBindViewHolder(OrderHistoryViewHolder holder, int position) {
         Order order = orders.get(position);
         List<CartItem> cartItems = order.getCartItems();
-        OrderHistoryViewHolder orderHistoryViewHolder = (OrderHistoryViewHolder) holder;
         holder.orderId.setText(order.getId());
         holder.expectedDelivery.setText(order.getDeliveryDate());
         holder.orderDate.setText(order.getDeliveryDate());
@@ -60,31 +59,37 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             holder.buttleSize.setText(String.valueOf(cartItems.get(0).getProduct().getBottleSize()));
             holder.bpp.setText(String.valueOf(cartItems.get(0).getProduct().getNo_bpp()));
         }
-        holder.orderDetailsText.setOnClickListener(v -> {});
+        holder.orderDetailsText.setOnClickListener(v -> {
+        });
 
         StateProgressBar stateProgressBar = holder.stateProgressBar;
-        String[] descriptionData = {"جاري التجهيز","تم التوصيل", "تم اعادة الطلب", "تم إلغاء الطلب"};
+        String[] descriptionData = {"جاري التجهيز", "تم التوصيل", "تم اعادة الطلب",
+                "تم إلغاء الطلب"};
         switch (order.getStatus()) {
             case OrderStatus.IN_PROCESSING:
-                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[1]});
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],
+                        descriptionData[1]});
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
                 stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
                 break;
             case OrderStatus.DELIVERED:
-                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[1]});
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],
+                        descriptionData[1]});
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setAllStatesCompleted(true);
                 break;
             case OrderStatus.CANCELED:
-                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[3]});
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],
+                        descriptionData[3]});
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);
                 break;
             case OrderStatus.RETURNED:
-                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],descriptionData[2]});
+                stateProgressBar.setStateDescriptionData(new String[]{descriptionData[0],
+                        descriptionData[2]});
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                 stateProgressBar.setMaxStateNumber(StateProgressBar.StateNumber.TWO);

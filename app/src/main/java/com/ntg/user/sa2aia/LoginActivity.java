@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         if (BuildConfig.DEBUG) {
-            loginEmailEditText.setText("seqa@ntgclairty.com");
+            loginEmailEditText.setText("seqaya@ntgclarity.com");
             loginPasswordEditText.setText("1234");
         }
         String languageToLoad = "ar";
@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                             Snackbar.make(loginLayout, "تأكد من اتصال الانترنت",
                                     Snackbar.LENGTH_LONG)
                                     .show();
+                            Log.d("connection error", t.getMessage());
                         }
                     });
         }

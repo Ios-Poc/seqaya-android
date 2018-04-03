@@ -98,9 +98,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/rs"
         android:textColor="@android:color/holo_blue_dark"
-        app:layout_constraintEnd_toEndOf="@+id/price"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/price"
+        app:layout_constraintRight_toRightOf="@+id/price"
+        app:layout_constraintLeft_toLeftOf="@+id/price"
         app:layout_constraintTop_toBottomOf="@+id/price" />
 
     <TextView
@@ -147,7 +146,7 @@
         android:layout_height="30dp"
         android:layout_marginRight="8dp"
         android:background="@android:color/white"
-        android:src="@drawable/minus"
+        app:srcCompat="@drawable/ic_remove_circle"
         app:layout_constraintBottom_toBottomOf="@+id/plusBtn"
         app:layout_constraintRight_toLeftOf="@+id/quntity"
         app:layout_constraintTop_toTopOf="@+id/plusBtn"
@@ -170,7 +169,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
-        android:src="@drawable/plus"
+        app:srcCompat="@drawable/ic_add_circle"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintRight_toLeftOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />

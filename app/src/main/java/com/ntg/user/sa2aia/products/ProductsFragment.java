@@ -1,9 +1,10 @@
 package com.ntg.user.sa2aia.products;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,21 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ntg.user.sa2aia.BaseFragment;
-import com.ntg.user.sa2aia.Checkout.CartFragment;
-import com.ntg.user.sa2aia.LoginActivity;
 import com.ntg.user.sa2aia.R;
-import com.ntg.user.sa2aia.favourites.FavouritesFragment;
 import com.ntg.user.sa2aia.model.Fav;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.User;
 import com.ntg.user.sa2aia.network.ApiClient;
 import com.ntg.user.sa2aia.network.ProductService;
-import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,68 +36,65 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
-
-public class ProductsFragment extends BaseFragment implements ShoppingCartItemCount, AddFavourite {
+public class ProductsFragment extends BaseFragment implements AddFavourite {
 
     @BindView(R.id.rv_products)
     RecyclerView products_rv;
-    @BindView(R.id.check_out)
-    Button checkOut;
     Animation checkOutAnimation, toolBarAnimation;
+    @BindView(R.id.loading_indicator)
+    LinearLayout loadingIndicator;
     private List<Product> productList;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
-    private FrameLayout redCircle;
-    private TextView countTextView;
-    private int alertCount = 0;
+    private ShoppingCartItemCount shoppingCartItemCount;
+    private Unbinder unbinder;
 
 
-    public static ProductsFragment newInstance() {
+    public static ProductsFragment newInstance(ShoppingCartItemCount shoppingCartItemCount) {
         ProductsFragment fragment = new ProductsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("count", shoppingCartItemCount);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null)
+            shoppingCartItemCount = args.getParcelable("count");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_catalog, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         int res = R.anim.layout_animation_fall_down;
         productList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
-        checkOut.setOnClickListener(view1 -> getActivity().getFragmentManager()
-                .beginTransaction().addToBackStack(null)
-                .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit());
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(getString(R.string.app_name));
+        }
 
         checkOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
         toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);
-        checkOut.setAnimation(checkOutAnimation);
         products_rv.setItemAnimator(new OvershootInLeftAnimator());
         products_rv.getItemAnimator().setAddDuration(700);
         getProducts();
 
         return view;
-    }
-
-    @Override
-    public void itemsCount(int count) {
-        updateAlertIcon(String.valueOf(count));
     }
 
     void getProducts() {
@@ -111,7 +104,9 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this, ProductsFragment.this);
+                    loadingIndicator.setVisibility(View.GONE);
+                    productAdapter = new ProductAdapter(productList, getActivity(),
+                            shoppingCartItemCount, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -163,37 +158,13 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
                 sortCatalog();
                 break;
             }
-            case R.id.history: {
-                getActivity().getFragmentManager()
-                        .beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, new OrderHistoryFragment()).commit();
-                break;
-            }
-            case R.id.cart: {
-                getActivity().getFragmentManager()
-                        .beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, CartFragment.newInstance(), "CartFragment").commit();
-                break;
-            }
-
-            case R.id.sign_out: {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-                break;
-            }
-            case R.id.fav:{
-                getActivity().getFragmentManager()
-                        .beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, new FavouritesFragment()).commit();
-            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void sortCatalog() {
-        final android.support.design.widget.BottomSheetDialog mBottomSheetDialog =
-                new android.support.design.widget.BottomSheetDialog(getActivity());
+        final BottomSheetDialog mBottomSheetDialog =
+                new BottomSheetDialog(getActivity());
         View dialogView = getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_bottom_sheet, null);
         TextView price = dialogView.findViewById(R.id.price);
@@ -239,30 +210,6 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
         mBottomSheetDialog.show();
     }
 
-    private void updateAlertIcon(String count) {
-        // if alert count extends into two digits, just show the red circle
-        if (Integer.parseInt(count) > 0) {
-            countTextView.setText(count);
-        } else {
-            countTextView.setText("");
-            redCircle.setVisibility(GONE);
-        }
-
-        redCircle.setVisibility((Integer.parseInt(count) > 0) ? VISIBLE : GONE);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        final MenuItem alertMenuItem = menu.findItem(R.id.cart);
-        FrameLayout rootView = (FrameLayout) alertMenuItem.getActionView();
-        redCircle = rootView.findViewById(R.id.view_alert_red_circle);
-        countTextView = rootView.findViewById(R.id.view_alert_count_textview);
-        countTextView.setText(String.valueOf(alertCount));
-        updateAlertIcon("0");
-        rootView.setOnClickListener(v -> onOptionsItemSelected(alertMenuItem));
-
-    }
-
     void search(String keyWord) {
 
         ProductService productService = ApiClient.getClient().create(ProductService.class);
@@ -271,7 +218,8 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    productAdapter = new ProductAdapter(productList, getActivity(), ProductsFragment.this, ProductsFragment.this);
+                    productAdapter = new ProductAdapter(productList, getActivity(),
+                            shoppingCartItemCount, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -315,5 +263,11 @@ public class ProductsFragment extends BaseFragment implements ShoppingCartItemCo
                         Log.d("fav", t.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

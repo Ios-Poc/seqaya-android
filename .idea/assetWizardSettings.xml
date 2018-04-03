@@ -5,7 +5,42 @@
       <map>
         <entry key="imageWizard">
           <value>
-            <PersistentState />
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="imageAssetPanel">
+                    <value>
+                      <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="actionbar">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="H:\icons\exit.png" />
+                                      <entry key="outputName" value="ic_exit" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="2196f3" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
           </value>
         </entry>
         <entry key="vectorWizard">
@@ -19,8 +54,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_shopping_cart" />
-                            <entry key="sourceFile" value="H:\icons\shopping-cart.svg" />
+                            <entry key="outputName" value="ic_exit" />
+                            <entry key="sourceFile" value="H:\icons\exit.svg" />
                           </map>
                         </option>
                       </PersistentState>

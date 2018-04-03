@@ -64,6 +64,8 @@
     <string name="english">En</string>
     <string name="no_items">العربة فارغة</string>
     <string name="favourite">favourites</string>
+    <string name="catalog">الرئيسية</string>
+    <string name="settings">الاعدادت</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

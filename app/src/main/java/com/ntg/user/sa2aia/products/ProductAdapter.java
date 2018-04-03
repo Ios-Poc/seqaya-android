@@ -29,11 +29,11 @@ import butterknife.ButterKnife;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
     private Context context;
-    private List<CartItem> cartItems = new CopyOnWriteArrayList<>();
     private ShoppingCartItemCount shoppingCartItemCount;
     private AddFavourite addFavourite;
 
-    public ProductAdapter(List<Product> productList, Context context, ShoppingCartItemCount shoppingCartItemCount, AddFavourite addFavourite) {
+    public ProductAdapter(List<Product> productList, Context context,
+                          ShoppingCartItemCount shoppingCartItemCount, AddFavourite addFavourite) {
         this.productList = productList;
         this.context = context;
         this.shoppingCartItemCount = shoppingCartItemCount;
@@ -56,7 +56,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.manufacturer.setText(product.getManufacturer());
         holder.bottleSize.setText(String.valueOf(product.getBottleSize()) + "لتر");
         holder.numberInPackage.setText(String.valueOf(product.getNo_bpp()) + "زجاجة");
-        holder.price.setText(String.valueOf(product.getPrice()) + " ريال");
+        holder.price.setText(String.valueOf(product.getPrice()));
         holder.increase.setOnClickListener(view -> {
             int number = Integer.parseInt(holder.numberOfItem.getText().toString());
             number++;

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:id="@+id/loading_indicator"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -11,15 +12,6 @@
         android:id="@+id/loading_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/white" />
-
-    <TextView
-        android:id="@+id/text"
-        style="@style/loadingIndicatorText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:text="@string/loading_indicator_message" />
+        android:indeterminateDrawable="@drawable/progress" />
 
 </LinearLayout>
