@@ -20,11 +20,8 @@ import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
 import com.ntg.user.sa2aia.model.User;
-import com.ntg.user.sa2aia.products.AddFavourite;
-import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

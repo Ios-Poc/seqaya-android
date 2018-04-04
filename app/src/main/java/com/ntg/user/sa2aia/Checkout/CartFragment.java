@@ -2,6 +2,7 @@ package com.ntg.user.sa2aia.Checkout;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -21,7 +22,6 @@ import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.DeliveryTimeFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
-import com.ntg.user.sa2aia.confirm_order.ClearList;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.User;
@@ -52,12 +52,12 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
     @BindView(R.id.reyal_saudi)
     TextView reyalSaudi;
     Unbinder unbinder;
-    ClearList clearList;
 
     private List<CartItem> cartItemList;
     private LinearLayoutManager linearLayoutManager;
     private CartAdapter cartAdapter;
     int total = 0;
+    private CartItemsCountListener countListener;
 
     public static CartFragment newInstance() {
         return new CartFragment();
@@ -84,7 +84,7 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
         products_rv.setLayoutManager(linearLayoutManager);
         if (cartItemList.isEmpty())
             showNoItems();
-        cartAdapter = new CartAdapter(cartItemList, getActivity(), this);
+        cartAdapter = new CartAdapter(cartItemList, getActivity(), this, countListener);
         products_rv.setAdapter(cartAdapter);
 
         confirmBtn.setOnClickListener(view1 -> {
@@ -119,6 +119,17 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
             deliveryTimeFragment.setArguments(args);
             getActivity().getFragmentManager().beginTransaction().addToBackStack(null)
                     .replace(R.id.container, deliveryTimeFragment).commitAllowingStateLoss();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            countListener = (CartItemsCountListener) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
         }
     }
 

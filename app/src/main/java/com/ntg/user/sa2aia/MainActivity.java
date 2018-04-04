@@ -2,7 +2,6 @@ package com.ntg.user.sa2aia;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,18 +11,17 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.ntg.user.sa2aia.Checkout.CartFragment;
-import com.ntg.user.sa2aia.confirm_order.ClearList;
+import com.ntg.user.sa2aia.Checkout.CartItemsCountListener;
 import com.ntg.user.sa2aia.favourites.FavouritesFragment;
 import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
 import com.ntg.user.sa2aia.products.ProductsFragment;
-import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
 import com.ntg.user.sa2aia.settings.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements ClearList {
+public class MainActivity extends AppCompatActivity implements CartItemsCountListener {
 
     public static String ORDER = "order";
     @BindView(R.id.include)
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements ClearList {
                             getFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.container,
-                                            ProductsFragment.newInstance(activityCountListener))
+                                            ProductsFragment.newInstance())
                                     .commit();
                             return true;
 
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements ClearList {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, ProductsFragment.newInstance(activityCountListener))
+                .replace(R.id.container, ProductsFragment.newInstance())
                 .commit();
     }
 
@@ -119,33 +117,23 @@ public class MainActivity extends AppCompatActivity implements ClearList {
         onBackPressed();
         return true;
     }
-    ShoppingCartItemCount activityCountListener = new ShoppingCartItemCount() {
-        @Override
-        public void itemsCount(int count) {
-                AHNotification notification = new AHNotification.Builder()
-                        .setText(count + "")
-                        .setBackgroundColor(ContextCompat.getColor(MainActivity.this,
-                                R.color.colorAccent))
-                        .setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white))
-                        .build();
-                bottomNavigationView.setNotification(notification, 1);
 
-
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {}
-    };
+    private void showCartItemsCountNotification(int count) {
+        AHNotification notification = new AHNotification.Builder()
+                .setText(count + "")
+                .setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                        R.color.colorAccent))
+                .setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white))
+                .build();
+        bottomNavigationView.setNotification(notification, 1);
+    }
 
     @Override
-    public void clearList(boolean b) {
-        if (b){
+    public void onCartItemsCountChanged(int count) {
+        if (count == 0){
             bottomNavigationView.setNotification("" , 1);
+        } else {
+            showCartItemsCountNotification(count);
         }
     }
 }

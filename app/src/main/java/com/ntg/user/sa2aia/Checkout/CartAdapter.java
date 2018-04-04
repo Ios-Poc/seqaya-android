@@ -25,11 +25,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
     private List<CartItem> cartItemList;
     private Context context;
     private TotalListener totalListener;
+    private CartItemsCountListener countListener;
 
-    public CartAdapter(List<CartItem> cartItemList, Context context, TotalListener totalListener) {
+    public CartAdapter(List<CartItem> cartItemList, Context context, TotalListener totalListener,
+                       CartItemsCountListener countListener) {
         this.cartItemList = cartItemList;
         this.context = context;
         this.totalListener = totalListener;
+        this.countListener = countListener;
     }
 
     @Override
@@ -48,7 +51,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         totalListener.onTotalChange(total);
         Glide.with(context)
                 .load(context.getResources()
-                        .getIdentifier(cartItem.getProduct().getPhotoUrl(), "drawable", context.getPackageName()))
+                        .getIdentifier(cartItem.getProduct().getPhotoUrl(), "drawable",
+                                context.getPackageName()))
                 .into(holder.productImage);
         holder.name.setText(cartItem.getProduct().getName());
         holder.manufacturer.setText(cartItem.getProduct().getManufacturer());
@@ -81,6 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
             total = 0;
             cartItemList.remove(cartItem);
             notifyDataSetChanged();
+            countListener.onCartItemsCountChanged(cartItemList.size());
             if (cartItemList.isEmpty())
                 totalListener.onTotalChange(total);
         });

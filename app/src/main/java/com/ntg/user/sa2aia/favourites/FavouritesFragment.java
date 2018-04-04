@@ -3,6 +3,7 @@ package com.ntg.user.sa2aia.favourites;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,6 +57,9 @@ public class FavouritesFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
         unBinder = ButterKnife.bind(this, view);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.favourite));
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         favProducts = new ArrayList<>();
@@ -72,10 +76,12 @@ public class FavouritesFragment extends BaseFragment {
             public void onResponse(@NonNull Call<List<Product>> call,
                                    @NonNull Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    loadingIndicator.setVisibility(View.GONE);
-                    favProducts = response.body();
-                    favouritesAdapter = new FavouritesAdapter(favProducts, getActivity());
-                    favs_rv.setAdapter(favouritesAdapter);
+                    if (loadingIndicator != null && favs_rv != null) {
+                        loadingIndicator.setVisibility(View.GONE);
+                        favProducts = response.body();
+                        favouritesAdapter = new FavouritesAdapter(favProducts, getActivity());
+                        favs_rv.setAdapter(favouritesAdapter);
+                    }
                 }
             }
 

@@ -4,11 +4,9 @@ package com.ntg.user.sa2aia.confirm_order;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ntg.user.sa2aia.BaseFragment;
+import com.ntg.user.sa2aia.Checkout.CartItemsCountListener;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
-import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.PaymentMethod;
 import com.ntg.user.sa2aia.model.User;
-import com.ntg.user.sa2aia.products.ProductsFragment;
-import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +54,7 @@ public class SummaryOrderFragment extends BaseFragment {
     TextView total;
     @BindView(R.id.done)
     Button done;
-    ClearList clearList;
+    CartItemsCountListener countListener;
 
 
     @Override
@@ -106,7 +99,7 @@ public class SummaryOrderFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            clearList = (ClearList) context;
+            countListener = (CartItemsCountListener) context;
         }catch (ClassCastException e){
             throw new ClassCastException(context.toString()
                     + " must implement OnHeadlineSelectedListener");
@@ -115,11 +108,8 @@ public class SummaryOrderFragment extends BaseFragment {
 
     @OnClick(R.id.done)
     public void onViewClicked() {
-        clearList.clearList(true);
-
-
         User.getShoppingCart().getCartItemList().clear();
-        Toast.makeText(getActivity() ,User.getShoppingCart().getCartItemList().size()+"",Toast.LENGTH_LONG).show();
+        countListener.onCartItemsCountChanged(User.getShoppingCart().getCartItemList().size());
         for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); ++i) {
             getFragmentManager().popBackStack();
         }

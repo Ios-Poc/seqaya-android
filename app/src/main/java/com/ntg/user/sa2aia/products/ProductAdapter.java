@@ -1,7 +1,6 @@
 package com.ntg.user.sa2aia.products;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,14 +14,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.ntg.user.sa2aia.Checkout.CartItemsCountListener;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
 import com.ntg.user.sa2aia.model.User;
-
-import org.w3c.dom.ls.LSInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +30,19 @@ import butterknife.ButterKnife;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
-    private List<Product> productFavouriteList = new ArrayList<>();
+    private List<Product> productFavouriteList;
     private Context context;
-    private ShoppingCartItemCount shoppingCartItemCount;
-    private AddFavourite addFavourite;
+    private CartItemsCountListener countListener;
+    private FavouriteButtonClickListener favouriteButtonClickListener;
 
-    public ProductAdapter(List<Product> productList, List<Product> productFavouriteList, Context context,
-                          ShoppingCartItemCount shoppingCartItemCount, AddFavourite addFavourite) {
+    public ProductAdapter(List<Product> productList, List<Product> productFavouriteList,
+                          Context context,
+                          CartItemsCountListener countListener, FavouriteButtonClickListener favouriteButtonClickListener) {
         this.productList = productList;
         this.productFavouriteList = productFavouriteList;
         this.context = context;
-        this.shoppingCartItemCount = shoppingCartItemCount;
-        this.addFavourite = addFavourite;
+        this.countListener = countListener;
+        this.favouriteButtonClickListener = favouriteButtonClickListener;
     }
 
     @Override
@@ -90,13 +89,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
             }
             shoppingCart.getCartItemList().add(cartItem);
-            shoppingCartItemCount.itemsCount(shoppingCart.getCartItemList().size());
+            countListener.onCartItemsCountChanged(shoppingCart.getCartItemList().size());
         });
 
-        if (productFavouriteList != null){
-            for (int i=0 ; i<productFavouriteList.size() ; i++){
-                Log.e("fav" , productFavouriteList.get(i).getName());
-                if (product.getId() == productFavouriteList.get(i).getId()){
+        if (productFavouriteList != null) {
+            for (int i = 0; i < productFavouriteList.size(); i++) {
+                Log.e("fav", productFavouriteList.get(i).getName());
+                if (product.getId() == productFavouriteList.get(i).getId()) {
                     holder.likeButton.setLiked(true);
                 }
 
@@ -104,22 +103,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
 
-
         holder.likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                addFavourite.getFavouriteProduct(product);
+                favouriteButtonClickListener.onLike(product);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-
+                favouriteButtonClickListener.onUnLike(product);
             }
         });
 
-        if (holder.likeButton.isLiked()){
+        if (holder.likeButton.isLiked()) {
             holder.likeButton.setLiked(false);
-        }else {
+        } else {
             holder.likeButton.setLiked(true);
         }
     }
@@ -129,7 +127,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.productList = productList;
     }
 
-    void setProductFavouriteList(List<Product> favouriteList){
+    void setProductFavouriteList(List<Product> favouriteList) {
         this.productFavouriteList = favouriteList;
         notifyDataSetChanged();
     }

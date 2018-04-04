@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.products;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ntg.user.sa2aia.BaseFragment;
+import com.ntg.user.sa2aia.Checkout.CartItemsCountListener;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.model.Fav;
 import com.ntg.user.sa2aia.model.Product;
@@ -43,7 +45,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ProductsFragment extends BaseFragment implements AddFavourite {
+public class ProductsFragment extends BaseFragment implements FavouriteButtonClickListener {
 
     @BindView(R.id.rv_products)
     RecyclerView products_rv;
@@ -54,27 +56,20 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
     private List<Product> favProducts;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
-    private ShoppingCartItemCount shoppingCartItemCount;
     private Unbinder unbinder;
+    private CartItemsCountListener countListener;
 
 
-    public static ProductsFragment newInstance(ShoppingCartItemCount shoppingCartItemCount) {
-        ProductsFragment fragment = new ProductsFragment();
-        Bundle args = new Bundle();
-        args.putParcelable("count", shoppingCartItemCount);
-        fragment.setArguments(args);
-        return fragment;
+    public static ProductsFragment newInstance() {
+
+        return new ProductsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null)
-            shoppingCartItemCount = args.getParcelable("count");
 
         getFavourites();
-
     }
 
     @Override
@@ -96,10 +91,20 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
         toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);
         products_rv.setItemAnimator(new OvershootInLeftAnimator());
         products_rv.getItemAnimator().setAddDuration(700);
-        getFavourites();
         getProducts();
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            countListener = (CartItemsCountListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     void getProducts() {
@@ -109,15 +114,17 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    loadingIndicator.setVisibility(View.GONE);
-                    productAdapter = new ProductAdapter(productList, favProducts, getActivity(),
-                            shoppingCartItemCount, ProductsFragment.this);
-                    productList = response.body();
-                    productAdapter.setProductList(productList);
-                    productAdapter.setProductFavouriteList(favProducts);
-                    products_rv.setLayoutManager(linearLayoutManager);
-                    products_rv.setAdapter(productAdapter);
-                    productAdapter.notifyDataSetChanged();
+                    if (loadingIndicator != null && products_rv != null) {
+                        loadingIndicator.setVisibility(View.GONE);
+                        productAdapter = new ProductAdapter(productList, favProducts, getActivity(),
+                                countListener, ProductsFragment.this);
+                        productList = response.body();
+                        productAdapter.setProductList(productList);
+                        productAdapter.setProductFavouriteList(favProducts);
+                        products_rv.setLayoutManager(linearLayoutManager);
+                        products_rv.setAdapter(productAdapter);
+                        productAdapter.notifyDataSetChanged();
+                    }
                 }
 
             }
@@ -125,6 +132,24 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e("Products", t.getMessage());
+            }
+        });
+    }
+
+    void getFavourites() {
+        ProductService productService = ApiClient.getClient().create(ProductService.class);
+        productService.getFavs(User.getEmail()).enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call,
+                                   @NonNull Response<List<Product>> response) {
+                if (response.isSuccessful()) {
+                    favProducts = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+
             }
         });
     }
@@ -225,7 +250,7 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
                     productAdapter = new ProductAdapter(productList, favProducts, getActivity(),
-                            shoppingCartItemCount, ProductsFragment.this);
+                            countListener, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
                     products_rv.setLayoutManager(linearLayoutManager);
@@ -242,7 +267,7 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
     }
 
     @Override
-    public void getFavouriteProduct(Product product) {
+    public void onLike(Product product) {
         Fav fav = new Fav(User.getEmail(), String.valueOf(product.getId()));
         ProductService productService = ApiClient.getClient().create(ProductService.class);
         productService.addFav(fav)
@@ -272,26 +297,31 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
     }
 
     @Override
+    public void onUnLike(Product product) {
+        ApiClient.getClient().create(ProductService.class)
+                .deleteFav(String.valueOf(product.getId()))
+                .enqueue(new Callback<Fav>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Fav> call,
+                                           @NonNull Response<Fav> response) {
+                        if (response.isSuccessful()) {
+                            Fav fav = response.body();
+                            if (fav != null)
+                                Log.d("delete fav", fav.getProductId());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Fav> call, @NonNull Throwable t) {
+
+                    }
+                });
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    void getFavourites() {
-        ProductService productService = ApiClient.getClient().create(ProductService.class);
-        productService.getFavs(User.getEmail()).enqueue(new Callback<List<Product>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Product>> call,
-                                   @NonNull Response<List<Product>> response) {
-                if (response.isSuccessful()) {
-                    favProducts = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
-
-            }
-        });
+        Log.d("product", "onDestroyView");
     }
 }

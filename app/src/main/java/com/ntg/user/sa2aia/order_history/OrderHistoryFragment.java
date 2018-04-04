@@ -58,7 +58,8 @@ public class OrderHistoryFragment extends BaseFragment {
                     @Override
                     public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                         if (response.isSuccessful()) {
-                            loadingIndicator.setVisibility(View.GONE);
+                            if (loadingIndicator != null)
+                                loadingIndicator.setVisibility(View.GONE);
                             orders = response.body();
                             adapter = new OrderHistoryAdapter(orders, getActivity());
                             listOfOldOrders.setAdapter(adapter);
