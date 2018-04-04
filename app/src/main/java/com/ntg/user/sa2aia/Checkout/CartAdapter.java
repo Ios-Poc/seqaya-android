@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
@@ -45,6 +46,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ProductViewHol
         final CartItem cartItem = cartItemList.get(position);
         total += (cartItem.getQuantity() * cartItem.getProduct().getPrice());
         totalListener.onTotalChange(total);
+        Glide.with(context)
+                .load(context.getResources()
+                        .getIdentifier(cartItem.getProduct().getPhotoUrl(), "drawable", context.getPackageName()))
+                .into(holder.productImage);
         holder.name.setText(cartItem.getProduct().getName());
         holder.manufacturer.setText(cartItem.getProduct().getManufacturer());
         holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize()));

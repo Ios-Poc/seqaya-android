@@ -42,6 +42,6 @@ public class User implements Serializable {
     }
 
     public static void clearCart(){
-        shoppingCart.setCartItemList(new CopyOnWriteArrayList<>());
+        shoppingCart.getCartItemList().clear();
     }
 }

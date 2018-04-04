@@ -1,7 +1,9 @@
 package com.ntg.user.sa2aia.products;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.ntg.user.sa2aia.R;
@@ -20,21 +22,25 @@ import com.ntg.user.sa2aia.model.Product;
 import com.ntg.user.sa2aia.model.ShoppingCart;
 import com.ntg.user.sa2aia.model.User;
 
+import org.w3c.dom.ls.LSInput;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
+    private List<Product> productFavouriteList = new ArrayList<>();
     private Context context;
     private ShoppingCartItemCount shoppingCartItemCount;
     private AddFavourite addFavourite;
 
-    public ProductAdapter(List<Product> productList, Context context,
+    public ProductAdapter(List<Product> productList, List<Product> productFavouriteList, Context context,
                           ShoppingCartItemCount shoppingCartItemCount, AddFavourite addFavourite) {
         this.productList = productList;
+        this.productFavouriteList = productFavouriteList;
         this.context = context;
         this.shoppingCartItemCount = shoppingCartItemCount;
         this.addFavourite = addFavourite;
@@ -52,6 +58,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(final ProductViewHolder holder, int position) {
         final Product product = productList.get(position);
+
+        Glide.with(context)
+                .load(context.getResources()
+                        .getIdentifier(product.getPhotoUrl(), "drawable", context.getPackageName()))
+                .into(holder.productImage);
         holder.name.setText(product.getName());
         holder.manufacturer.setText(product.getManufacturer());
         holder.bottleSize.setText(String.valueOf(product.getBottleSize()) + "لتر");
@@ -82,25 +93,45 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             shoppingCartItemCount.itemsCount(shoppingCart.getCartItemList().size());
         });
 
+        if (productFavouriteList != null){
+            for (int i=0 ; i<productFavouriteList.size() ; i++){
+                Log.e("fav" , productFavouriteList.get(i).getName());
+                if (product.getId() == productFavouriteList.get(i).getId()){
+                    holder.likeButton.setLiked(true);
+                }
+
+            }
+        }
+
+
+
         holder.likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                Toast.makeText(context, "liked", Toast.LENGTH_SHORT).show();
                 addFavourite.getFavouriteProduct(product);
-
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                Toast.makeText(context, "unLiked", Toast.LENGTH_SHORT).show();
 
             }
         });
+
+        if (holder.likeButton.isLiked()){
+            holder.likeButton.setLiked(false);
+        }else {
+            holder.likeButton.setLiked(true);
+        }
     }
 
     public void setProductList(List<Product> productList) {
         this.productList.clear();
         this.productList = productList;
+    }
+
+    void setProductFavouriteList(List<Product> favouriteList){
+        this.productFavouriteList = favouriteList;
+        notifyDataSetChanged();
     }
 
     public void clear() {

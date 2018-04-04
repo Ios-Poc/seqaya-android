@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
+import com.bumptech.glide.Glide;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
@@ -49,11 +50,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder(OrderHistoryViewHolder holder, int position) {
         Order order = orders.get(position);
+
         List<CartItem> cartItems = order.getCartItems();
         holder.orderId.setText(order.getId());
         holder.expectedDelivery.setText(order.getDeliveryDate());
         holder.orderDate.setText(order.getDeliveryDate());
         if (!cartItems.isEmpty()) {
+
             holder.prodName.setText(cartItems.get(0).getProduct().getName());
             holder.prodPrice.setText(String.valueOf(cartItems.get(0).getProduct().getPrice()));
             holder.buttleSize.setText(String.valueOf(cartItems.get(0).getProduct().getBottleSize()));

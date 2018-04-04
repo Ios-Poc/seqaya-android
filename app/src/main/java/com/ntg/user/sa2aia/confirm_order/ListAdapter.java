@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ntg.user.sa2aia.R;
 import com.ntg.user.sa2aia.ViewUtil;
 import com.ntg.user.sa2aia.model.CartItem;
@@ -41,6 +42,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     public void onBindViewHolder(ListViewHolder holder, int position) {
 
         CartItem cartItem = orderList.get(position);
+        Glide.with(context)
+                .load(context.getResources()
+                        .getIdentifier(cartItem.getProduct().getPhotoUrl(), "drawable", context.getPackageName()))
+                .into(holder.productImage);
         holder.productName.setText(cartItem.getProduct().getName());
         holder.price.setText(String.valueOf(cartItem.getProduct().getPrice()));
         holder.bottleSize.setText(String.valueOf(cartItem.getProduct().getBottleSize()));

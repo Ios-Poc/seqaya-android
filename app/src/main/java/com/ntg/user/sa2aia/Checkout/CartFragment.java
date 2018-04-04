@@ -21,6 +21,7 @@ import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.DeliveryTimeFragment;
 import com.ntg.user.sa2aia.MainActivity;
 import com.ntg.user.sa2aia.R;
+import com.ntg.user.sa2aia.confirm_order.ClearList;
 import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.User;
@@ -51,7 +52,7 @@ public class CartFragment extends BaseFragment implements CartAdapter.TotalListe
     @BindView(R.id.reyal_saudi)
     TextView reyalSaudi;
     Unbinder unbinder;
-
+    ClearList clearList;
 
     private List<CartItem> cartItemList;
     private LinearLayoutManager linearLayoutManager;

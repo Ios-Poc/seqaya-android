@@ -51,6 +51,7 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
     @BindView(R.id.loading_indicator)
     LinearLayout loadingIndicator;
     private List<Product> productList;
+    private List<Product> favProducts;
     private LinearLayoutManager linearLayoutManager;
     private ProductAdapter productAdapter;
     private ShoppingCartItemCount shoppingCartItemCount;
@@ -71,6 +72,9 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
         Bundle args = getArguments();
         if (args != null)
             shoppingCartItemCount = args.getParcelable("count");
+
+        getFavourites();
+
     }
 
     @Override
@@ -92,6 +96,7 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
         toolBarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_top);
         products_rv.setItemAnimator(new OvershootInLeftAnimator());
         products_rv.getItemAnimator().setAddDuration(700);
+        getFavourites();
         getProducts();
 
         return view;
@@ -105,10 +110,11 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
                     loadingIndicator.setVisibility(View.GONE);
-                    productAdapter = new ProductAdapter(productList, getActivity(),
+                    productAdapter = new ProductAdapter(productList, favProducts, getActivity(),
                             shoppingCartItemCount, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
+                    productAdapter.setProductFavouriteList(favProducts);
                     products_rv.setLayoutManager(linearLayoutManager);
                     products_rv.setAdapter(productAdapter);
                     productAdapter.notifyDataSetChanged();
@@ -218,7 +224,7 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    productAdapter = new ProductAdapter(productList, getActivity(),
+                    productAdapter = new ProductAdapter(productList, favProducts, getActivity(),
                             shoppingCartItemCount, ProductsFragment.this);
                     productList = response.body();
                     productAdapter.setProductList(productList);
@@ -269,5 +275,23 @@ public class ProductsFragment extends BaseFragment implements AddFavourite {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    void getFavourites() {
+        ProductService productService = ApiClient.getClient().create(ProductService.class);
+        productService.getFavs(User.getEmail()).enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Product>> call,
+                                   @NonNull Response<List<Product>> response) {
+                if (response.isSuccessful()) {
+                    favProducts = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+
+            }
+        });
     }
 }

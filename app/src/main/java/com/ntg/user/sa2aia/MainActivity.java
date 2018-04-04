@@ -1,23 +1,19 @@
 package com.ntg.user.sa2aia;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.ntg.user.sa2aia.Checkout.CartFragment;
+import com.ntg.user.sa2aia.confirm_order.ClearList;
 import com.ntg.user.sa2aia.favourites.FavouritesFragment;
-import com.ntg.user.sa2aia.model.User;
 import com.ntg.user.sa2aia.order_history.OrderHistoryFragment;
 import com.ntg.user.sa2aia.products.ProductsFragment;
 import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
@@ -26,7 +22,8 @@ import com.ntg.user.sa2aia.settings.SettingsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements ClearList {
 
     public static String ORDER = "order";
     @BindView(R.id.include)
@@ -125,13 +122,15 @@ public class MainActivity extends AppCompatActivity {
     ShoppingCartItemCount activityCountListener = new ShoppingCartItemCount() {
         @Override
         public void itemsCount(int count) {
-            AHNotification notification = new AHNotification.Builder()
-                    .setText(count + "")
-                    .setBackgroundColor(ContextCompat.getColor(MainActivity.this,
-                            R.color.colorAccent))
-                    .setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white))
-                    .build();
-            bottomNavigationView.setNotification(notification, 1);
+                AHNotification notification = new AHNotification.Builder()
+                        .setText(count + "")
+                        .setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                                R.color.colorAccent))
+                        .setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white))
+                        .build();
+                bottomNavigationView.setNotification(notification, 1);
+
+
         }
 
         @Override
@@ -142,4 +141,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void writeToParcel(Parcel parcel, int i) {}
     };
+
+    @Override
+    public void clearList(boolean b) {
+        if (b){
+            bottomNavigationView.setNotification("" , 1);
+        }
+    }
 }

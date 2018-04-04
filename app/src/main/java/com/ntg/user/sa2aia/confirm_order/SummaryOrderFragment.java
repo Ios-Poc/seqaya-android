@@ -1,6 +1,7 @@
 package com.ntg.user.sa2aia.confirm_order;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ntg.user.sa2aia.BaseFragment;
 import com.ntg.user.sa2aia.MainActivity;
@@ -24,6 +26,8 @@ import com.ntg.user.sa2aia.model.CartItem;
 import com.ntg.user.sa2aia.model.Order;
 import com.ntg.user.sa2aia.model.PaymentMethod;
 import com.ntg.user.sa2aia.model.User;
+import com.ntg.user.sa2aia.products.ProductsFragment;
+import com.ntg.user.sa2aia.products.ShoppingCartItemCount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +61,7 @@ public class SummaryOrderFragment extends BaseFragment {
     TextView total;
     @BindView(R.id.done)
     Button done;
+    ClearList clearList;
 
 
     @Override
@@ -97,10 +102,24 @@ public class SummaryOrderFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            clearList = (ClearList) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     @OnClick(R.id.done)
     public void onViewClicked() {
-        User.clearCart();
+        clearList.clearList(true);
+
+
+        User.getShoppingCart().getCartItemList().clear();
+        Toast.makeText(getActivity() ,User.getShoppingCart().getCartItemList().size()+"",Toast.LENGTH_LONG).show();
         for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); ++i) {
             getFragmentManager().popBackStack();
         }

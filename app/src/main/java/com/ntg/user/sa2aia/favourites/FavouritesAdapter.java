@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.ntg.user.sa2aia.R;
@@ -50,6 +51,10 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Pr
     @Override
     public void onBindViewHolder(final ProductViewHolder holder, int position) {
         final Product product = productList.get(position);
+        Glide.with(context)
+                .load(context.getResources()
+                        .getIdentifier(product.getPhotoUrl(), "drawable", context.getPackageName()))
+                .into(holder.productImage);
         holder.name.setText(product.getName());
         holder.manufacturer.setText(product.getManufacturer());
         holder.bottleSize.setText(String.valueOf(product.getBottleSize()) + "لتر");
