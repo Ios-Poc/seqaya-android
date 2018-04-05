@@ -77,30 +77,25 @@ public class DeliveryTimeFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_dialog_1:
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.dateDialog, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
-                        text_date.setText(date);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        R.style.dateDialog, (view1, year, monthOfYear, dayOfMonth) -> {
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, monthOfYear);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
+                    text_date.setText(date);
 
-                    }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
                 break;
 
             case R.id.btn_dialog_2:
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), R.style.timeDialog,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                                calendar.set(Calendar.HOUR_OF_DAY, i);
-                                calendar.set(Calendar.MINUTE, i1);
-                                String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
-                                text_time.setText(time);
-                            }
+                        (timePicker, i, i1) -> {
+                            calendar.set(Calendar.HOUR_OF_DAY, i);
+                            calendar.set(Calendar.MINUTE, i1);
+                            String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
+                            text_time.setText(time);
                         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                 timePickerDialog.show();
                 break;

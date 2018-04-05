@@ -47,7 +47,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderMapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, LocationListener {
+public class OrderMapActivity extends FragmentActivity implements
+        OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, LocationListener {
 
     private final int REQUEST_PERMISSION_LOCATION = 101;
     ImageView backImage;
